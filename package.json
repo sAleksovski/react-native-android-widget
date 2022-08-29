@@ -11,12 +11,10 @@
     "src",
     "lib",
     "android",
-    "ios",
     "cpp",
     "react-native-android-widget.podspec",
     "!lib/typescript/example",
     "!android/build",
-    "!ios/build",
     "!**/__tests__",
     "!**/__fixtures__",
     "!**/__mocks__"
@@ -32,7 +30,6 @@
   },
   "keywords": [
     "react-native",
-    "ios",
     "android"
   ],
   "repository": "https://github.com/sAleksovski/react-native-android-widget",

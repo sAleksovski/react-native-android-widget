@@ -26,12 +26,6 @@ To run the example app on Android:
 yarn example android
 ```
 
-To run the example app on iOS:
-
-```sh
-yarn example ios
-```
-
 
 Make sure your code passes TypeScript and ESLint. Run the following to verify:
 
@@ -51,9 +45,7 @@ Remember to add tests for your change if possible. Run the unit tests by:
 ```sh
 yarn test
 ```
-To edit the Objective-C files, open `example/ios/AndroidWidgetExample.xcworkspace` in XCode and find the source files at `Pods > Development Pods > react-native-android-widget`.
-
-To edit the Kotlin files, open `example/android` in Android studio and find the source files at `reactnativeandroidwidget` under `Android`.
+To edit the Java files, open `example/android` in Android studio and find the source files at `reactnativeandroidwidget` under `Android`.
 ### Commit message convention
 
 We follow the [conventional commits specification](https://www.conventionalcommits.org/en) for our commit messages:
@@ -95,7 +87,6 @@ The `package.json` file contains various scripts for common tasks:
 - `yarn test`: run unit tests with Jest.
 - `yarn example start`: start the Metro server for the example app.
 - `yarn example android`: run the example app on Android.
-- `yarn example ios`: run the example app on iOS.
 
 ### Sending a pull request
 
