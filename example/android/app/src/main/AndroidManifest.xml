@@ -2,6 +2,8 @@
   package="com.example.reactnativeandroidwidget">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
       android:name=".MainApplication"
@@ -22,5 +24,88 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
       </activity>
+
+      <service
+        android:name="com.reactnativeandroidwidget.BackgroundTask"
+        android:enabled="true"
+        android:label="BackgroundAdd" />
+
+      <receiver
+        android:name=".WidgetProviderFirst"
+        android:exported="false"
+        android:label="First">
+        <intent-filter>
+          <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+          <action android:name="com.reactnativeandroidwidget.WIDGET_CLICK" />
+        </intent-filter>
+        <meta-data
+          android:name="android.appwidget.provider"
+          android:resource="@xml/widgetprovider_first" />
+      </receiver>
+
+      <receiver
+        android:name=".WidgetProviderFitness"
+        android:exported="false"
+        android:label="Fitness">
+        <intent-filter>
+          <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+          <action android:name="com.reactnativeandroidwidget.WIDGET_CLICK" />
+        </intent-filter>
+        <meta-data
+          android:name="android.appwidget.provider"
+          android:resource="@xml/widgetprovider_fitness" />
+      </receiver>
+
+      <receiver
+        android:name=".WidgetProviderMusic"
+        android:exported="false"
+        android:label="Music">
+        <intent-filter>
+          <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+          <action android:name="com.reactnativeandroidwidget.WIDGET_CLICK" />
+        </intent-filter>
+        <meta-data
+          android:name="android.appwidget.provider"
+          android:resource="@xml/widgetprovider_music" />
+      </receiver>
+
+      <receiver
+        android:name=".WidgetProviderResizable"
+        android:exported="false"
+        android:label="Resizable">
+        <intent-filter>
+          <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+          <action android:name="com.widgetproject.WIDGET_CLICK" />
+        </intent-filter>
+        <meta-data
+          android:name="android.appwidget.provider"
+          android:resource="@xml/widgetprovider_resizable" />
+      </receiver>
+
+      <receiver
+        android:name=".WidgetProviderRotated"
+        android:exported="false"
+        android:label="Rotated">
+        <intent-filter>
+          <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+          <action android:name="com.reactnativeandroidwidget.WIDGET_CLICK" />
+        </intent-filter>
+        <meta-data
+          android:name="android.appwidget.provider"
+          android:resource="@xml/widgetprovider_rotated" />
+      </receiver>
+
+      <receiver
+        android:name=".WidgetProviderSteps"
+        android:exported="false"
+        android:label="Steps">
+        <intent-filter>
+          <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+          <action android:name="com.reactnativeandroidwidget.WIDGET_CLICK" />
+        </intent-filter>
+        <meta-data
+          android:name="android.appwidget.provider"
+          android:resource="@xml/widgetprovider_steps" />
+      </receiver>
     </application>
 </manifest>

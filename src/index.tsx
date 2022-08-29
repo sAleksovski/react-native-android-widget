@@ -1,29 +1,30 @@
-import { NativeModules, Platform } from 'react-native';
+import { AndroidWidget } from './AndroidWidget';
 
-const LINKING_ERROR =
-  `The package 'react-native-android-widget' doesn't seem to be linked. Make sure: \n\n` +
-  Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
-  '- You rebuilt the app after installing the package\n' +
-  '- You are not using Expo managed workflow\n';
-
-// @ts-expect-error
-const isTurboModuleEnabled = global.__turboModuleProxy != null;
-
-const AndroidWidgetModule = isTurboModuleEnabled
-  ? require('./NativeAndroidWidget').default
-  : NativeModules.AndroidWidget;
-
-const AndroidWidget = AndroidWidgetModule
-  ? AndroidWidgetModule
-  : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
-
-export function multiply(a: number, b: number): Promise<number> {
-  return AndroidWidget.multiply(a, b);
+export function drawWidget(config: any, widgetName: string): void {
+  AndroidWidget.drawWidget(config, widgetName);
 }
+
+export function drawWidgetById(
+  config: any,
+  widgetName: string,
+  widgetId: number
+): void {
+  AndroidWidget.drawWidgetById(config, widgetName, widgetId);
+}
+
+export function createPreview(
+  config: any,
+  widgetName: string,
+  width: number,
+  height: number
+): Promise<string> {
+  return AndroidWidget.createPreview(config, widgetName, width, height);
+}
+
+export * from './build-tree';
+export * from './WidgetPreview';
+export * from './widgets/FrameLayoutWidget';
+export * from './widgets/IconWidget';
+export * from './widgets/ImageWidget';
+export * from './widgets/LinearLayoutWidget';
+export * from './widgets/TextWidet';
