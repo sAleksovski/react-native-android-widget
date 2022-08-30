@@ -1,31 +1,26 @@
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
+import { ExampleScreens, ListScreen } from './screens/ListScreen';
+import { WidgetPreviewScreen } from './screens/WidgetPreviewScreen';
 
-import { StyleSheet, View } from 'react-native';
-import { buildTree, WidgetPreview } from 'react-native-android-widget';
-import { FitnessWidget } from './widgets/FitnessWidget';
+const Stack = createNativeStackNavigator<ExampleScreens>();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <WidgetPreview
-        tree={buildTree(FitnessWidget({ activeView: 'bar_chart' }))}
-        height={209}
-        width={320}
-        widgetName="Fitness"
-      />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="ListScreen"
+          component={ListScreen}
+          options={{ title: 'React Native Android Widget Example' }}
+        />
+        <Stack.Screen
+          name="WidgetPreviewScreen"
+          component={WidgetPreviewScreen}
+          options={{ title: 'Widget Preview' }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  box: {
-    width: 60,
-    height: 60,
-    marginVertical: 20,
-  },
-});
