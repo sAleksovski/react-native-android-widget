@@ -4,7 +4,7 @@ import {
   convertCommonProps,
 } from './common.props';
 
-interface TextWidgetInternalProps extends CommonInternalProps {
+export interface TextWidgetInternalProps extends CommonInternalProps {
   text: string;
   fontSize: number;
   /**

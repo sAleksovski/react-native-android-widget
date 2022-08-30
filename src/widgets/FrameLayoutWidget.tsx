@@ -4,9 +4,7 @@ import {
   convertCommonProps,
 } from './common.props';
 
-interface FrameLayoutWidgetInternalProps extends CommonInternalProps {
-  children: any;
-}
+export interface FrameLayoutWidgetInternalProps extends CommonInternalProps {}
 
 interface FrameLayoutWidgetProps extends CommonProps {
   children: any;
@@ -20,5 +18,5 @@ FrameLayoutWidget.convertProps = (
   props: FrameLayoutWidgetProps
 ): FrameLayoutWidgetInternalProps => {
   const internalProps: CommonInternalProps = convertCommonProps(props);
-  return { ...internalProps, children: props.children };
+  return { ...internalProps };
 };

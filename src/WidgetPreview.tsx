@@ -1,8 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { Image, View } from 'react-native';
 import { AndroidWidget } from './AndroidWidget';
+import type { WidgetTree } from './build-tree';
 
-export function WidgetPreview({ tree, width, height, widgetName }: any) {
+interface WidgetPreviewProps {
+  tree: WidgetTree;
+  height: number;
+  width: number;
+  widgetName: string;
+  showBorder?: boolean;
+}
+
+export function WidgetPreview({
+  tree,
+  width,
+  height,
+  widgetName,
+  showBorder,
+}: WidgetPreviewProps) {
   const [image, setImage] = useState('');
   useEffect(() => {
     async function init() {
@@ -20,12 +35,17 @@ export function WidgetPreview({ tree, width, height, widgetName }: any) {
 
   return (
     <View
-      style={{
-        height: height + 2,
-        width: width + 2,
-        borderColor: '#0000ff40',
-        borderWidth: 1,
-      }}
+      style={
+        showBorder
+          ? // eslint-disable-next-line react-native/no-inline-styles
+            {
+              height: height + 2,
+              width: width + 2,
+              borderColor: '#0000ff40',
+              borderWidth: 1,
+            }
+          : {}
+      }
     >
       <Image
         source={{

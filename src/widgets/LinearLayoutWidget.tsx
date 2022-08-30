@@ -4,7 +4,7 @@ import {
   convertCommonProps,
 } from './common.props';
 
-interface LinearLayoutWidgetInternalProps extends CommonInternalProps {
+export interface LinearLayoutWidgetInternalProps extends CommonInternalProps {
   /**
    * orientation
    * Default is Vertical

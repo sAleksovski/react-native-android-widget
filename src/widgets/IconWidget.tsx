@@ -4,7 +4,7 @@ import {
   convertCommonProps,
 } from './common.props';
 
-interface IconWidgetInternalProps extends CommonInternalProps {
+export interface IconWidgetInternalProps extends CommonInternalProps {
   icon: string;
   size: number;
   font: 'material' | 'material_outlined';

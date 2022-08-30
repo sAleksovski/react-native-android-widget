@@ -9,7 +9,7 @@ import {
   convertCommonProps,
 } from './common.props';
 
-interface ImageWidgetInternalProps extends CommonInternalProps {
+export interface ImageWidgetInternalProps extends CommonInternalProps {
   imageWidth: number;
   imageHeight: number;
   image: ImageResolvedAssetSource;

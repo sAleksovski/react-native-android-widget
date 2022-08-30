@@ -1,11 +1,12 @@
 import { AndroidWidget } from './AndroidWidget';
+import type { WidgetTree } from './build-tree';
 
-export function drawWidget(config: any, widgetName: string): void {
+export function drawWidget(config: WidgetTree, widgetName: string): void {
   AndroidWidget.drawWidget(config, widgetName);
 }
 
 export function drawWidgetById(
-  config: any,
+  config: WidgetTree,
   widgetName: string,
   widgetId: number
 ): void {
@@ -13,7 +14,7 @@ export function drawWidgetById(
 }
 
 export function createPreview(
-  config: any,
+  config: WidgetTree,
   widgetName: string,
   width: number,
   height: number
