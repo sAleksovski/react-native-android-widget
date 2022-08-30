@@ -15,6 +15,7 @@ function Separator() {
 export type ExampleScreens = {
   ListScreen: undefined;
   WidgetPreviewScreen: undefined;
+  FlexScreen: undefined;
 };
 
 interface Item {
@@ -26,6 +27,10 @@ const items: Item[] = [
   {
     title: 'Widget Preview',
     screen: 'WidgetPreviewScreen',
+  },
+  {
+    title: 'Flexbox Demo',
+    screen: 'FlexScreen',
   },
 ];
 

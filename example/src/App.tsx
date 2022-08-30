@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
+import { FlexScreen } from './screens/FlexScreen';
 import { ExampleScreens, ListScreen } from './screens/ListScreen';
 import { WidgetPreviewScreen } from './screens/WidgetPreviewScreen';
 
@@ -14,6 +15,11 @@ export default function App() {
           name="ListScreen"
           component={ListScreen}
           options={{ title: 'React Native Android Widget Example' }}
+        />
+        <Stack.Screen
+          name="FlexScreen"
+          component={FlexScreen}
+          options={{ title: 'Flexbox Demo' }}
         />
         <Stack.Screen
           name="WidgetPreviewScreen"
