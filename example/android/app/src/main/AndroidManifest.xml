@@ -31,19 +31,6 @@
         android:label="BackgroundAdd" />
 
       <receiver
-        android:name=".WidgetProviderFirst"
-        android:exported="false"
-        android:label="First">
-        <intent-filter>
-          <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-          <action android:name="com.reactnativeandroidwidget.WIDGET_CLICK" />
-        </intent-filter>
-        <meta-data
-          android:name="android.appwidget.provider"
-          android:resource="@xml/widgetprovider_first" />
-      </receiver>
-
-      <receiver
         android:name=".WidgetProviderFitness"
         android:exported="false"
         android:label="Fitness">

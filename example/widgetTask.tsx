@@ -1,6 +1,5 @@
 import { ToastAndroid } from 'react-native';
 import { buildTree, drawWidgetById } from 'react-native-android-widget';
-import { FirstWidget } from './src/widgets/FirstWidget';
 import { FitnessWidget } from './src/widgets/FitnessWidget';
 import { MusicWidget } from './src/widgets/MusicWidget';
 import { ResizableMusicWidget } from './src/widgets/ResizableMusicWidget';
@@ -8,7 +7,6 @@ import { RotatedWidget } from './src/widgets/RotatedWidget';
 import { StepsWidget } from './src/widgets/StepsWidget';
 
 const nameToWidget = {
-  First: FirstWidget,
   Fitness: FitnessWidget,
   Music: MusicWidget,
   Resizable: ResizableMusicWidget,
