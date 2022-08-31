@@ -2,15 +2,16 @@ import * as React from 'react';
 
 import { StyleSheet, View } from 'react-native';
 import { WidgetPreview } from 'react-native-android-widget';
-import { FitnessWidget } from '../widgets/FitnessWidget';
 
-export function WidgetPreviewScreen() {
+import { StepsWidget } from '../../widgets/StepsWidget';
+
+export function StepsWidgetPreviewScreen() {
   return (
     <View style={styles.container}>
       <WidgetPreview
-        renderWidget={() => <FitnessWidget activeView="bar_chart" />}
-        height={209}
-        width={320}
+        renderWidget={() => <StepsWidget />}
+        height={322}
+        width={201}
         showBorder
       />
     </View>
@@ -22,10 +23,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  box: {
-    width: 60,
-    height: 60,
-    marginVertical: 20,
   },
 });

@@ -14,7 +14,11 @@ function Separator() {
 
 export type ExampleScreens = {
   ListScreen: undefined;
-  WidgetPreviewScreen: undefined;
+  FitnessWidgetPreviewScreen: undefined;
+  MusicWidgetPreviewScreen: undefined;
+  ResizableMusicWidgetPreviewScreen: undefined;
+  RotatedWidgetPreviewScreen: undefined;
+  StepsWidgetPreviewScreen: undefined;
   FlexScreen: undefined;
 };
 
@@ -25,8 +29,24 @@ interface Item {
 
 const items: Item[] = [
   {
-    title: 'Widget Preview',
-    screen: 'WidgetPreviewScreen',
+    title: 'Fitness Widget Preview',
+    screen: 'FitnessWidgetPreviewScreen',
+  },
+  {
+    title: 'Music Widget Preview',
+    screen: 'MusicWidgetPreviewScreen',
+  },
+  {
+    title: 'Resizable Music Widget Preview',
+    screen: 'ResizableMusicWidgetPreviewScreen',
+  },
+  {
+    title: 'Rotated Widget Preview',
+    screen: 'RotatedWidgetPreviewScreen',
+  },
+  {
+    title: 'Steps Widget Preview',
+    screen: 'StepsWidgetPreviewScreen',
   },
   {
     title: 'Flexbox Demo',
