@@ -124,12 +124,15 @@ export function FlexScreen() {
 
               <Text>Widget</Text>
               <WidgetPreview
-                tree={buildTree(
-                  FlexWidget({ flexDirection, justifyContent, alignItems })
+                renderWidget={() => (
+                  <FlexWidgetDemo
+                    flexDirection={flexDirection}
+                    justifyContent={justifyContent}
+                    alignItems={alignItems}
+                  />
                 )}
                 height={flexDirection === 'row' ? 60 : 150}
                 width={320}
-                widgetName="Fitness"
               />
 
               <Text>RN View</Text>

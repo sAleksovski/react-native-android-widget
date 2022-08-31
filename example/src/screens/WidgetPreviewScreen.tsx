@@ -1,17 +1,17 @@
 import * as React from 'react';
 
 import { StyleSheet, View } from 'react-native';
-import { buildTree, WidgetPreview } from 'react-native-android-widget';
+import { WidgetPreview } from 'react-native-android-widget';
 import { FitnessWidget } from '../widgets/FitnessWidget';
 
 export function WidgetPreviewScreen() {
   return (
     <View style={styles.container}>
       <WidgetPreview
-        tree={buildTree(FitnessWidget({ activeView: 'bar_chart' }))}
+        renderWidget={() => <FitnessWidget activeView="bar_chart" />}
         height={209}
         width={320}
-        widgetName="Fitness"
+        showBorder
       />
     </View>
   );

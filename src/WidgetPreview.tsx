@@ -1,29 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { Image, View } from 'react-native';
+import { ActivityIndicator, Image, View } from 'react-native';
 import { AndroidWidget } from './AndroidWidget';
-import type { WidgetTree } from './build-tree';
+import { buildTree } from './build-tree';
 
 interface WidgetPreviewProps {
-  tree: WidgetTree;
+  renderWidget: (props: { width: number; height: number }) => JSX.Element;
   height: number;
   width: number;
-  widgetName: string;
   showBorder?: boolean;
 }
 
 export function WidgetPreview({
-  tree,
+  renderWidget,
   width,
   height,
-  widgetName,
   showBorder,
 }: WidgetPreviewProps) {
   const [image, setImage] = useState('');
   useEffect(() => {
     async function init() {
       const base64Image = await AndroidWidget.createPreview(
-        tree,
-        widgetName,
+        buildTree(renderWidget({ width, height })),
+        '',
         width,
         height
       );
@@ -31,7 +29,8 @@ export function WidgetPreview({
       setImage(base64Image);
     }
     init();
-  }, [tree, widgetName, width, height]);
+    return () => setImage('');
+  }, [renderWidget, width, height]);
 
   return (
     <View
@@ -43,19 +42,25 @@ export function WidgetPreview({
               width: width + 2,
               borderColor: '#0000ff40',
               borderWidth: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
             }
           : {}
       }
     >
-      <Image
-        source={{
-          uri: `data:image/png;base64,${image}`,
-        }}
-        style={{
-          height,
-          width,
-        }}
-      />
+      {image ? (
+        <Image
+          source={{
+            uri: `data:image/png;base64,${image}`,
+          }}
+          style={{
+            height,
+            width,
+          }}
+        />
+      ) : (
+        <ActivityIndicator size="large" />
+      )}
     </View>
   );
 }
