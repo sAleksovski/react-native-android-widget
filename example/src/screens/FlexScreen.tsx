@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import {
-  buildTree,
-  LinearLayoutWidget,
+  FlexStyleProps,
+  FlexWidget,
   WidgetPreview,
 } from 'react-native-android-widget';
 
@@ -23,97 +23,62 @@ const JUSTIFY_CONTENT: (
   'flex-start',
   'center',
   'flex-end',
-  // 'space-around',
-  // 'space-between',
-  // 'space-evenly',
+  'space-around',
+  'space-between',
+  'space-evenly',
 ];
 
-interface FlexWidgetProps {
-  flexDirection: 'row' | 'column';
-  alignItems: 'flex-start' | 'center' | 'flex-end';
-  justifyContent:
-    | 'flex-start'
-    | 'center'
-    | 'flex-end'
-    | 'space-around'
-    | 'space-between'
-    | 'space-evenly';
-}
-
-function FlexWidget({
+function FlexWidgetDemo({
   flexDirection,
   justifyContent,
   alignItems,
-}: FlexWidgetProps) {
-  let gravity = LinearLayoutWidget.Gravity.START;
-
-  switch (flexDirection === 'row' ? justifyContent : alignItems) {
-    case 'flex-start':
-      gravity = LinearLayoutWidget.Gravity.START;
-      break;
-
-    case 'center':
-      gravity = LinearLayoutWidget.Gravity.CENTER_HORIZONTAL;
-      break;
-
-    case 'flex-end':
-      gravity = LinearLayoutWidget.Gravity.END;
-      break;
-
-    default:
-      break;
-  }
-
-  switch (flexDirection === 'row' ? alignItems : justifyContent) {
-    case 'flex-start':
-      gravity |= LinearLayoutWidget.Gravity.TOP;
-      break;
-
-    case 'center':
-      gravity |= LinearLayoutWidget.Gravity.CENTER_VERTICAL;
-      break;
-
-    case 'flex-end':
-      gravity |= LinearLayoutWidget.Gravity.BOTTOM;
-      break;
-
-    default:
-      break;
-  }
-
+}: FlexStyleProps) {
   return (
-    <LinearLayoutWidget
-      orientation={flexDirection === 'row' ? 'HORIZONTAL' : 'VERTICAL'}
-      backgroundColor="#6664c8ff"
-      height={(flexDirection === 'row' ? 60 : 150) * 2.75}
-      width="match_parent"
-      gravity={gravity}
+    <FlexWidget
+      // eslint-disable-next-line react-native/no-inline-styles
+      style={{
+        flexDirection,
+        justifyContent,
+        alignItems,
+        backgroundColor: '#6664c8ff',
+        height: (flexDirection === 'row' ? 60 : 150) * 2.75,
+        width: 'match_parent',
+      }}
     >
-      <LinearLayoutWidget
-        backgroundColor="#ffff0000"
-        height={30 * 2.75}
-        width={50 * 2.75}
-        children={[]}
+      <FlexWidget
+        // eslint-disable-next-line react-native/no-inline-styles
+        style={{
+          backgroundColor: '#ffff0000',
+          height: 30 * 2.75,
+          width: 50 * 2.75,
+        }}
       />
-      <LinearLayoutWidget
-        backgroundColor="#ff008000"
-        height={30 * 2.75}
-        width={50 * 2.75}
-        children={[]}
+      <FlexWidget
+        // eslint-disable-next-line react-native/no-inline-styles
+        style={{
+          backgroundColor: '#ff008000',
+          height: 30 * 2.75,
+          width: 50 * 2.75,
+        }}
       />
-      <LinearLayoutWidget
-        backgroundColor="#ff0000ff"
-        height={30 * 2.75}
-        width={50 * 2.75}
-        children={[]}
+      <FlexWidget
+        // eslint-disable-next-line react-native/no-inline-styles
+        style={{
+          backgroundColor: '#ff0000ff',
+          height: 30 * 2.75,
+          width: 50 * 2.75,
+        }}
       />
-    </LinearLayoutWidget>
+    </FlexWidget>
   );
 }
 
 export function FlexScreen() {
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.contentContainer}
+    >
       {FLEX_DIRECTION.map((flexDirection, directionIndex) =>
         ALIGN_ITEMS.map((alignItems, alignIndex) =>
           JUSTIFY_CONTENT.map((justifyContent, justifyIndex) => (
@@ -139,6 +104,7 @@ export function FlexScreen() {
               <View
                 style={[
                   styles.wrapper,
+                  // eslint-disable-next-line react-native/no-inline-styles
                   { height: flexDirection === 'row' ? 60 : 150 },
                   { flexDirection, justifyContent, alignItems },
                 ]}
@@ -160,6 +126,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ecf0f1',
     padding: 8,
+  },
+  contentContainer: {
+    paddingBottom: 64,
   },
   child1: {
     width: 50,
