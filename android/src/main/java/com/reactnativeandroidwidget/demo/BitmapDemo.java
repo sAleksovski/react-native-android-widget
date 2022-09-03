@@ -4,6 +4,7 @@ import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
+import android.appwidget.AppWidgetProviderInfo;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -97,9 +98,28 @@ public class BitmapDemo {
     }
 
     private int[] getWidgetIds() {
-        // TODO
-        ComponentName name = new ComponentName(appContext, "com.example.reactnativeandroidwidget.WidgetProvider" + widgetName);
+        String widgetProviderClassName = getWidgetProviderClassName();
+
+        if (widgetProviderClassName == null) {
+          return new int[]{};
+        }
+
+        ComponentName name = new ComponentName(appContext, widgetProviderClassName);
         return AppWidgetManager.getInstance(appContext).getAppWidgetIds(name);
+    }
+
+    private String getWidgetProviderClassName() {
+        List<AppWidgetProviderInfo> installedProviders = AppWidgetManager.getInstance(appContext).getInstalledProviders();
+
+        for (AppWidgetProviderInfo providerInfo : installedProviders) {
+            if (providerInfo.provider.getPackageName().equals(appContext.getPackageName())
+                && providerInfo.provider.getShortClassName().endsWith("." + widgetName)) {
+
+                return providerInfo.provider.getClassName();
+            }
+        }
+
+        return null;
     }
 
     private void addClickableArea(RemoteViews widgetView, ViewGroup rootWidget, ClickableView clickableView, int widgetId) {
@@ -118,8 +138,7 @@ public class BitmapDemo {
 
     private void registerClickTask(int id, String clickAction, RemoteViews widgetView, Integer button) {
         Intent intent = new Intent("com.reactnativeandroidwidget.WIDGET_CLICK");
-        // TODO
-        intent.setComponent(new ComponentName(appContext, "com.example.reactnativeandroidwidget.WidgetProvider" + widgetName));
+        intent.setComponent(new ComponentName(appContext, getWidgetProviderClassName()));
         intent.putExtra("widgetId", id);
         intent.putExtra("clickAction", clickAction);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(

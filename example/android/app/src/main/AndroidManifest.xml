@@ -31,7 +31,7 @@
         android:label="BackgroundAdd" />
 
       <receiver
-        android:name=".WidgetProviderFitness"
+        android:name=".widget.Fitness"
         android:exported="false"
         android:label="Fitness">
         <intent-filter>
@@ -44,7 +44,7 @@
       </receiver>
 
       <receiver
-        android:name=".WidgetProviderMusic"
+        android:name=".widget.Music"
         android:exported="false"
         android:label="Music">
         <intent-filter>
@@ -57,7 +57,7 @@
       </receiver>
 
       <receiver
-        android:name=".WidgetProviderResizable"
+        android:name=".widget.Resizable"
         android:exported="false"
         android:label="Resizable">
         <intent-filter>
@@ -70,7 +70,7 @@
       </receiver>
 
       <receiver
-        android:name=".WidgetProviderRotated"
+        android:name=".widget.Rotated"
         android:exported="false"
         android:label="Rotated">
         <intent-filter>
@@ -83,7 +83,7 @@
       </receiver>
 
       <receiver
-        android:name=".WidgetProviderSteps"
+        android:name=".widget.Steps"
         android:exported="false"
         android:label="Steps">
         <intent-filter>

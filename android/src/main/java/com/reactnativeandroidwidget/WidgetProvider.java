@@ -5,7 +5,6 @@ import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -15,12 +14,6 @@ import android.widget.RemoteViews;
 import com.facebook.react.HeadlessJsTaskService;
 
 public class WidgetProvider extends AppWidgetProvider {
-    private final String name;
-
-    public WidgetProvider(String name) {
-        this.name = name;
-    }
-
     @Override
     public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
         super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
@@ -81,7 +74,7 @@ public class WidgetProvider extends AppWidgetProvider {
         Intent backgroundTaskIntent = new Intent(context, BackgroundTask.class);
         backgroundTaskIntent.putExtra("widgetAction", action);
         backgroundTaskIntent.putExtra("widgetId", widgetId);
-        backgroundTaskIntent.putExtra("widgetName", name);
+        backgroundTaskIntent.putExtra("widgetName", getClass().getSimpleName());
         backgroundTaskIntent.putExtra("width", getWidgetWidth(context, widgetId));
         backgroundTaskIntent.putExtra("height", getWidgetHeight(context, widgetId));
         return backgroundTaskIntent;
@@ -101,8 +94,7 @@ public class WidgetProvider extends AppWidgetProvider {
         RemoteViews clickableView = new RemoteViews(context.getPackageName(), R.layout.bitmap_demo_click_to_update);
 
         Intent intent = new Intent("com.reactnativeandroidwidget.WIDGET_CLICK");
-        // TODO
-        intent.setComponent(new ComponentName(context, "com.example.reactnativeandroidwidget.WidgetProvider" + name));
+        intent.setClass(context, getClass());
         intent.putExtra("widgetId", widgetId);
         intent.putExtra("widgetAction", backgroundTaskIntent.getStringExtra("widgetAction"));
 
