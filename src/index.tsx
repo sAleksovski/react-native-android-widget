@@ -28,5 +28,4 @@ export * from './widgets/v2/FlexWidget';
 export * from './widgets/FrameLayoutWidget';
 export * from './widgets/IconWidget';
 export * from './widgets/ImageWidget';
-export * from './widgets/LinearLayoutWidget';
 export * from './widgets/TextWidet';

@@ -1,8 +1,8 @@
 import type { FrameLayoutWidgetInternalProps } from './widgets/FrameLayoutWidget';
 import type { IconWidgetInternalProps } from './widgets/IconWidget';
 import type { ImageWidgetInternalProps } from './widgets/ImageWidget';
-import type { LinearLayoutWidgetInternalProps } from './widgets/LinearLayoutWidget';
 import type { TextWidgetInternalProps } from './widgets/TextWidet';
+import type { FlexWidgetInternalProps } from './widgets/v2/FlexWidget';
 
 interface FrameLayoutNode {
   type: 'FrameLayoutWidget';
@@ -20,9 +20,9 @@ interface ImageNode {
   props: ImageWidgetInternalProps;
 }
 
-interface LinearLayoutNode {
-  type: 'LinearLayoutWidget';
-  props: LinearLayoutWidgetInternalProps;
+interface FlexNode {
+  type: 'FlexWidget';
+  props: FlexWidgetInternalProps;
   children: WidgetTree[];
 }
 
@@ -35,7 +35,7 @@ export type WidgetTree =
   | FrameLayoutNode
   | IconNode
   | ImageNode
-  | LinearLayoutNode
+  | FlexNode
   | TextNode;
 
 export function buildTree(jsxTree: JSX.Element): WidgetTree {

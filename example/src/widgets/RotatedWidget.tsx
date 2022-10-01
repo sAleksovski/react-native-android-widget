@@ -1,16 +1,19 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { LinearLayoutWidget, TextWidget } from 'react-native-android-widget';
+import { FlexWidget, TextWidget } from 'react-native-android-widget';
 
 export function RotatedWidget() {
   return (
-    <LinearLayoutWidget
-      gravity={LinearLayoutWidget.Gravity.CENTER}
-      orientation="VERTICAL"
-      backgroundColor="#FDF1FE"
-      height="match_parent"
-      width="match_parent"
-      radius={80}
-      weight={1}
+    <FlexWidget
+      style={{
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#FDF1FE',
+        height: 'match_parent',
+        width: 'match_parent',
+        borderRadius: 80,
+        flex: 1,
+      }}
     >
       <TextWidget
         weight={1}
@@ -19,6 +22,6 @@ export function RotatedWidget() {
         text="Wednesday"
         color="#907E8D"
       />
-    </LinearLayoutWidget>
+    </FlexWidget>
   );
 }

@@ -1,9 +1,10 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {
+  FlexWidget,
   FrameLayoutWidget,
   IconWidget,
   ImageWidget,
-  LinearLayoutWidget,
   TextWidget,
 } from 'react-native-android-widget';
 
@@ -62,18 +63,22 @@ interface NowPlayingInfoProps {
 
 function NowPlayingInfo({ backgroundColor }: NowPlayingInfoProps) {
   return (
-    <LinearLayoutWidget
-      height="match_parent"
-      width="match_parent"
-      gravity={LinearLayoutWidget.Gravity.CENTER}
+    <FlexWidget
+      style={{
+        height: 'match_parent',
+        width: 'match_parent',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
     >
-      <LinearLayoutWidget
-        backgroundColor={backgroundColor}
-        height="wrap_content"
-        width="match_parent"
-        orientation="VERTICAL"
-        paddingHorizontal={64}
-        gravity={LinearLayoutWidget.Gravity.CENTER}
+      <FlexWidget
+        style={{
+          backgroundColor: backgroundColor,
+          width: 'match_parent',
+          paddingHorizontal: 64,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
       >
         <TextWidget
           fontSize={64}
@@ -88,17 +93,17 @@ function NowPlayingInfo({ backgroundColor }: NowPlayingInfoProps) {
           marginBottom={48}
         />
 
-        <LinearLayoutWidget
-          weight={1}
-          gravity={LinearLayoutWidget.Gravity.CENTER_VERTICAL}
-          orientation="HORIZONTAL"
-          height="wrap_content"
-          width="match_parent"
-          marginBottom={48}
+        <FlexWidget
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            alignItems: 'center',
+            width: 'match_parent',
+            marginBottom: 48,
+          }}
         >
-          <LinearLayoutWidget
-            weight={1}
-            gravity={LinearLayoutWidget.Gravity.CENTER}
+          <FlexWidget
+            style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
           >
             <IconWidget
               font="material"
@@ -106,18 +111,20 @@ function NowPlayingInfo({ backgroundColor }: NowPlayingInfoProps) {
               color="#ffffff"
               icon="skip_previous"
             />
-          </LinearLayoutWidget>
-          <LinearLayoutWidget
-            weight={1}
-            gravity={LinearLayoutWidget.Gravity.CENTER}
+          </FlexWidget>
+          <FlexWidget
+            style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
           >
-            <LinearLayoutWidget
+            <FlexWidget
               clickAction="play"
-              height={128}
-              width={128}
-              radius={64}
-              backgroundColor="#BA666B"
-              gravity={LinearLayoutWidget.Gravity.CENTER}
+              style={{
+                height: 128,
+                width: 128,
+                borderRadius: 64,
+                backgroundColor: '#BA666B',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
             >
               <IconWidget
                 font="material"
@@ -125,11 +132,10 @@ function NowPlayingInfo({ backgroundColor }: NowPlayingInfoProps) {
                 color="#ffffff"
                 icon="play_arrow"
               />
-            </LinearLayoutWidget>
-          </LinearLayoutWidget>
-          <LinearLayoutWidget
-            weight={1}
-            gravity={LinearLayoutWidget.Gravity.CENTER}
+            </FlexWidget>
+          </FlexWidget>
+          <FlexWidget
+            style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
           >
             <IconWidget
               font="material"
@@ -137,25 +143,29 @@ function NowPlayingInfo({ backgroundColor }: NowPlayingInfoProps) {
               color="#ffffff"
               icon="skip_next"
             />
-          </LinearLayoutWidget>
-        </LinearLayoutWidget>
+          </FlexWidget>
+        </FlexWidget>
 
-        <LinearLayoutWidget
-          height={10}
-          radius={5}
-          width="match_parent"
-          backgroundColor="#88ffffff"
+        <FlexWidget
+          style={{
+            height: 10,
+            borderRadius: 5,
+            width: 'match_parent',
+            backgroundColor: '#88ffffff',
+          }}
         >
-          <LinearLayoutWidget
-            height={10}
-            radius={5}
-            width={300}
+          <FlexWidget
+            style={{
+              height: 10,
+              borderRadius: 5,
+              width: 300,
+              backgroundColor: '#ffffff',
+            }}
             children={[]}
-            backgroundColor="#ffffff"
           />
-        </LinearLayoutWidget>
-      </LinearLayoutWidget>
-    </LinearLayoutWidget>
+        </FlexWidget>
+      </FlexWidget>
+    </FlexWidget>
   );
 }
 
@@ -166,13 +176,14 @@ interface NextTracksProps {
 function NextTracks({ height }: NextTracksProps) {
   const imageSize = (Math.min(height, 886 / 2) - (48 + 48 + 48 + 32 + 32)) / 2;
   return (
-    <LinearLayoutWidget
-      orientation="VERTICAL"
-      backgroundColor="#630B0E"
-      padding={48}
-      paddingTop={40}
-      height={height}
-      width="match_parent"
+    <FlexWidget
+      style={{
+        backgroundColor: '#630B0E',
+        padding: 48,
+        paddingTop: 40,
+        height: height,
+        width: 'match_parent',
+      }}
     >
       <TextWidget
         text="Next tracks"
@@ -181,8 +192,8 @@ function NextTracks({ height }: NextTracksProps) {
         marginBottom={32}
       />
 
-      <LinearLayoutWidget orientation="HORIZONTAL" marginBottom={16}>
-        <LinearLayoutWidget orientation="HORIZONTAL" marginRight={32}>
+      <FlexWidget style={{ flexDirection: 'row', marginBottom: 16 }}>
+        <FlexWidget style={{ flexDirection: 'row', marginRight: 32 }}>
           <ImageWidget
             radius={24}
             image={require('../../assets/tame-impala.jpeg')}
@@ -190,10 +201,11 @@ function NextTracks({ height }: NextTracksProps) {
             imageWidth={imageSize}
           />
 
-          <LinearLayoutWidget
-            orientation="VERTICAL"
-            marginLeft={16}
-            marginBottom={8}
+          <FlexWidget
+            style={{
+              marginLeft: 16,
+              marginBottom: 8,
+            }}
           >
             <TextWidget
               truncate="END"
@@ -210,10 +222,10 @@ function NextTracks({ height }: NextTracksProps) {
               color="#DFA9A6"
               fontSize={imageSize / 3}
             />
-          </LinearLayoutWidget>
-        </LinearLayoutWidget>
+          </FlexWidget>
+        </FlexWidget>
 
-        <LinearLayoutWidget orientation="HORIZONTAL">
+        <FlexWidget style={{ flexDirection: 'row' }}>
           <ImageWidget
             radius={24}
             image={require('../../assets/james-infinity.jpg')}
@@ -221,10 +233,11 @@ function NextTracks({ height }: NextTracksProps) {
             imageWidth={imageSize}
           />
 
-          <LinearLayoutWidget
-            orientation="VERTICAL"
-            marginLeft={16}
-            marginBottom={8}
+          <FlexWidget
+            style={{
+              marginLeft: 16,
+              marginBottom: 8,
+            }}
           >
             <TextWidget
               truncate="END"
@@ -241,12 +254,12 @@ function NextTracks({ height }: NextTracksProps) {
               color="#DFA9A6"
               fontSize={imageSize / 3}
             />
-          </LinearLayoutWidget>
-        </LinearLayoutWidget>
-      </LinearLayoutWidget>
+          </FlexWidget>
+        </FlexWidget>
+      </FlexWidget>
 
-      <LinearLayoutWidget orientation="HORIZONTAL">
-        <LinearLayoutWidget orientation="HORIZONTAL" marginRight={32}>
+      <FlexWidget style={{ flexDirection: 'row' }}>
+        <FlexWidget style={{ flexDirection: 'row', marginRight: 32 }}>
           <ImageWidget
             radius={24}
             image={require('../../assets/tame-impala.jpeg')}
@@ -254,10 +267,11 @@ function NextTracks({ height }: NextTracksProps) {
             imageWidth={imageSize}
           />
 
-          <LinearLayoutWidget
-            orientation="VERTICAL"
-            marginLeft={16}
-            marginBottom={8}
+          <FlexWidget
+            style={{
+              marginLeft: 16,
+              marginBottom: 8,
+            }}
           >
             <TextWidget
               truncate="END"
@@ -274,10 +288,10 @@ function NextTracks({ height }: NextTracksProps) {
               color="#DFA9A6"
               fontSize={imageSize / 3}
             />
-          </LinearLayoutWidget>
-        </LinearLayoutWidget>
+          </FlexWidget>
+        </FlexWidget>
 
-        <LinearLayoutWidget orientation="HORIZONTAL">
+        <FlexWidget style={{ flexDirection: 'row' }}>
           <ImageWidget
             radius={24}
             image={require('../../assets/tame-impala.jpeg')}
@@ -285,10 +299,11 @@ function NextTracks({ height }: NextTracksProps) {
             imageWidth={imageSize}
           />
 
-          <LinearLayoutWidget
-            orientation="VERTICAL"
-            marginLeft={16}
-            marginBottom={8}
+          <FlexWidget
+            style={{
+              marginLeft: 16,
+              marginBottom: 8,
+            }}
           >
             <TextWidget
               truncate="END"
@@ -305,10 +320,10 @@ function NextTracks({ height }: NextTracksProps) {
               color="#DFA9A6"
               fontSize={imageSize / 3}
             />
-          </LinearLayoutWidget>
-        </LinearLayoutWidget>
-      </LinearLayoutWidget>
-    </LinearLayoutWidget>
+          </FlexWidget>
+        </FlexWidget>
+      </FlexWidget>
+    </FlexWidget>
   );
 }
 
@@ -324,7 +339,7 @@ export function ResizableMusicWidget({
 
   const isSquare = aspectX === 1 && aspectY === 1;
   const isBigSquare = isSquare && height > 600 && width > 760;
-  const Wrapper = isSquare ? FrameLayoutWidget : LinearLayoutWidget;
+  const Wrapper = isSquare ? FrameLayoutWidget : FlexWidget;
 
   const nowPlayingBackgroundColor = aspectX === 1 ? '#88A6181C' : '#B20A01';
 
@@ -337,16 +352,19 @@ export function ResizableMusicWidget({
 
   if (isBigSquare) {
     return (
-      <LinearLayoutWidget
-        orientation="VERTICAL"
-        height="match_parent"
-        width="match_parent"
+      <FlexWidget
+        style={{
+          height: 'match_parent',
+          width: 'match_parent',
+        }}
       >
-        <LinearLayoutWidget
-          orientation="HORIZONTAL"
-          backgroundColor="#B20A01"
-          height={height / 2}
-          width="match_parent"
+        <FlexWidget
+          style={{
+            flexDirection: 'row',
+            backgroundColor: '#B20A01',
+            height: height / 2,
+            width: 'match_parent',
+          }}
         >
           <AlbumArt
             height={height / 2}
@@ -356,16 +374,21 @@ export function ResizableMusicWidget({
           />
 
           <NowPlayingInfo backgroundColor={nowPlayingBackgroundColor} />
-        </LinearLayoutWidget>
+        </FlexWidget>
 
         <NextTracks height={height / 2} />
-      </LinearLayoutWidget>
+      </FlexWidget>
     );
   }
 
   return (
     <Wrapper
-      orientation={aspectY === 1 ? 'HORIZONTAL' : 'VERTICAL'}
+      style={{
+        flexDirection: aspectY === 1 ? 'row' : 'column',
+        backgroundColor: '#B20A01',
+        height: 'match_parent',
+        width: 'match_parent',
+      }}
       backgroundColor="#B20A01"
       height="match_parent"
       width="match_parent"

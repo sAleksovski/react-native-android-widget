@@ -1,29 +1,32 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {
+  FlexWidget,
   IconWidget,
   ImageWidget,
-  LinearLayoutWidget,
   TextWidget,
 } from 'react-native-android-widget';
 
 export function MusicWidget() {
   return (
-    <LinearLayoutWidget
-      gravity={LinearLayoutWidget.Gravity.CENTER_HORIZONTAL}
-      orientation="VERTICAL"
-      backgroundColor="#FFF4F3"
-      padding={24}
-      paddingTop={48}
-      height="match_parent"
-      width="match_parent"
-      radius={80}
+    <FlexWidget
+      style={{
+        alignItems: 'center',
+        backgroundColor: '#FFF4F3',
+        padding: 24,
+        paddingTop: 48,
+        height: 'match_parent',
+        width: 'match_parent',
+        borderRadius: 80,
+      }}
     >
-      <LinearLayoutWidget
-        gravity={LinearLayoutWidget.Gravity.CENTER_HORIZONTAL}
-        orientation="VERTICAL"
-        height={240}
-        width={240}
-        marginBottom={48}
+      <FlexWidget
+        style={{
+          alignItems: 'center',
+          height: 240,
+          width: 240,
+          marginBottom: 48,
+        }}
       >
         <ImageWidget
           image={require('../../assets/james-infinity.jpg')}
@@ -31,7 +34,7 @@ export function MusicWidget() {
           imageHeight={240}
           radius={120}
         />
-      </LinearLayoutWidget>
+      </FlexWidget>
 
       <TextWidget
         fontSize={64}
@@ -46,43 +49,45 @@ export function MusicWidget() {
         marginBottom={128}
       />
 
-      <LinearLayoutWidget
-        radius={56}
-        paddingHorizontal={32}
-        backgroundColor="#E4BDBD"
-        gravity={LinearLayoutWidget.Gravity.CENTER_VERTICAL}
-        orientation="HORIZONTAL"
-        height="match_parent"
-        width="match_parent"
+      <FlexWidget
+        style={{
+          borderRadius: 56,
+          paddingHorizontal: 32,
+          backgroundColor: '#E4BDBD',
+          flexDirection: 'row',
+          alignItems: 'center',
+          height: 'match_parent',
+          width: 'match_parent',
+        }}
       >
-        <LinearLayoutWidget
-          weight={1}
-          gravity={LinearLayoutWidget.Gravity.CENTER}
+        <FlexWidget
+          style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
         >
           <IconWidget font="material" size={96} icon="skip_previous" />
-        </LinearLayoutWidget>
-        <LinearLayoutWidget
-          weight={1}
-          gravity={LinearLayoutWidget.Gravity.CENTER}
+        </FlexWidget>
+        <FlexWidget
+          style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
         >
-          <LinearLayoutWidget
+          <FlexWidget
             clickAction="play"
-            height={128}
-            width={128}
-            radius={64}
-            backgroundColor="#BA666B"
-            gravity={LinearLayoutWidget.Gravity.CENTER}
+            style={{
+              height: 128,
+              width: 128,
+              borderRadius: 64,
+              backgroundColor: '#BA666B',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
           >
             <IconWidget font="material" size={96} icon="play_arrow" />
-          </LinearLayoutWidget>
-        </LinearLayoutWidget>
-        <LinearLayoutWidget
-          weight={1}
-          gravity={LinearLayoutWidget.Gravity.CENTER}
+          </FlexWidget>
+        </FlexWidget>
+        <FlexWidget
+          style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
         >
           <IconWidget font="material" size={96} icon="skip_next" />
-        </LinearLayoutWidget>
-      </LinearLayoutWidget>
-    </LinearLayoutWidget>
+        </FlexWidget>
+      </FlexWidget>
+    </FlexWidget>
   );
 }

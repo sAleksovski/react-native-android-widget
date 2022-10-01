@@ -1,7 +1,8 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {
+  FlexWidget,
   IconWidget,
-  LinearLayoutWidget,
   TextWidget,
 } from 'react-native-android-widget';
 
@@ -12,14 +13,23 @@ interface ActionSelectorProps {
 
 function ActionSelector({ isActive, iconName }: ActionSelectorProps) {
   return (
-    <LinearLayoutWidget weight={1} gravity={LinearLayoutWidget.Gravity.CENTER}>
-      <LinearLayoutWidget
+    <FlexWidget
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <FlexWidget
         clickAction={iconName}
-        height={128}
-        width={128}
-        radius={32}
-        backgroundColor={isActive ? '#254B58' : '#5CC6E2'}
-        gravity={LinearLayoutWidget.Gravity.CENTER}
+        style={{
+          height: 128,
+          width: 128,
+          borderRadius: 32,
+          backgroundColor: isActive ? '#254B58' : '#5CC6E2',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
       >
         <IconWidget
           color={isActive ? '#5CC6E2' : '#254B58'}
@@ -27,201 +37,230 @@ function ActionSelector({ isActive, iconName }: ActionSelectorProps) {
           size={96}
           icon={iconName}
         />
-      </LinearLayoutWidget>
-    </LinearLayoutWidget>
+      </FlexWidget>
+    </FlexWidget>
   );
 }
 
 function StepsWalked() {
   return (
-    <LinearLayoutWidget
-      orientation="VERTICAL"
-      height="match_parent"
-      width="match_parent"
-      padding={32}
+    <FlexWidget
+      style={{
+        flexDirection: 'column',
+        height: 'match_parent',
+        width: 'match_parent',
+        padding: 32,
+      }}
     >
       <TextWidget fontSize={48} color="#277E99" text="Steps Walked Today" />
       <TextWidget fontSize={192} color="#2C6475" text="428" />
 
-      <LinearLayoutWidget
-        backgroundColor="#54B4CE"
-        orientation="HORIZONTAL"
-        width="match_parent"
-        height="wrap_content"
-        radius={16}
-        marginBottom={32}
+      <FlexWidget
+        style={{
+          backgroundColor: '#54B4CE',
+          width: 'match_parent',
+          height: 'wrap_content',
+          borderRadius: 16,
+          marginBottom: 32,
+        }}
       >
-        <LinearLayoutWidget
-          backgroundColor="#306374"
-          orientation="HORIZONTAL"
-          height={32}
-          radius={16}
-          width={128}
+        <FlexWidget
+          style={{
+            backgroundColor: '#306374',
+            height: 32,
+            width: 128,
+            borderRadius: 16,
+          }}
         >
           <TextWidget fontSize={0} text="0" />
-        </LinearLayoutWidget>
-      </LinearLayoutWidget>
+        </FlexWidget>
+      </FlexWidget>
 
-      <LinearLayoutWidget orientation="HORIZONTAL" width="match_parent">
-        <LinearLayoutWidget orientation="VERTICAL" weight={1}>
+      <FlexWidget style={{ width: 'match_parent', flexDirection: 'row' }}>
+        <FlexWidget style={{ flex: 1 }}>
           <TextWidget fontSize={40} color="#277E99" text="Week Avg" />
           <TextWidget fontSize={48} color="#2C6475" text="2769.25" />
-        </LinearLayoutWidget>
+        </FlexWidget>
 
-        <LinearLayoutWidget orientation="VERTICAL" weight={1}>
+        <FlexWidget style={{ flex: 1 }}>
           <TextWidget fontSize={40} color="#277E99" text="Distance" />
           <TextWidget fontSize={48} color="#2C6475" text="0.14mi" />
-        </LinearLayoutWidget>
-      </LinearLayoutWidget>
-    </LinearLayoutWidget>
+        </FlexWidget>
+      </FlexWidget>
+    </FlexWidget>
   );
 }
 
 function Activity() {
   return (
-    <LinearLayoutWidget
-      orientation="VERTICAL"
-      height="match_parent"
-      width="match_parent"
-      gravity={LinearLayoutWidget.Gravity.CENTER_VERTICAL}
-      padding={32}
+    <FlexWidget
+      style={{
+        height: 'match_parent',
+        width: 'match_parent',
+        justifyContent: 'center',
+        padding: 32,
+      }}
     >
       <TextWidget fontSize={48} color="#277E99" text="Last Activity" />
       <TextWidget fontSize={96} color="#2C6475" text="13 Hours Ago" />
 
-      <LinearLayoutWidget
-        orientation="HORIZONTAL"
-        width="match_parent"
-        marginTop={32}
+      <FlexWidget
+        style={{
+          flexDirection: 'row',
+          width: 'match_parent',
+          marginTop: 32,
+        }}
       >
-        <LinearLayoutWidget orientation="VERTICAL" weight={1}>
+        <FlexWidget style={{ flex: 1 }}>
           <TextWidget fontSize={40} color="#277E99" text="Segments" />
           <TextWidget fontSize={48} color="#2C6475" text="21" />
-        </LinearLayoutWidget>
+        </FlexWidget>
 
-        <LinearLayoutWidget orientation="VERTICAL" weight={1}>
+        <FlexWidget style={{ flex: 1 }}>
           <TextWidget fontSize={40} color="#277E99" text="Lasted For" />
           <TextWidget fontSize={48} color="#2C6475" text="1 Hour" />
-        </LinearLayoutWidget>
-      </LinearLayoutWidget>
-    </LinearLayoutWidget>
+        </FlexWidget>
+      </FlexWidget>
+    </FlexWidget>
   );
 }
 
 function StepsHistory() {
   return (
-    <LinearLayoutWidget
-      orientation="VERTICAL"
-      height="match_parent"
-      width="match_parent"
-      padding={32}
+    <FlexWidget
+      style={{
+        height: 'match_parent',
+        width: 'match_parent',
+        padding: 32,
+      }}
     >
-      <LinearLayoutWidget
-        orientation="VERTICAL"
-        width="match_parent"
-        height="match_parent"
-        weight={1}
+      <FlexWidget
+        style={{
+          width: 'match_parent',
+          height: 'match_parent',
+          flex: 1,
+        }}
       >
-        <LinearLayoutWidget
-          orientation="HORIZONTAL"
-          marginBottom={16}
-          weight={1}
+        <FlexWidget
+          style={{
+            flexDirection: 'row',
+            marginBottom: 16,
+            flex: 1,
+          }}
         >
           <TextWidget fontSize={48} color="#2C6475" text="3155 Steps" />
           <TextWidget fontSize={40} color="#277E99" text=" ● 21 Jul ● Thu" />
-        </LinearLayoutWidget>
-        <LinearLayoutWidget
-          backgroundColor="#54B4CE"
-          orientation="HORIZONTAL"
-          width="match_parent"
-          height="wrap_content"
-          weight={2}
-          radius={32}
-          marginBottom={32}
+        </FlexWidget>
+        <FlexWidget
+          style={{
+            backgroundColor: '#54B4CE',
+            flexDirection: 'row',
+            width: 'match_parent',
+            height: 'wrap_content',
+            flex: 2,
+            borderRadius: 32,
+            marginBottom: 32,
+          }}
         >
-          <LinearLayoutWidget
-            backgroundColor="#306374"
-            orientation="HORIZONTAL"
-            height="match_parent"
-            weight={1}
-            radius={32}
-            width={256}
+          <FlexWidget
+            style={{
+              backgroundColor: '#306374',
+              flexDirection: 'row',
+              height: 'match_parent',
+              flex: 1,
+              borderRadius: 32,
+              width: 256,
+            }}
           >
             <TextWidget fontSize={0} text="0" />
-          </LinearLayoutWidget>
-        </LinearLayoutWidget>
-      </LinearLayoutWidget>
+          </FlexWidget>
+        </FlexWidget>
+      </FlexWidget>
 
-      <LinearLayoutWidget
-        orientation="VERTICAL"
-        width="match_parent"
-        height="match_parent"
-        weight={1}
+      <FlexWidget
+        style={{
+          width: 'match_parent',
+          height: 'match_parent',
+          flex: 1,
+        }}
       >
-        <LinearLayoutWidget
-          orientation="HORIZONTAL"
-          marginBottom={16}
-          weight={1}
+        <FlexWidget
+          style={{
+            flexDirection: 'row',
+            marginBottom: 16,
+            flex: 1,
+          }}
         >
           <TextWidget fontSize={48} color="#2C6475" text="3655 Steps" />
           <TextWidget fontSize={40} color="#277E99" text=" ● 22 Jul ● Thu" />
-        </LinearLayoutWidget>
-        <LinearLayoutWidget
-          backgroundColor="#54B4CE"
-          orientation="HORIZONTAL"
-          width="match_parent"
-          height="wrap_content"
-          weight={2}
-          radius={32}
-          marginBottom={32}
+        </FlexWidget>
+        <FlexWidget
+          style={{
+            backgroundColor: '#54B4CE',
+            flexDirection: 'row',
+            width: 'match_parent',
+            height: 'wrap_content',
+            flex: 2,
+            borderRadius: 32,
+            marginBottom: 32,
+          }}
         >
-          <LinearLayoutWidget
-            backgroundColor="#306374"
-            orientation="HORIZONTAL"
-            height="match_parent"
-            radius={32}
-            width={300}
+          <FlexWidget
+            style={{
+              backgroundColor: '#306374',
+              flexDirection: 'row',
+              height: 'match_parent',
+              borderRadius: 32,
+              width: 300,
+            }}
           >
             <TextWidget fontSize={0} text="0" />
-          </LinearLayoutWidget>
-        </LinearLayoutWidget>
-      </LinearLayoutWidget>
+          </FlexWidget>
+        </FlexWidget>
+      </FlexWidget>
 
-      <LinearLayoutWidget
-        orientation="VERTICAL"
-        width="match_parent"
-        height="match_parent"
-        weight={1}
+      <FlexWidget
+        style={{
+          width: 'match_parent',
+          height: 'match_parent',
+          flex: 1,
+        }}
       >
-        <LinearLayoutWidget
-          orientation="HORIZONTAL"
-          marginBottom={16}
-          weight={1}
+        <FlexWidget
+          style={{
+            flexDirection: 'row',
+            marginBottom: 16,
+            flex: 1,
+          }}
         >
           <TextWidget fontSize={48} color="#2C6475" text="428 Steps" />
           <TextWidget fontSize={40} color="#277E99" text=" ● 23 Jul ● Thu" />
-        </LinearLayoutWidget>
-        <LinearLayoutWidget
-          backgroundColor="#54B4CE"
-          orientation="HORIZONTAL"
-          width="match_parent"
-          height="wrap_content"
-          weight={2}
-          radius={32}
-          marginBottom={32}
+        </FlexWidget>
+        <FlexWidget
+          style={{
+            backgroundColor: '#54B4CE',
+            flexDirection: 'row',
+            width: 'match_parent',
+            height: 'wrap_content',
+            flex: 2,
+            borderRadius: 32,
+            marginBottom: 32,
+          }}
         >
-          <LinearLayoutWidget
-            backgroundColor="#306374"
-            orientation="HORIZONTAL"
-            height="match_parent"
-            radius={32}
-            width={64}
+          <FlexWidget
+            style={{
+              backgroundColor: '#306374',
+              flexDirection: 'row',
+              height: 'match_parent',
+              borderRadius: 32,
+              width: 64,
+            }}
           >
             <TextWidget fontSize={0} text="0" />
-          </LinearLayoutWidget>
-        </LinearLayoutWidget>
-      </LinearLayoutWidget>
-    </LinearLayoutWidget>
+          </FlexWidget>
+        </FlexWidget>
+      </FlexWidget>
+    </FlexWidget>
   );
 }
 
@@ -232,18 +271,21 @@ interface FitnessWidgetProps {
 export function FitnessWidget({ activeView }: FitnessWidgetProps) {
   const active = activeView ?? 'directions_walk';
   return (
-    <LinearLayoutWidget
-      orientation="HORIZONTAL"
-      backgroundColor="#5CC6E2"
-      height="match_parent"
-      width="match_parent"
-      radius={48}
+    <FlexWidget
+      style={{
+        flexDirection: 'row',
+        backgroundColor: '#5CC6E2',
+        height: 'match_parent',
+        width: 'match_parent',
+        borderRadius: 48,
+      }}
     >
-      <LinearLayoutWidget
-        padding={32}
-        orientation="VERTICAL"
-        height="match_parent"
-        width="wrap_content"
+      <FlexWidget
+        style={{
+          padding: 32,
+          height: 'match_parent',
+          width: 'wrap_content',
+        }}
       >
         <ActionSelector
           iconName="directions_walk"
@@ -254,11 +296,11 @@ export function FitnessWidget({ activeView }: FitnessWidgetProps) {
           iconName="bar_chart"
           isActive={active === 'bar_chart'}
         />
-      </LinearLayoutWidget>
+      </FlexWidget>
 
       {active === 'directions_walk' ? <StepsWalked /> : null}
       {active === 'schedule' ? <Activity /> : null}
       {active === 'bar_chart' ? <StepsHistory /> : null}
-    </LinearLayoutWidget>
+    </FlexWidget>
   );
 }
