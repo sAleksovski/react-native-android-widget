@@ -63,11 +63,11 @@ public class IconWidget extends BaseWidget<TextView> {
         if (props.hasKey("backgroundGradient")) {
             ReadableMap backgroundGradient = props.getMap("backgroundGradient");
             GradientDrawable gradientDrawable = new GradientDrawable(
-                    GradientDrawable.Orientation.valueOf(backgroundGradient.getString("orientation")),
-                    new int[] {
-                            Color.parseColor(backgroundGradient.getString("from")),
-                            Color.parseColor(backgroundGradient.getString("to"))
-                    }
+                GradientDrawable.Orientation.valueOf(backgroundGradient.getString("orientation")),
+                new int[]{
+                    Color.parseColor(backgroundGradient.getString("from")),
+                    Color.parseColor(backgroundGradient.getString("to"))
+                }
             );
 
             gradientDrawable.setCornerRadius(0f);

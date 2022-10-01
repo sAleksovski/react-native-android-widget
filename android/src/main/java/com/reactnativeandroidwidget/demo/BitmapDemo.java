@@ -56,9 +56,9 @@ public class BitmapDemo {
         View rootView = widgetWithViews.getRootView();
 
         Bitmap bitmap = Bitmap.createBitmap(
-                widgetWidth,
-                widgetHeight,
-                Bitmap.Config.ARGB_8888
+            widgetWidth,
+            widgetHeight,
+            Bitmap.Config.ARGB_8888
         );
         Canvas bitmapHolder = new Canvas(bitmap);
         rootView.draw(bitmapHolder);
@@ -73,7 +73,7 @@ public class BitmapDemo {
         }
 
         AppWidgetManager.getInstance(appContext)
-                .updateAppWidget(widgetId, remoteWidgetView);
+            .updateAppWidget(widgetId, remoteWidgetView);
     }
 
     public String createPreview(int width, int height) throws Exception {
@@ -83,9 +83,9 @@ public class BitmapDemo {
         View rootView = widgetWithViews.getRootView();
 
         Bitmap bitmap = Bitmap.createBitmap(
-                dipToPx(width),
-                dipToPx(height),
-                Bitmap.Config.ARGB_8888
+            dipToPx(width),
+            dipToPx(height),
+            Bitmap.Config.ARGB_8888
         );
         Canvas bitmapHolder = new Canvas(bitmap);
         rootView.draw(bitmapHolder);
@@ -101,7 +101,7 @@ public class BitmapDemo {
         String widgetProviderClassName = getWidgetProviderClassName();
 
         if (widgetProviderClassName == null) {
-          return new int[]{};
+            return new int[]{};
         }
 
         ComponentName name = new ComponentName(appContext, widgetProviderClassName);
@@ -142,11 +142,11 @@ public class BitmapDemo {
         intent.putExtra("widgetId", id);
         intent.putExtra("clickAction", clickAction);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                appContext,
-                (int) System.currentTimeMillis(),
-                intent,
-                PendingIntent.FLAG_CANCEL_CURRENT
-                        | PendingIntent.FLAG_MUTABLE
+            appContext,
+            (int) System.currentTimeMillis(),
+            intent,
+            PendingIntent.FLAG_CANCEL_CURRENT
+                | PendingIntent.FLAG_MUTABLE
         );
         widgetView.setOnClickPendingIntent(button, pendingIntent);
     }

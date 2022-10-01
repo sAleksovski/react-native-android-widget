@@ -51,9 +51,6 @@ public class WidgetProvider extends AppWidgetProvider {
     public void onReceive(final Context context, final Intent incomingIntent) {
         super.onReceive(context, incomingIntent);
 
-        System.out.println(incomingIntent.getAction());
-      System.out.println(context.getPackageName());
-
         if (!incomingIntent.getAction().startsWith("com.reactnativeandroidwidget.WIDGET")) {
             return;
         }
@@ -99,11 +96,11 @@ public class WidgetProvider extends AppWidgetProvider {
         intent.putExtra("widgetAction", backgroundTaskIntent.getStringExtra("widgetAction"));
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                context,
-                (int) System.currentTimeMillis(),
-                intent,
-                PendingIntent.FLAG_CANCEL_CURRENT
-                        | PendingIntent.FLAG_MUTABLE
+            context,
+            (int) System.currentTimeMillis(),
+            intent,
+            PendingIntent.FLAG_CANCEL_CURRENT
+                | PendingIntent.FLAG_MUTABLE
         );
         clickableView.setOnClickPendingIntent(R.id.click_to_update, pendingIntent);
 
@@ -111,7 +108,7 @@ public class WidgetProvider extends AppWidgetProvider {
         remoteWidgetView.addView(R.id.clickable_container, clickableView);
 
         AppWidgetManager.getInstance(context)
-                .updateAppWidget(widgetId, remoteWidgetView);
+            .updateAppWidget(widgetId, remoteWidgetView);
     }
 
     private void startBackgroundTask(Context context, Intent serviceIntent) {

@@ -25,20 +25,19 @@ public class BackgroundTask extends HeadlessJsTaskService {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createChannel();
             Notification notification = new NotificationCompat.Builder(getApplicationContext(), "demo")
-                    .setContentTitle("Headless Work")
-                    .setTicker("run")
-//                    TODO
-//                    .setSilent(true)
-                    .setOngoing(true)
-                    .build();
+                .setContentTitle("Headless Work")
+                .setTicker("run")
+                .setSilent(true)
+                .setOngoing(true)
+                .build();
             startForeground(1, notification);
         }
 
         return new HeadlessJsTaskConfig(
-                "WidgetTask",
-                data,
-                5000,
-                true
+            "WidgetTask",
+            data,
+            5000,
+            true
         );
     }
 
@@ -49,7 +48,7 @@ public class BackgroundTask extends HeadlessJsTaskService {
         NotificationChannel channel = new NotificationChannel("demo", "test", importance);
         channel.setDescription(description);
         NotificationManager notificationManager =
-                (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
+            (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
 
         notificationManager.createNotificationChannel(channel);
     }

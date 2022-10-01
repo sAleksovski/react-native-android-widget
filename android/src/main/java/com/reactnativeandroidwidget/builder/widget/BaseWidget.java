@@ -45,8 +45,8 @@ public abstract class BaseWidget<T extends View> {
                 width = props.getInt("width");
             } else {
                 width = getString("width", "wrap_content").equals("wrap_content")
-                        ? ViewGroup.LayoutParams.WRAP_CONTENT
-                        : ViewGroup.LayoutParams.MATCH_PARENT;
+                    ? ViewGroup.LayoutParams.WRAP_CONTENT
+                    : ViewGroup.LayoutParams.MATCH_PARENT;
             }
         }
 
@@ -56,8 +56,8 @@ public abstract class BaseWidget<T extends View> {
                 height = props.getInt("height");
             } else {
                 height = getString("height", "wrap_content").equals("wrap_content")
-                        ? ViewGroup.LayoutParams.WRAP_CONTENT
-                        : ViewGroup.LayoutParams.MATCH_PARENT;
+                    ? ViewGroup.LayoutParams.WRAP_CONTENT
+                    : ViewGroup.LayoutParams.MATCH_PARENT;
             }
         }
 
