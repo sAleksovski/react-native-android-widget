@@ -113,3 +113,128 @@ function getPadding(internalProps: CommonInternalProps) {
   };
   return internalProps.padding;
 }
+
+export function buildBorder(
+  props: CommonProps,
+  internalProps: CommonInternalProps
+): CommonInternalProps {
+  if ('borderWidth' in props) {
+    const borderWidth = getBorderWidth(internalProps);
+    borderWidth.top = props.borderWidth ?? 0;
+    borderWidth.right = props.borderWidth ?? 0;
+    borderWidth.bottom = props.borderWidth ?? 0;
+    borderWidth.left = props.borderWidth ?? 0;
+  }
+
+  if ('borderTopWidth' in props) {
+    const borderWidth = getBorderWidth(internalProps);
+    borderWidth.top = props.borderTopWidth ?? 0;
+  }
+
+  if ('borderRightWidth' in props) {
+    const borderWidth = getBorderWidth(internalProps);
+    borderWidth.right = props.borderRightWidth ?? 0;
+  }
+
+  if ('borderBottomWidth' in props) {
+    const borderWidth = getBorderWidth(internalProps);
+    borderWidth.bottom = props.borderBottomWidth ?? 0;
+  }
+
+  if ('borderLeftWidth' in props) {
+    const borderWidth = getBorderWidth(internalProps);
+    borderWidth.left = props.borderLeftWidth ?? 0;
+  }
+
+  if ('borderColor' in props) {
+    const borderColor = getBorderColor(internalProps);
+    borderColor.top = props.borderColor ?? '#ffffffff';
+    borderColor.right = props.borderColor ?? '#ffffffff';
+    borderColor.bottom = props.borderColor ?? '#ffffffff';
+    borderColor.left = props.borderColor ?? '#ffffffff';
+  }
+
+  if ('borderTopColor' in props) {
+    const borderColor = getBorderColor(internalProps);
+    borderColor.top = props.borderTopColor ?? '#ffffffff';
+  }
+
+  if ('borderRightColor' in props) {
+    const borderColor = getBorderColor(internalProps);
+    borderColor.right = props.borderRightColor ?? '#ffffffff';
+  }
+
+  if ('borderBottomColor' in props) {
+    const borderColor = getBorderColor(internalProps);
+    borderColor.bottom = props.borderBottomColor ?? '#ffffffff';
+  }
+
+  if ('borderLeftColor' in props) {
+    const borderColor = getBorderColor(internalProps);
+    borderColor.left = props.borderLeftColor ?? '#ffffffff';
+  }
+
+  if ('borderRadius' in props) {
+    const borderRadius = getBorderRadius(internalProps);
+    borderRadius.topLeft = props.borderRadius ?? 0;
+    borderRadius.topRight = props.borderRadius ?? 0;
+    borderRadius.bottomLeft = props.borderRadius ?? 0;
+    borderRadius.bottomRight = props.borderRadius ?? 0;
+  }
+
+  if ('borderTopLeftRadius' in props) {
+    const borderRadius = getBorderRadius(internalProps);
+    borderRadius.topLeft = props.borderTopLeftRadius ?? 0;
+  }
+
+  if ('borderTopRightRadius' in props) {
+    const borderRadius = getBorderRadius(internalProps);
+    borderRadius.topRight = props.borderTopRightRadius ?? 0;
+  }
+
+  if ('borderBottomLeftRadius' in props) {
+    const borderRadius = getBorderRadius(internalProps);
+    borderRadius.bottomLeft = props.borderBottomLeftRadius ?? 0;
+  }
+
+  if ('borderBottomRightRadius' in props) {
+    const borderRadius = getBorderRadius(internalProps);
+    borderRadius.bottomRight = props.borderBottomRightRadius ?? 0;
+  }
+
+  if ('borderStyle' in props) {
+    internalProps.borderStyle = props.borderStyle;
+  }
+
+  return internalProps;
+}
+
+function getBorderWidth(internalProps: CommonInternalProps) {
+  internalProps.borderWidth = internalProps.borderWidth ?? {
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+  };
+  return internalProps.borderWidth;
+}
+
+function getBorderColor(internalProps: CommonInternalProps) {
+  internalProps.borderColor = internalProps.borderColor ?? {
+    top: '#ffffffff',
+    right: '#ffffffff',
+    bottom: '#ffffffff',
+    left: '#ffffffff',
+  };
+  return internalProps.borderColor;
+}
+
+function getBorderRadius(internalProps: CommonInternalProps) {
+  internalProps.borderRadius = internalProps.borderRadius ?? {
+    topLeft: 0,
+    topRight: 0,
+    bottomLeft: 0,
+    bottomRight: 0,
+  };
+  return internalProps.borderRadius;
+}

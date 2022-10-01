@@ -39,6 +39,25 @@ export interface CommonInternalProps extends CommonCommonProps {
     right: number;
     bottom: number;
   };
+  borderWidth?: {
+    left: number;
+    top: number;
+    right: number;
+    bottom: number;
+  };
+  borderColor?: {
+    left: string;
+    top: string;
+    right: string;
+    bottom: string;
+  };
+  borderRadius?: {
+    topLeft: number;
+    topRight: number;
+    bottomLeft: number;
+    bottomRight: number;
+  };
+  borderStyle?: 'solid' | 'dotted' | 'dashed';
 }
 
 export interface CommonProps extends CommonCommonProps {
@@ -57,6 +76,26 @@ export interface CommonProps extends CommonCommonProps {
   paddingBottom?: number;
   paddingLeft?: number;
   paddingRight?: number;
+
+  borderWidth?: number;
+  borderTopWidth?: number;
+  borderBottomWidth?: number;
+  borderLeftWidth?: number;
+  borderRightWidth?: number;
+
+  borderColor?: string;
+  borderTopColor?: string;
+  borderBottomColor?: string;
+  borderLeftColor?: string;
+  borderRightColor?: string;
+
+  borderRadius?: number;
+  borderTopLeftRadius?: number;
+  borderTopRightRadius?: number;
+  borderBottomLeftRadius?: number;
+  borderBottomRightRadius?: number;
+
+  borderStyle?: 'solid' | 'dotted' | 'dashed';
 }
 
 export function convertCommonProps(props: CommonProps): CommonInternalProps {

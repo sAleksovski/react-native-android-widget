@@ -18,6 +18,28 @@ export interface PaddingStyleProps {
   paddingRight?: number;
 }
 
+export interface BorderStyleProps {
+  borderWidth?: number;
+  borderTopWidth?: number;
+  borderBottomWidth?: number;
+  borderLeftWidth?: number;
+  borderRightWidth?: number;
+
+  borderColor?: string;
+  borderTopColor?: string;
+  borderBottomColor?: string;
+  borderLeftColor?: string;
+  borderRightColor?: string;
+
+  borderRadius?: number;
+  borderTopLeftRadius?: number;
+  borderTopRightRadius?: number;
+  borderBottomLeftRadius?: number;
+  borderBottomRightRadius?: number;
+
+  borderStyle?: 'solid' | 'dotted' | 'dashed';
+}
+
 export interface SizeStyleProps {
   height?: 'wrap_content' | 'match_parent' | number;
   width?: 'wrap_content' | 'match_parent' | number;
@@ -59,4 +81,5 @@ export interface CommonStyleProps
     PaddingStyleProps,
     SizeStyleProps,
     BackgroundStyleProps,
+    BorderStyleProps,
     OtherStyleProps {}

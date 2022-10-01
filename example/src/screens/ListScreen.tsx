@@ -20,6 +20,7 @@ export type ExampleScreens = {
   RotatedWidgetPreviewScreen: undefined;
   StepsWidgetPreviewScreen: undefined;
   FlexScreen: undefined;
+  BorderScreen: undefined;
 };
 
 interface Item {
@@ -51,6 +52,10 @@ const items: Item[] = [
   {
     title: 'Flexbox Demo',
     screen: 'FlexScreen',
+  },
+  {
+    title: 'Border Demo',
+    screen: 'BorderScreen',
   },
 ];
 

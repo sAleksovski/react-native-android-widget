@@ -1,5 +1,5 @@
 import type { CommonInternalProps } from '../common.props';
-import { buildMargin, buildPadding } from '../utils';
+import { buildBorder, buildMargin, buildPadding } from '../utils';
 import type { CommonStyleProps } from './style.types';
 
 export function convertCommonStyle(
@@ -16,6 +16,7 @@ export function convertCommonStyle(
 
   buildMargin(style, internalProps);
   buildPadding(style, internalProps);
+  buildBorder(style, internalProps);
 
   return internalProps;
 }

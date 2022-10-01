@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
+import { BorderScreen } from './screens/BorderScreen';
 import { FlexScreen } from './screens/FlexScreen';
 import { ExampleScreens, ListScreen } from './screens/ListScreen';
 import { FitnessWidgetPreviewScreen } from './screens/widget-preview/FitnessWidgetPreviewScreen';
@@ -24,6 +25,11 @@ export default function App() {
           name="FlexScreen"
           component={FlexScreen}
           options={{ title: 'Flexbox Demo' }}
+        />
+        <Stack.Screen
+          name="BorderScreen"
+          component={BorderScreen}
+          options={{ title: 'Border Demo' }}
         />
         <Stack.Screen
           name="FitnessWidgetPreviewScreen"
