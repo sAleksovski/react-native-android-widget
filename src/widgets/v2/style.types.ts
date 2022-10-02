@@ -72,7 +72,6 @@ export interface BackgroundStyleProps {
 }
 
 export interface OtherStyleProps {
-  radius?: number;
   rotation?: number;
 }
 

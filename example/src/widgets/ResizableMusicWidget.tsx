@@ -2,9 +2,9 @@
 import React from 'react';
 import {
   FlexWidget,
-  FrameLayoutWidget,
   IconWidget,
   ImageWidget,
+  OverlapWidget,
   TextWidget,
 } from 'react-native-android-widget';
 
@@ -22,7 +22,7 @@ function AlbumArt({
   overlayGradientOrientation,
 }: AlbumArtProps) {
   return (
-    <FrameLayoutWidget height={height} width={width}>
+    <OverlapWidget style={{ height, width }}>
       <ImageWidget
         image={require('../../assets/tame-impala.jpeg')}
         imageWidth={width}
@@ -30,30 +30,31 @@ function AlbumArt({
       />
 
       {showGradientOverlay ? (
-        <FrameLayoutWidget
-          backgroundGradient={{
-            from: '#00B20A01',
-            to: '#ffB20A01',
-            orientation: overlayGradientOrientation,
+        <OverlapWidget
+          style={{
+            backgroundGradient: {
+              from: '#00B20A01',
+              to: '#ff0000ff', // to: '#ffB20A01',
+              orientation: overlayGradientOrientation,
+            },
+            borderTopRightRadius: 200,
+            height:
+              overlayGradientOrientation === 'LEFT_RIGHT'
+                ? height
+                : 1 + height / 2,
+            width:
+              overlayGradientOrientation === 'LEFT_RIGHT'
+                ? 1 + width / 2
+                : width,
+            marginLeft:
+              overlayGradientOrientation === 'LEFT_RIGHT' ? width / 2 : 0,
+            marginTop:
+              overlayGradientOrientation === 'LEFT_RIGHT' ? 0 : height / 2,
           }}
-          height={
-            overlayGradientOrientation === 'LEFT_RIGHT'
-              ? height
-              : 1 + height / 2
-          }
-          width={
-            overlayGradientOrientation === 'LEFT_RIGHT' ? 1 + width / 2 : width
-          }
           children={[]}
-          marginLeft={
-            overlayGradientOrientation === 'LEFT_RIGHT' ? width / 2 : 0
-          }
-          marginTop={
-            overlayGradientOrientation === 'LEFT_RIGHT' ? 0 : height / 2
-          }
         />
       ) : null}
-    </FrameLayoutWidget>
+    </OverlapWidget>
   );
 }
 
@@ -339,7 +340,7 @@ export function ResizableMusicWidget({
 
   const isSquare = aspectX === 1 && aspectY === 1;
   const isBigSquare = isSquare && height > 600 && width > 760;
-  const Wrapper = isSquare ? FrameLayoutWidget : FlexWidget;
+  const Wrapper = isSquare ? OverlapWidget : FlexWidget;
 
   const nowPlayingBackgroundColor = aspectX === 1 ? '#88A6181C' : '#B20A01';
 
@@ -389,9 +390,6 @@ export function ResizableMusicWidget({
         height: 'match_parent',
         width: 'match_parent',
       }}
-      backgroundColor="#B20A01"
-      height="match_parent"
-      width="match_parent"
     >
       <AlbumArt
         height={albumArtHeight}

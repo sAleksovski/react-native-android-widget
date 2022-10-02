@@ -1,14 +1,8 @@
-import type { FrameLayoutWidgetInternalProps } from './widgets/FrameLayoutWidget';
 import type { IconWidgetInternalProps } from './widgets/IconWidget';
 import type { ImageWidgetInternalProps } from './widgets/ImageWidget';
 import type { TextWidgetInternalProps } from './widgets/TextWidet';
 import type { FlexWidgetInternalProps } from './widgets/v2/FlexWidget';
-
-interface FrameLayoutNode {
-  type: 'FrameLayoutWidget';
-  props: FrameLayoutWidgetInternalProps;
-  children: WidgetTree[];
-}
+import type { OverlapWidgetInternalProps } from './widgets/v2/OverlapWidget';
 
 interface IconNode {
   type: 'IconWidget';
@@ -20,22 +14,28 @@ interface ImageNode {
   props: ImageWidgetInternalProps;
 }
 
+interface TextNode {
+  type: 'TextWidget';
+  props: TextWidgetInternalProps;
+}
+
 interface FlexNode {
   type: 'FlexWidget';
   props: FlexWidgetInternalProps;
   children: WidgetTree[];
 }
 
-interface TextNode {
-  type: 'TextWidget';
-  props: TextWidgetInternalProps;
+interface OverlapNode {
+  type: 'OverlapWidget';
+  props: OverlapWidgetInternalProps;
+  children: WidgetTree[];
 }
 
 export type WidgetTree =
-  | FrameLayoutNode
+  | FlexNode
+  | OverlapNode
   | IconNode
   | ImageNode
-  | FlexNode
   | TextNode;
 
 export function buildTree(jsxTree: JSX.Element): WidgetTree {

@@ -11,7 +11,6 @@ export function convertCommonStyle(
   copyProp(style, internalProps, 'width');
   copyProp(style, internalProps, 'backgroundColor');
   copyProp(style, internalProps, 'backgroundGradient');
-  copyProp(style, internalProps, 'radius');
   copyProp(style, internalProps, 'rotation');
 
   buildMargin(style, internalProps);

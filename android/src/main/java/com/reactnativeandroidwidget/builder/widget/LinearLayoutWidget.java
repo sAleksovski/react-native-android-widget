@@ -90,7 +90,7 @@ public class LinearLayoutWidget extends BaseLayoutWidget<LinearLayout> {
 
         view.setBackground(reactViewBackgroundDrawable);
 
-        // TODO - This will overwrite border
+        // This will overwrite border
         if (props.hasKey("backgroundGradient")) {
             ReadableMap backgroundGradient = props.getMap("backgroundGradient");
             GradientDrawable gradientDrawable = new GradientDrawable(
@@ -101,7 +101,22 @@ public class LinearLayoutWidget extends BaseLayoutWidget<LinearLayout> {
                 }
             );
 
-            gradientDrawable.setCornerRadius(0f);
+            if (props.hasKey("borderRadius")) {
+                ReadableMap borderRadius = props.getMap("borderRadius");
+
+                gradientDrawable.setCornerRadii(
+                    new float[]{
+                        (float) borderRadius.getDouble("topLeft"),
+                        (float) borderRadius.getDouble("topLeft"),
+                        (float) borderRadius.getDouble("topRight"),
+                        (float) borderRadius.getDouble("topRight"),
+                        (float) borderRadius.getDouble("bottomRight"),
+                        (float) borderRadius.getDouble("bottomRight"),
+                        (float) borderRadius.getDouble("bottomLeft"),
+                        (float) borderRadius.getDouble("bottomLeft"),
+                    }
+                );
+            }
             view.setBackground(gradientDrawable);
         }
 
