@@ -1,30 +1,27 @@
-import {
-  CommonInternalProps,
-  CommonProps,
-  convertCommonProps,
-} from './common.props';
+import type { CommonInternalProps } from './utils/common-internal.props';
+import type { CommonStyleProps } from './utils/style.props';
+import { convertCommonStyle } from './utils/style.utils';
 
 export interface IconWidgetInternalProps extends CommonInternalProps {
   icon: string;
   size: number;
   font: 'material' | 'material_outlined';
-  /**
-   * #RRGGBB or #AARRGGBB
-   * Default is #000
-   */
+
   color?: string;
 }
 
-interface IconWidgetProps extends CommonProps {
+interface IconWidgetStyle extends CommonStyleProps {
+  color?: string;
+}
+
+interface IconWidgetProps {
+  style?: IconWidgetStyle;
+  clickAction?: string;
+  children?: never;
+
   icon: string;
   size: number;
   font: 'material' | 'material_outlined';
-  /**
-   * #RRGGBB or #AARRGGBB
-   * Default is #000
-   */
-  color?: string;
-  children?: never;
 }
 
 export function IconWidget(_: IconWidgetProps) {
@@ -32,12 +29,12 @@ export function IconWidget(_: IconWidgetProps) {
 }
 IconWidget.__name__ = 'IconWidget';
 IconWidget.convertProps = (props: IconWidgetProps): IconWidgetInternalProps => {
-  const internalProps: CommonInternalProps = convertCommonProps(props);
   return {
-    ...internalProps,
+    ...convertCommonStyle(props.style ?? {}),
+    ...(props.clickAction ? { clickAction: props.clickAction } : {}),
     icon: props.icon,
     size: props.size,
     font: props.font,
-    ...(props.color ? { color: props.color } : {}),
+    ...(props?.style?.color ? { color: props?.style?.color } : {}),
   };
 };

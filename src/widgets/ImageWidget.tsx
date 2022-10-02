@@ -3,11 +3,9 @@ import {
   ImageRequireSource,
   ImageResolvedAssetSource,
 } from 'react-native';
-import {
-  CommonInternalProps,
-  CommonProps,
-  convertCommonProps,
-} from './common.props';
+import type { CommonInternalProps } from './utils/common-internal.props';
+import type { CommonStyleProps } from './utils/style.props';
+import { convertCommonStyle } from './utils/style.utils';
 
 export interface ImageWidgetInternalProps extends CommonInternalProps {
   imageWidth: number;
@@ -15,11 +13,17 @@ export interface ImageWidgetInternalProps extends CommonInternalProps {
   image: ImageResolvedAssetSource;
 }
 
-interface ImageWidgetProps extends CommonProps {
+type ImageWidgetStyle = CommonStyleProps;
+
+interface ImageWidgetProps {
+  style?: ImageWidgetStyle;
+  clickAction?: string;
+  children?: never;
+
   imageWidth: number;
   imageHeight: number;
   image: ImageRequireSource;
-  children?: never;
+  radius?: number;
 }
 
 export function ImageWidget(_: ImageWidgetProps) {
@@ -29,11 +33,12 @@ ImageWidget.__name__ = 'ImageWidget';
 ImageWidget.convertProps = (
   props: ImageWidgetProps
 ): ImageWidgetInternalProps => {
-  const internalProps: CommonInternalProps = convertCommonProps(props);
   return {
-    ...internalProps,
+    ...convertCommonStyle(props.style ?? {}),
+    ...(props.clickAction ? { clickAction: props.clickAction } : {}),
     imageHeight: props.imageHeight,
     imageWidth: props.imageWidth,
     image: Image.resolveAssetSource(props.image),
+    ...(props.radius ? { radius: props.radius } : {}),
   };
 };

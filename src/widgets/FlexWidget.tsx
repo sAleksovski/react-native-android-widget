@@ -1,6 +1,6 @@
-import type { CommonInternalProps } from '../common.props';
-import type { CommonStyleProps } from './style.types';
-import { convertCommonStyle } from './style.utils';
+import type { CommonInternalProps } from './utils/common-internal.props';
+import type { CommonStyleProps } from './utils/style.props';
+import { convertCommonStyle } from './utils/style.utils';
 
 const GRAVITY = {
   START: 8388611,

@@ -1,7 +1,37 @@
-import type { CommonInternalProps, CommonProps } from '../common.props';
+import type { CommonInternalProps } from './common-internal.props';
+import type { CommonStyleProps } from './style.props';
 
-export function buildMargin(
-  props: CommonProps,
+export function convertCommonStyle(
+  style: CommonStyleProps
+): CommonInternalProps {
+  const internalProps: CommonInternalProps = {};
+
+  copyProp(style, internalProps, 'height');
+  copyProp(style, internalProps, 'width');
+  copyProp(style, internalProps, 'backgroundColor');
+  copyProp(style, internalProps, 'backgroundGradient');
+  copyProp(style, internalProps, 'rotation');
+
+  buildMargin(style, internalProps);
+  buildPadding(style, internalProps);
+  buildBorder(style, internalProps);
+
+  return internalProps;
+}
+
+function copyProp(
+  style: CommonStyleProps,
+  internalProps: CommonInternalProps,
+  propName: keyof CommonStyleProps
+) {
+  if (propName in style) {
+    // @ts-ignore
+    internalProps[propName] = style[propName];
+  }
+}
+
+function buildMargin(
+  props: CommonStyleProps,
   internalProps: CommonInternalProps
 ): CommonInternalProps {
   if ('margin' in props) {
@@ -57,8 +87,8 @@ function getMargin(internalProps: CommonInternalProps) {
   return internalProps.margin;
 }
 
-export function buildPadding(
-  props: CommonProps,
+function buildPadding(
+  props: CommonStyleProps,
   internalProps: CommonInternalProps
 ): CommonInternalProps {
   if ('padding' in props) {
@@ -114,8 +144,8 @@ function getPadding(internalProps: CommonInternalProps) {
   return internalProps.padding;
 }
 
-export function buildBorder(
-  props: CommonProps,
+function buildBorder(
+  props: CommonStyleProps,
   internalProps: CommonInternalProps
 ): CommonInternalProps {
   if ('borderWidth' in props) {

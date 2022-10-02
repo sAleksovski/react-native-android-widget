@@ -37,16 +37,12 @@ export function MusicWidget() {
       </FlexWidget>
 
       <TextWidget
-        fontSize={64}
+        style={{ fontSize: 64, color: '#000000', marginBottom: 16 }}
         text="Infinity"
-        color="#000000"
-        marginBottom={16}
       />
       <TextWidget
-        fontSize={40}
+        style={{ fontSize: 40, color: '#857674', marginBottom: 128 }}
         text="Jaymes Young"
-        color="#857674"
-        marginBottom={128}
       />
 
       <FlexWidget

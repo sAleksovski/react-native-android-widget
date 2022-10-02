@@ -24,8 +24,8 @@ export function createPreview(
 
 export * from './build-tree';
 export * from './WidgetPreview';
-export * from './widgets/v2/FlexWidget';
-export * from './widgets/v2/OverlapWidget';
+export * from './widgets/FlexWidget';
+export * from './widgets/OverlapWidget';
 export * from './widgets/IconWidget';
 export * from './widgets/ImageWidget';
 export * from './widgets/TextWidet';

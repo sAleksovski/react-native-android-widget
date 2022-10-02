@@ -1,8 +1,8 @@
 import type { IconWidgetInternalProps } from './widgets/IconWidget';
 import type { ImageWidgetInternalProps } from './widgets/ImageWidget';
 import type { TextWidgetInternalProps } from './widgets/TextWidet';
-import type { FlexWidgetInternalProps } from './widgets/v2/FlexWidget';
-import type { OverlapWidgetInternalProps } from './widgets/v2/OverlapWidget';
+import type { FlexWidgetInternalProps } from './widgets/FlexWidget';
+import type { OverlapWidgetInternalProps } from './widgets/OverlapWidget';
 
 interface IconNode {
   type: 'IconWidget';

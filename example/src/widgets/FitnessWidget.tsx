@@ -32,7 +32,7 @@ function ActionSelector({ isActive, iconName }: ActionSelectorProps) {
         }}
       >
         <IconWidget
-          color={isActive ? '#5CC6E2' : '#254B58'}
+          style={{ color: isActive ? '#5CC6E2' : '#254B58' }}
           font="material"
           size={96}
           icon={iconName}
@@ -52,8 +52,11 @@ function StepsWalked() {
         padding: 32,
       }}
     >
-      <TextWidget fontSize={48} color="#277E99" text="Steps Walked Today" />
-      <TextWidget fontSize={192} color="#2C6475" text="428" />
+      <TextWidget
+        style={{ fontSize: 48, color: '#277E99' }}
+        text="Steps Walked Today"
+      />
+      <TextWidget style={{ fontSize: 192, color: '#2C6475' }} text="428" />
 
       <FlexWidget
         style={{
@@ -72,19 +75,31 @@ function StepsWalked() {
             borderRadius: 16,
           }}
         >
-          <TextWidget fontSize={0} text="0" />
+          <TextWidget style={{ fontSize: 0 }} text="0" />
         </FlexWidget>
       </FlexWidget>
 
       <FlexWidget style={{ width: 'match_parent', flexDirection: 'row' }}>
         <FlexWidget style={{ flex: 1 }}>
-          <TextWidget fontSize={40} color="#277E99" text="Week Avg" />
-          <TextWidget fontSize={48} color="#2C6475" text="2769.25" />
+          <TextWidget
+            style={{ fontSize: 40, color: '#277E99' }}
+            text="Week Avg"
+          />
+          <TextWidget
+            style={{ fontSize: 48, color: '#2C6475' }}
+            text="2769.25"
+          />
         </FlexWidget>
 
         <FlexWidget style={{ flex: 1 }}>
-          <TextWidget fontSize={40} color="#277E99" text="Distance" />
-          <TextWidget fontSize={48} color="#2C6475" text="0.14mi" />
+          <TextWidget
+            style={{ fontSize: 40, color: '#277E99' }}
+            text="Distance"
+          />
+          <TextWidget
+            style={{ fontSize: 48, color: '#2C6475' }}
+            text="0.14mi"
+          />
         </FlexWidget>
       </FlexWidget>
     </FlexWidget>
@@ -101,8 +116,14 @@ function Activity() {
         padding: 32,
       }}
     >
-      <TextWidget fontSize={48} color="#277E99" text="Last Activity" />
-      <TextWidget fontSize={96} color="#2C6475" text="13 Hours Ago" />
+      <TextWidget
+        style={{ fontSize: 48, color: '#277E99' }}
+        text="Last Activity"
+      />
+      <TextWidget
+        style={{ fontSize: 96, color: '#2C6475' }}
+        text="13 Hours Ago"
+      />
 
       <FlexWidget
         style={{
@@ -112,13 +133,22 @@ function Activity() {
         }}
       >
         <FlexWidget style={{ flex: 1 }}>
-          <TextWidget fontSize={40} color="#277E99" text="Segments" />
-          <TextWidget fontSize={48} color="#2C6475" text="21" />
+          <TextWidget
+            style={{ fontSize: 40, color: '#277E99' }}
+            text="Segments"
+          />
+          <TextWidget style={{ fontSize: 48, color: '#2C6475' }} text="21" />
         </FlexWidget>
 
         <FlexWidget style={{ flex: 1 }}>
-          <TextWidget fontSize={40} color="#277E99" text="Lasted For" />
-          <TextWidget fontSize={48} color="#2C6475" text="1 Hour" />
+          <TextWidget
+            style={{ fontSize: 40, color: '#277E99' }}
+            text="Lasted For"
+          />
+          <TextWidget
+            style={{ fontSize: 48, color: '#2C6475' }}
+            text="1 Hour"
+          />
         </FlexWidget>
       </FlexWidget>
     </FlexWidget>
@@ -148,8 +178,14 @@ function StepsHistory() {
             flex: 1,
           }}
         >
-          <TextWidget fontSize={48} color="#2C6475" text="3155 Steps" />
-          <TextWidget fontSize={40} color="#277E99" text=" ● 21 Jul ● Thu" />
+          <TextWidget
+            style={{ fontSize: 48, color: '#2C6475' }}
+            text="3155 Steps"
+          />
+          <TextWidget
+            style={{ fontSize: 40, color: '#277E99' }}
+            text=" ● 21 Jul ● Thu"
+          />
         </FlexWidget>
         <FlexWidget
           style={{
@@ -172,7 +208,7 @@ function StepsHistory() {
               width: 256,
             }}
           >
-            <TextWidget fontSize={0} text="0" />
+            <TextWidget style={{ fontSize: 0 }} text="0" />
           </FlexWidget>
         </FlexWidget>
       </FlexWidget>
@@ -191,8 +227,14 @@ function StepsHistory() {
             flex: 1,
           }}
         >
-          <TextWidget fontSize={48} color="#2C6475" text="3655 Steps" />
-          <TextWidget fontSize={40} color="#277E99" text=" ● 22 Jul ● Thu" />
+          <TextWidget
+            style={{ fontSize: 48, color: '#2C6475' }}
+            text="3655 Steps"
+          />
+          <TextWidget
+            style={{ fontSize: 40, color: '#277E99' }}
+            text=" ● 22 Jul ● Thu"
+          />
         </FlexWidget>
         <FlexWidget
           style={{
@@ -214,7 +256,7 @@ function StepsHistory() {
               width: 300,
             }}
           >
-            <TextWidget fontSize={0} text="0" />
+            <TextWidget style={{ fontSize: 0 }} text="0" />
           </FlexWidget>
         </FlexWidget>
       </FlexWidget>
@@ -233,8 +275,14 @@ function StepsHistory() {
             flex: 1,
           }}
         >
-          <TextWidget fontSize={48} color="#2C6475" text="428 Steps" />
-          <TextWidget fontSize={40} color="#277E99" text=" ● 23 Jul ● Thu" />
+          <TextWidget
+            style={{ fontSize: 48, color: '#2C6475' }}
+            text="428 Steps"
+          />
+          <TextWidget
+            style={{ fontSize: 40, color: '#277E99' }}
+            text=" ● 23 Jul ● Thu"
+          />
         </FlexWidget>
         <FlexWidget
           style={{
@@ -256,7 +304,7 @@ function StepsHistory() {
               width: 64,
             }}
           >
-            <TextWidget fontSize={0} text="0" />
+            <TextWidget style={{ fontSize: 0 }} text="0" />
           </FlexWidget>
         </FlexWidget>
       </FlexWidget>

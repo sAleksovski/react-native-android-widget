@@ -81,16 +81,12 @@ function NowPlayingInfo({ backgroundColor }: NowPlayingInfoProps) {
         }}
       >
         <TextWidget
-          fontSize={64}
+          style={{ fontSize: 64, color: '#ffffff', marginBottom: 16 }}
           text="Borderline"
-          color="#ffffff"
-          marginBottom={16}
         />
         <TextWidget
-          fontSize={40}
+          style={{ fontSize: 40, color: '#DFA9A6', marginBottom: 48 }}
           text="Tame Impala"
-          color="#DFA9A6"
-          marginBottom={48}
         />
 
         <FlexWidget
@@ -108,7 +104,7 @@ function NowPlayingInfo({ backgroundColor }: NowPlayingInfoProps) {
             <IconWidget
               font="material"
               size={96}
-              color="#ffffff"
+              style={{ color: '#ffffff' }}
               icon="skip_previous"
             />
           </FlexWidget>
@@ -129,7 +125,7 @@ function NowPlayingInfo({ backgroundColor }: NowPlayingInfoProps) {
               <IconWidget
                 font="material"
                 size={96}
-                color="#ffffff"
+                style={{ color: '#ffffff' }}
                 icon="play_arrow"
               />
             </FlexWidget>
@@ -140,7 +136,7 @@ function NowPlayingInfo({ backgroundColor }: NowPlayingInfoProps) {
             <IconWidget
               font="material"
               size={96}
-              color="#ffffff"
+              style={{ color: '#ffffff' }}
               icon="skip_next"
             />
           </FlexWidget>
@@ -187,9 +183,11 @@ function NextTracks({ height }: NextTracksProps) {
     >
       <TextWidget
         text="Next tracks"
-        color="#ffffff"
-        fontSize={48}
-        marginBottom={32}
+        style={{
+          color: '#ffffff',
+          fontSize: 48,
+          marginBottom: 32,
+        }}
       />
 
       <FlexWidget style={{ flexDirection: 'row', marginBottom: 16 }}>
@@ -211,16 +209,20 @@ function NextTracks({ height }: NextTracksProps) {
               truncate="END"
               maxLines={1}
               text="Lost in Yesterday"
-              color="#ffffff"
-              fontSize={imageSize / 3}
+              style={{
+                color: '#ffffff',
+                fontSize: imageSize / 3,
+              }}
             />
 
             <TextWidget
               truncate="END"
               maxLines={1}
               text="Tame Impala"
-              color="#DFA9A6"
-              fontSize={imageSize / 3}
+              style={{
+                color: '#DFA9A6',
+                fontSize: imageSize / 3,
+              }}
             />
           </FlexWidget>
         </FlexWidget>
@@ -243,16 +245,20 @@ function NextTracks({ height }: NextTracksProps) {
               truncate="END"
               maxLines={1}
               text="Infinity"
-              color="#ffffff"
-              fontSize={imageSize / 3}
+              style={{
+                color: '#ffffff',
+                fontSize: imageSize / 3,
+              }}
             />
 
             <TextWidget
               truncate="END"
               maxLines={1}
               text="Jaymes Young"
-              color="#DFA9A6"
-              fontSize={imageSize / 3}
+              style={{
+                color: '#DFA9A6',
+                fontSize: imageSize / 3,
+              }}
             />
           </FlexWidget>
         </FlexWidget>
@@ -277,16 +283,20 @@ function NextTracks({ height }: NextTracksProps) {
               truncate="END"
               maxLines={1}
               text="Lost in Yesterday"
-              color="#ffffff"
-              fontSize={imageSize / 3}
+              style={{
+                color: '#ffffff',
+                fontSize: imageSize / 3,
+              }}
             />
 
             <TextWidget
               truncate="END"
               maxLines={1}
               text="Tame Impala"
-              color="#DFA9A6"
-              fontSize={imageSize / 3}
+              style={{
+                color: '#DFA9A6',
+                fontSize: imageSize / 3,
+              }}
             />
           </FlexWidget>
         </FlexWidget>
@@ -309,16 +319,20 @@ function NextTracks({ height }: NextTracksProps) {
               truncate="END"
               maxLines={1}
               text="One More Year"
-              color="#ffffff"
-              fontSize={imageSize / 3}
+              style={{
+                color: '#ffffff',
+                fontSize: imageSize / 3,
+              }}
             />
 
             <TextWidget
               truncate="END"
               maxLines={1}
               text="Tame Impala"
-              color="#DFA9A6"
-              fontSize={imageSize / 3}
+              style={{
+                color: '#DFA9A6',
+                fontSize: imageSize / 3,
+              }}
             />
           </FlexWidget>
         </FlexWidget>

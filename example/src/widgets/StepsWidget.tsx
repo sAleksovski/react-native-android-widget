@@ -34,19 +34,20 @@ export function StepsWidget() {
         <IconWidget
           size={72}
           icon="directions_walk"
-          color="#4F3A53"
+          style={{ color: '#4F3A53' }}
           font="material_outlined"
         />
       </FlexWidget>
 
       <TextWidget
-        fontSize={48}
+        style={{ fontSize: 48, color: '#908E8D', marginBottom: 8 }}
         text="Steps Today"
-        color="#907E8D"
-        marginBottom={8}
       />
 
-      <TextWidget fontSize={64} text="265" color="#1A161C" marginBottom={48} />
+      <TextWidget
+        style={{ fontSize: 64, color: '#1A161C', marginBottom: 48 }}
+        text="265"
+      />
 
       <FlexWidget
         style={{
@@ -83,7 +84,7 @@ export function StepsWidget() {
             <IconWidget
               size={72}
               icon="local_fire_department"
-              color="#4F3A53"
+              style={{ color: '#4F3A53' }}
               font="material_outlined"
             />
           </FlexWidget>
@@ -92,8 +93,11 @@ export function StepsWidget() {
               flex: 1,
             }}
           >
-            <TextWidget fontSize={40} text="Calories" color="#705B72" />
-            <TextWidget fontSize={48} text="33" color="#1A161C" />
+            <TextWidget
+              style={{ fontSize: 40, color: '#705B72' }}
+              text="Calories"
+            />
+            <TextWidget style={{ fontSize: 48, color: '#1A161C' }} text="33" />
           </FlexWidget>
         </FlexWidget>
 
@@ -119,7 +123,7 @@ export function StepsWidget() {
             <IconWidget
               size={72}
               icon="map"
-              color="#4F3A53"
+              style={{ color: '#4F3A53' }}
               font="material_outlined"
             />
           </FlexWidget>
@@ -128,8 +132,14 @@ export function StepsWidget() {
               flex: 1,
             }}
           >
-            <TextWidget fontSize={40} text="Distance" color="#705B72" />
-            <TextWidget fontSize={48} text="0.07km" color="#1A161C" />
+            <TextWidget
+              style={{ fontSize: 40, color: '#705B72' }}
+              text="Distance"
+            />
+            <TextWidget
+              style={{ fontSize: 48, color: '#1A161C' }}
+              text="0.07km"
+            />
           </FlexWidget>
         </FlexWidget>
       </FlexWidget>

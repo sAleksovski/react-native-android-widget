@@ -17,11 +17,13 @@ export function RotatedWidget() {
       }}
     >
       <TextWidget
-        weight={1}
-        rotation={-90}
-        fontSize={96}
+        style={{
+          // flex: 1,
+          fontSize: 96,
+          color: '#908E8D',
+          rotation: -90,
+        }}
         text="Wednesday"
-        color="#907E8D"
       />
     </FlexWidget>
   );
