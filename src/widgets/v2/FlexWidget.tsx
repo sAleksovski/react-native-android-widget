@@ -51,7 +51,8 @@ FlexWidget.__name__ = 'LinearLayoutWidget';
 FlexWidget.convertProps = (props: FlexWidgetProps): FlexWidgetInternalProps => {
   return {
     ...convertCommonStyle(props.style ?? {}),
-    ...convertFlexStyles(props.style ?? {}),
+    ...convertFlexStyle(props.style ?? {}),
+    ...(props.clickAction ? { clickAction: props.clickAction } : {}),
   };
 };
 FlexWidget.processChildren = (
@@ -95,7 +96,7 @@ function createSeparator(betweenFlex: number): any {
   };
 }
 
-function convertFlexStyles(style: FlexStyleProps): FlexWidgetInternalProps {
+function convertFlexStyle(style: FlexStyleProps): FlexWidgetInternalProps {
   return {
     orientation: style.flexDirection === 'row' ? 'HORIZONTAL' : 'VERTICAL',
     ...(style.flex ? { weight: style.flex } : {}),

@@ -19,5 +19,8 @@ OverlapWidget.__name__ = 'FrameLayoutWidget';
 OverlapWidget.convertProps = (
   props: OverlapWidgetProps
 ): OverlapWidgetInternalProps => {
-  return convertCommonStyle(props.style ?? {});
+  return {
+    ...convertCommonStyle(props.style ?? {}),
+    ...(props.clickAction ? { clickAction: props.clickAction } : {}),
+  };
 };

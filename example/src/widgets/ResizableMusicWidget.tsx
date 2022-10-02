@@ -34,10 +34,9 @@ function AlbumArt({
           style={{
             backgroundGradient: {
               from: '#00B20A01',
-              to: '#ff0000ff', // to: '#ffB20A01',
+              to: '#ffB20A01',
               orientation: overlayGradientOrientation,
             },
-            borderTopRightRadius: 200,
             height:
               overlayGradientOrientation === 'LEFT_RIGHT'
                 ? height

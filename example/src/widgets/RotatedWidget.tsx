@@ -13,6 +13,7 @@ export function RotatedWidget() {
         width: 'match_parent',
         borderRadius: 80,
         flex: 1,
+        flexDirection: 'row',
       }}
     >
       <TextWidget
