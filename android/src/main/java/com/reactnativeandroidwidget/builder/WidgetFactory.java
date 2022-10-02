@@ -16,6 +16,7 @@ import com.reactnativeandroidwidget.builder.widget.IconWidget;
 import com.reactnativeandroidwidget.builder.widget.ImageWidget;
 import com.reactnativeandroidwidget.builder.widget.LinearLayoutWidget;
 import com.reactnativeandroidwidget.builder.widget.RootWidget;
+import com.reactnativeandroidwidget.builder.widget.SvgWidget;
 import com.reactnativeandroidwidget.builder.widget.TextWidget;
 
 import java.util.ArrayList;
@@ -74,6 +75,8 @@ public class WidgetFactory {
                 return new IconWidget(context, config.getMap("props"));
             case "ImageWidget":
                 return new ImageWidget(context, config.getMap("props"));
+            case "SvgWidget":
+                return new SvgWidget(context, config.getMap("props"));
             case "LinearLayoutWidget":
                 return new LinearLayoutWidget(context, config.getMap("props"), buildChildren(context, config.getArray("children")));
             case "FrameLayoutWidget":

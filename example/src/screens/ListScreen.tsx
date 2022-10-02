@@ -21,6 +21,7 @@ export type ExampleScreens = {
   StepsWidgetPreviewScreen: undefined;
   FlexScreen: undefined;
   BorderScreen: undefined;
+  SvgScreen: undefined;
 };
 
 interface Item {
@@ -56,6 +57,10 @@ const items: Item[] = [
   {
     title: 'Border Demo',
     screen: 'BorderScreen',
+  },
+  {
+    title: 'Svg Demo',
+    screen: 'SvgScreen',
   },
 ];
 

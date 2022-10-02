@@ -25,7 +25,8 @@ export function createPreview(
 export * from './build-tree';
 export * from './WidgetPreview';
 export * from './widgets/FlexWidget';
-export * from './widgets/OverlapWidget';
 export * from './widgets/IconWidget';
 export * from './widgets/ImageWidget';
+export * from './widgets/OverlapWidget';
+export * from './widgets/SvgWidget';
 export * from './widgets/TextWidet';

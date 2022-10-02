@@ -4,6 +4,7 @@ import * as React from 'react';
 import { BorderScreen } from './screens/BorderScreen';
 import { FlexScreen } from './screens/FlexScreen';
 import { ExampleScreens, ListScreen } from './screens/ListScreen';
+import { SvgScreen } from './screens/SvgScreen';
 import { FitnessWidgetPreviewScreen } from './screens/widget-preview/FitnessWidgetPreviewScreen';
 import { MusicWidgetPreviewScreen } from './screens/widget-preview/MusicWidgetPreviewScreen';
 import { ResizableMusicWidgetPreviewScreen } from './screens/widget-preview/ResizableMusicWidgetPreviewScreen';
@@ -30,6 +31,11 @@ export default function App() {
           name="BorderScreen"
           component={BorderScreen}
           options={{ title: 'Border Demo' }}
+        />
+        <Stack.Screen
+          name="SvgScreen"
+          component={SvgScreen}
+          options={{ title: 'Svg Demo' }}
         />
         <Stack.Screen
           name="FitnessWidgetPreviewScreen"
