@@ -1,5 +1,4 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/lib/com.reactnativeandroidwidget"
     android:id="@+id/clickable_wrapper"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -7,5 +6,8 @@
     <FrameLayout
         android:id="@+id/clickable"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true" />
 </FrameLayout>
