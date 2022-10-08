@@ -9,6 +9,7 @@ import { FitnessWidgetPreviewScreen } from './screens/widget-preview/FitnessWidg
 import { MusicWidgetPreviewScreen } from './screens/widget-preview/MusicWidgetPreviewScreen';
 import { ResizableMusicWidgetPreviewScreen } from './screens/widget-preview/ResizableMusicWidgetPreviewScreen';
 import { RotatedWidgetPreviewScreen } from './screens/widget-preview/RotatedWidgetPreviewScreen';
+import { ShopifyWidgetPreviewScreen } from './screens/widget-preview/ShopifyWidgetPreviewScreen';
 import { StepsWidgetPreviewScreen } from './screens/widget-preview/StepsWidgetPreviewScreen';
 
 const Stack = createNativeStackNavigator<ExampleScreens>();
@@ -61,6 +62,11 @@ export default function App() {
           name="StepsWidgetPreviewScreen"
           component={StepsWidgetPreviewScreen}
           options={{ title: 'Steps Widget Preview' }}
+        />
+        <Stack.Screen
+          name="ShopifyWidgetPreviewScreen"
+          component={ShopifyWidgetPreviewScreen}
+          options={{ title: 'Shopify Widget Preview' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

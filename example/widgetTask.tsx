@@ -4,6 +4,7 @@ import { FitnessWidget } from './src/widgets/FitnessWidget';
 import { MusicWidget } from './src/widgets/MusicWidget';
 import { ResizableMusicWidget } from './src/widgets/ResizableMusicWidget';
 import { RotatedWidget } from './src/widgets/RotatedWidget';
+import { ShopifyWidget } from './src/widgets/ShopifyWidget';
 import { StepsWidget } from './src/widgets/StepsWidget';
 
 const nameToWidget = {
@@ -12,6 +13,7 @@ const nameToWidget = {
   Resizable: ResizableMusicWidget,
   Rotated: RotatedWidget,
   Steps: StepsWidget,
+  Shopify: ShopifyWidget,
 };
 
 type TaskInfo = {
