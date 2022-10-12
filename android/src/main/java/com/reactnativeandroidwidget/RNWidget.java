@@ -1,4 +1,4 @@
-package com.reactnativeandroidwidget.demo;
+package com.reactnativeandroidwidget;
 
 import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
 
@@ -18,7 +18,6 @@ import android.widget.RemoteViews;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReadableMap;
-import com.reactnativeandroidwidget.R;
 import com.reactnativeandroidwidget.builder.ClickableView;
 import com.reactnativeandroidwidget.builder.WidgetFactory;
 import com.reactnativeandroidwidget.builder.WidgetWithViews;
@@ -26,12 +25,12 @@ import com.reactnativeandroidwidget.builder.WidgetWithViews;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 
-public class BitmapDemo {
+public class RNWidget {
     private final ReactApplicationContext appContext;
     private final ReadableMap config;
     private final String widgetName;
 
-    public BitmapDemo(ReactApplicationContext context, ReadableMap config, String widgetName) {
+    public RNWidget(ReactApplicationContext context, ReadableMap config, String widgetName) {
         this.appContext = context;
         this.config = config;
         this.widgetName = widgetName;

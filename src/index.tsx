@@ -30,3 +30,5 @@ export * from './widgets/ImageWidget';
 export * from './widgets/OverlapWidget';
 export * from './widgets/SvgWidget';
 export * from './widgets/TextWidet';
+
+export const HEADLESS_TASK_KEY = 'RNWidgetBackgroundTaskService';

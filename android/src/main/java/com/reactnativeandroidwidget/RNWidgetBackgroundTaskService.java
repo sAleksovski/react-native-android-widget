@@ -15,7 +15,7 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.jstasks.HeadlessJsTaskConfig;
 
-public class BackgroundTask extends HeadlessJsTaskService {
+public class RNWidgetBackgroundTaskService extends HeadlessJsTaskService {
 
     @Override
     protected HeadlessJsTaskConfig getTaskConfig(Intent intent) {
@@ -34,7 +34,7 @@ public class BackgroundTask extends HeadlessJsTaskService {
         }
 
         return new HeadlessJsTaskConfig(
-            "WidgetTask",
+            "RNWidgetBackgroundTaskService",
             data,
             5000,
             true

@@ -1,6 +1,6 @@
 package com.example.reactnativeandroidwidget.widget;
 
-import com.reactnativeandroidwidget.WidgetProvider;
+import com.reactnativeandroidwidget.RNWidgetProvider;
 
-public class Fitness extends WidgetProvider {
+public class Fitness extends RNWidgetProvider {
 }

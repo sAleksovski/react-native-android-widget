@@ -26,9 +26,9 @@
         </activity>
 
         <service
-            android:name="com.reactnativeandroidwidget.BackgroundTask"
+            android:name="com.reactnativeandroidwidget.RNWidgetBackgroundTaskService"
             android:enabled="true"
-            android:label="BackgroundAdd" />
+            android:label="RNWidgetBackgroundTaskService" />
 
         <receiver
             android:name=".widget.Fitness"

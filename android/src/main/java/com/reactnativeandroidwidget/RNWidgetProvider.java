@@ -13,7 +13,7 @@ import android.widget.RemoteViews;
 
 import com.facebook.react.HeadlessJsTaskService;
 
-public class WidgetProvider extends AppWidgetProvider {
+public class RNWidgetProvider extends AppWidgetProvider {
     @Override
     public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
         super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
@@ -68,7 +68,7 @@ public class WidgetProvider extends AppWidgetProvider {
     }
 
     private Intent buildIntent(Context context, int widgetId, String action) {
-        Intent backgroundTaskIntent = new Intent(context, BackgroundTask.class);
+        Intent backgroundTaskIntent = new Intent(context, RNWidgetBackgroundTaskService.class);
         backgroundTaskIntent.putExtra("widgetAction", action);
         backgroundTaskIntent.putExtra("widgetId", widgetId);
         backgroundTaskIntent.putExtra("widgetName", getClass().getSimpleName());

@@ -48,14 +48,15 @@ function withBackgroundTaskService(
   const alreadyAdded = mainApplication.service.some(
     (service) =>
       service.$['android:name'] ===
-      'com.reactnativeandroidwidget.BackgroundTask'
+      'com.reactnativeandroidwidget.RNWidgetBackgroundTaskService'
   );
 
   if (alreadyAdded) return;
 
   mainApplication.service?.push({
     $: {
-      'android:name': 'com.reactnativeandroidwidget.BackgroundTask',
+      'android:name':
+        'com.reactnativeandroidwidget.RNWidgetBackgroundTaskService',
       'android:enabled': 'true',
     },
   });
@@ -77,9 +78,9 @@ function withWidgetProviderClass(
 
   const data = `package ${config.android?.package}.widget;
 
-import com.reactnativeandroidwidget.WidgetProvider;
+import com.reactnativeandroidwidget.RNWidgetProvider;
 
-public class ${widget.name} extends WidgetProvider {
+public class ${widget.name} extends RNWidgetProvider {
 }
 `;
 

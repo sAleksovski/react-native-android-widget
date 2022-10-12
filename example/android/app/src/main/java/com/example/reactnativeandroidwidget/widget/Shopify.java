@@ -1,6 +1,6 @@
 package com.example.reactnativeandroidwidget.widget;
 
-import com.reactnativeandroidwidget.WidgetProvider;
+import com.reactnativeandroidwidget.RNWidgetProvider;
 
-public class Shopify extends WidgetProvider {
+public class Shopify extends RNWidgetProvider {
 }
