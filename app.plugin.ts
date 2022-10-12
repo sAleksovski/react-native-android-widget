@@ -107,7 +107,7 @@ function withWidgetProviderXml(
     android:minWidth="300dp"
     android:minHeight="120dp"
 
-    android:updatePeriodMillis="90000000"
+    android:updatePeriodMillis="0"
 
     android:initialLayout="@layout/bitmap_demo"
 
