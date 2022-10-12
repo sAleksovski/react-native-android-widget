@@ -47,7 +47,7 @@ public class BitmapDemo {
 
     public void drawWidget(int widgetId) throws Exception {
         ReadableMap configClone = Arguments.makeNativeMap(config.toHashMap());
-        RemoteViews remoteWidgetView = new RemoteViews(appContext.getPackageName(), R.layout.bitmap_demo);
+        RemoteViews remoteWidgetView = new RemoteViews(appContext.getPackageName(), R.layout.rn_widget);
 
         int widgetWidth = getWidgetWidth(widgetId);
         int widgetHeight = getWidgetHeight(widgetId);
@@ -63,9 +63,9 @@ public class BitmapDemo {
         Canvas bitmapHolder = new Canvas(bitmap);
         rootView.draw(bitmapHolder);
 
-        remoteWidgetView.setImageViewBitmap(R.id.bitmap_demo_image, bitmap);
+        remoteWidgetView.setImageViewBitmap(R.id.rn_widget_image, bitmap);
 
-        remoteWidgetView.removeAllViews(R.id.clickable_container);
+        remoteWidgetView.removeAllViews(R.id.rn_widget_clickable_container);
         List<ClickableView> clickableViews = widgetWithViews.getClickableViews();
         for (int i = 0; i < clickableViews.size(); i++) {
             ClickableView clickableView = clickableViews.get(i);
@@ -127,13 +127,13 @@ public class BitmapDemo {
         Rect offsetViewBounds = new Rect();
         clickableWidget.getDrawingRect(offsetViewBounds);
         rootWidget.offsetDescendantRectToMyCoords(clickableWidget, offsetViewBounds);
-        RemoteViews clickableRemoteView = new RemoteViews(appContext.getPackageName(), R.layout.bitmap_demo_clickable);
+        RemoteViews clickableRemoteView = new RemoteViews(appContext.getPackageName(), R.layout.rn_widget_clickable);
 
-        clickableRemoteView.setViewPadding(R.id.clickable_wrapper, offsetViewBounds.left, offsetViewBounds.top, getWidgetWidth(widgetId) - offsetViewBounds.right, getWidgetHeight(widgetId) - offsetViewBounds.bottom);
+        clickableRemoteView.setViewPadding(R.id.rn_widget_clickable_positioner, offsetViewBounds.left, offsetViewBounds.top, getWidgetWidth(widgetId) - offsetViewBounds.right, getWidgetHeight(widgetId) - offsetViewBounds.bottom);
 
-        registerClickTask(widgetId, clickableView.getClickAction(), clickableRemoteView, R.id.clickable);
+        registerClickTask(widgetId, clickableView.getClickAction(), clickableRemoteView, R.id.rn_widget_clickable_area);
 
-        widgetView.addView(R.id.clickable_container, clickableRemoteView);
+        widgetView.addView(R.id.rn_widget_clickable_container, clickableRemoteView);
     }
 
     private void registerClickTask(int id, String clickAction, RemoteViews widgetView, Integer button) {

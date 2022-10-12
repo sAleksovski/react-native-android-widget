@@ -4,14 +4,14 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/bitmap_demo_image"
+        android:id="@+id/rn_widget_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
         android:scaleType="fitStart" />
 
     <FrameLayout
-        android:id="@+id/clickable_container"
+        android:id="@+id/rn_widget_clickable_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </FrameLayout>

@@ -87,8 +87,8 @@ public class WidgetProvider extends AppWidgetProvider {
     }
 
     private void addClickToUpdateOverlay(Context context, Intent backgroundTaskIntent, int widgetId) {
-        RemoteViews remoteWidgetView = new RemoteViews(context.getPackageName(), R.layout.bitmap_demo);
-        RemoteViews clickableView = new RemoteViews(context.getPackageName(), R.layout.bitmap_demo_click_to_update);
+        RemoteViews remoteWidgetView = new RemoteViews(context.getPackageName(), R.layout.rn_widget);
+        RemoteViews clickableView = new RemoteViews(context.getPackageName(), R.layout.rn_widget_placeholder);
 
         Intent intent = new Intent("com.reactnativeandroidwidget.WIDGET_CLICK");
         intent.setClass(context, getClass());
@@ -102,10 +102,10 @@ public class WidgetProvider extends AppWidgetProvider {
             PendingIntent.FLAG_CANCEL_CURRENT
                 | PendingIntent.FLAG_MUTABLE
         );
-        clickableView.setOnClickPendingIntent(R.id.click_to_update, pendingIntent);
+        clickableView.setOnClickPendingIntent(R.id.rn_widget_placeholder_click_to_update, pendingIntent);
 
-        remoteWidgetView.removeAllViews(R.id.clickable_container);
-        remoteWidgetView.addView(R.id.clickable_container, clickableView);
+        remoteWidgetView.removeAllViews(R.id.rn_widget_clickable_container);
+        remoteWidgetView.addView(R.id.rn_widget_clickable_container, clickableView);
 
         AppWidgetManager.getInstance(context)
             .updateAppWidget(widgetId, remoteWidgetView);

@@ -109,7 +109,7 @@ function withWidgetProviderXml(
 
     android:updatePeriodMillis="0"
 
-    android:initialLayout="@layout/bitmap_demo"
+    android:initialLayout="@layout/rn_widget"
 
     android:resizeMode="none"
 
