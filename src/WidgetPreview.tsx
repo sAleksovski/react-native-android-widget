@@ -21,7 +21,6 @@ export function WidgetPreview({
     async function init() {
       const base64Image = await AndroidWidget.createPreview(
         buildTree(renderWidget({ width, height })),
-        '',
         width,
         height
       );

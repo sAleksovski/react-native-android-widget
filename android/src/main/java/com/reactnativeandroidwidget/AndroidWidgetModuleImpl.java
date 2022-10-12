@@ -27,10 +27,10 @@ public class AndroidWidgetModuleImpl {
         }
     }
 
-    public static void createPreview(ReactApplicationContext context, ReadableMap config, String widgetName, int width, int height, Promise promise) {
+    public static void createPreview(ReactApplicationContext context, ReadableMap config, int width, int height, Promise promise) {
         String preview = null;
         try {
-            preview = new RNWidget(context, config, widgetName).createPreview(width, height);
+            preview = new RNWidget(context, config).createPreview(width, height);
         } catch (Exception e) {
             e.printStackTrace();
         }

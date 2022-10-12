@@ -36,6 +36,10 @@ public class RNWidget {
         this.widgetName = widgetName;
     }
 
+    public RNWidget(ReactApplicationContext context, ReadableMap config) {
+        this(context, config, "");
+    }
+
     public void drawWidgets() throws Exception {
         int[] widgetIds = getWidgetIds();
 

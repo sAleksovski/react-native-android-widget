@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "rebuild-library": "rm -rf ../android/build && cd android && ./gradlew generateCodegenArtifactsFromSchema",
     "android": "react-native run-android",
     "start": "react-native start"
   },

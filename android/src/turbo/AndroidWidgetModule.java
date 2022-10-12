@@ -34,7 +34,7 @@ public class AndroidWidgetModule extends NativeAndroidWidgetSpec {
 
     @Override
     @ReactMethod
-    public void createPreview(ReadableMap config, String widgetName, double width, double height, Promise promise) {
-        AndroidWidgetModuleImpl.createPreview(this.getReactApplicationContext(), config, widgetName, (int) width, (int) height, promise);
+    public void createPreview(ReadableMap config, double width, double height, Promise promise) {
+        AndroidWidgetModuleImpl.createPreview(this.getReactApplicationContext(), config, (int) width, (int) height, promise);
     }
 }

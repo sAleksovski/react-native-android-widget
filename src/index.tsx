@@ -13,15 +13,6 @@ export function drawWidgetById(
   AndroidWidget.drawWidgetById(config, widgetName, widgetId);
 }
 
-export function createPreview(
-  config: WidgetTree,
-  widgetName: string,
-  width: number,
-  height: number
-): Promise<string> {
-  return AndroidWidget.createPreview(config, widgetName, width, height);
-}
-
 export * from './build-tree';
 export * from './WidgetPreview';
 export * from './widgets/FlexWidget';
