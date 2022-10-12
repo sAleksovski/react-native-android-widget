@@ -5,7 +5,6 @@ import static android.util.TypedValue.COMPLEX_UNIT_PX;
 import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.GradientDrawable;
 import android.widget.TextView;
 
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -45,33 +44,6 @@ public class IconWidget extends BaseWidget<TextView> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-
-        if (props.hasKey("backgroundColor")) {
-            view.setBackgroundColor(Color.parseColor(props.getString("backgroundColor")));
-
-            if (props.hasKey("radius")) {
-                GradientDrawable shape = new GradientDrawable();
-                shape.setCornerRadius(props.getInt("radius"));
-
-                shape.setColor(Color.parseColor(props.getString("backgroundColor")));
-
-                view.setBackground(shape);
-            }
-        }
-
-        if (props.hasKey("backgroundGradient")) {
-            ReadableMap backgroundGradient = props.getMap("backgroundGradient");
-            GradientDrawable gradientDrawable = new GradientDrawable(
-                GradientDrawable.Orientation.valueOf(backgroundGradient.getString("orientation")),
-                new int[]{
-                    Color.parseColor(backgroundGradient.getString("from")),
-                    Color.parseColor(backgroundGradient.getString("to"))
-                }
-            );
-
-            gradientDrawable.setCornerRadius(0f);
-            view.setBackground(gradientDrawable);
         }
     }
 }

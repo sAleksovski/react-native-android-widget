@@ -179,8 +179,4 @@ public class RNWidget {
     private int dipToPx(int dipValue) {
         return Math.round(dipValue * appContext.getResources().getDisplayMetrics().density);
     }
-
-    private int pxToDip(int pxValue) {
-        return Math.round(pxValue / appContext.getResources().getDisplayMetrics().density);
-    }
 }

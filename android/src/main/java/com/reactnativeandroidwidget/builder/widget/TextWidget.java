@@ -4,7 +4,6 @@ import static android.util.TypedValue.COMPLEX_UNIT_PX;
 
 import android.graphics.Color;
 import android.text.TextUtils;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -25,13 +24,6 @@ public class TextWidget extends BaseWidget<TextView> {
         view.setText(getString("text", ""));
         view.setTextSize(COMPLEX_UNIT_PX, getInt("fontSize", 12));
         view.setTextColor(Color.parseColor(getString("color", "#000000")));
-
-        if (props.hasKey("margin")) {
-            ReadableMap margin = props.getMap("margin");
-            ViewGroup.MarginLayoutParams marginLayoutParams = new ViewGroup.MarginLayoutParams(view.getLayoutParams());
-            marginLayoutParams.setMargins(margin.getInt("left"), margin.getInt("top"), margin.getInt("right"), margin.getInt("bottom"));
-            view.setLayoutParams(marginLayoutParams);
-        }
 
         if (props.hasKey("truncate")) {
             view.setEllipsize(TextUtils.TruncateAt.valueOf(props.getString("truncate")));
