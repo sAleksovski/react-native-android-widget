@@ -209,14 +209,6 @@ public abstract class BaseWidget<T extends View> {
         return objectMap;
     }
 
-    protected int getInt(String key, int fallback) {
-        if (props.hasKey(key)) {
-            return props.getInt(key);
-        }
-
-        return fallback;
-    }
-
     protected String getString(String key, String fallback) {
         if (props.hasKey(key)) {
             return props.getString(key);

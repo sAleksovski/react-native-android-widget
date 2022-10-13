@@ -22,7 +22,7 @@ public class LinearLayoutWidget extends BaseLayoutWidget<LinearLayout> {
 
     @Override
     public void applyProps() {
-        view.setOrientation(("HORIZONTAL").equals(getString("orientation", "VERTICAL"))
+        view.setOrientation(("HORIZONTAL").equals(props.getString("orientation"))
             ? LinearLayout.HORIZONTAL : LinearLayout.VERTICAL);
 
         if (props.hasKey("gravity")) {

@@ -18,8 +18,7 @@ export function RotatedWidget() {
     >
       <TextWidget
         style={{
-          // flex: 1,
-          fontSize: 96,
+          fontSize: 36,
           color: '#908E8D',
           rotation: -90,
         }}

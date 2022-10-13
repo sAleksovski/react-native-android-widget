@@ -1,6 +1,6 @@
 package com.reactnativeandroidwidget.builder.widget;
 
-import static android.util.TypedValue.COMPLEX_UNIT_PX;
+import static android.util.TypedValue.COMPLEX_UNIT_SP;
 
 import android.graphics.Color;
 import android.text.TextUtils;
@@ -22,7 +22,7 @@ public class TextWidget extends BaseWidget<TextView> {
     @Override
     public void applyProps() {
         view.setText(getString("text", ""));
-        view.setTextSize(COMPLEX_UNIT_PX, getInt("fontSize", 12));
+        view.setTextSize(COMPLEX_UNIT_SP, getFontSize());
         view.setTextColor(Color.parseColor(getString("color", "#000000")));
 
         if (props.hasKey("truncate")) {
@@ -45,5 +45,13 @@ public class TextWidget extends BaseWidget<TextView> {
                 shadow.getInt("dy"),
                 Color.parseColor(shadow.getString("color")));
         }
+    }
+
+    private float getFontSize() {
+        float fontSize = 12;
+        if (props.hasKey("fontSize")) {
+            fontSize = (float) props.getDouble("fontSize");
+        }
+        return fontSize;
     }
 }

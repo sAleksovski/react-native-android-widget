@@ -37,11 +37,11 @@ export function MusicWidget() {
       </FlexWidget>
 
       <TextWidget
-        style={{ fontSize: 64, color: '#000000', marginBottom: 16 }}
+        style={{ fontSize: 24, color: '#000000', marginBottom: 16 }}
         text="Infinity"
       />
       <TextWidget
-        style={{ fontSize: 40, color: '#857674', marginBottom: 128 }}
+        style={{ fontSize: 16, color: '#857674', marginBottom: 128 }}
         text="Jaymes Young"
       />
 
@@ -59,7 +59,7 @@ export function MusicWidget() {
         <FlexWidget
           style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
         >
-          <IconWidget font="material" size={96} icon="skip_previous" />
+          <IconWidget font="material" size={36} icon="skip_previous" />
         </FlexWidget>
         <FlexWidget
           style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
@@ -75,13 +75,13 @@ export function MusicWidget() {
               justifyContent: 'center',
             }}
           >
-            <IconWidget font="material" size={96} icon="play_arrow" />
+            <IconWidget font="material" size={36} icon="play_arrow" />
           </FlexWidget>
         </FlexWidget>
         <FlexWidget
           style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
         >
-          <IconWidget font="material" size={96} icon="skip_next" />
+          <IconWidget font="material" size={36} icon="skip_next" />
         </FlexWidget>
       </FlexWidget>
     </FlexWidget>

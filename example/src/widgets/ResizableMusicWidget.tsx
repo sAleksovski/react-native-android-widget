@@ -81,11 +81,11 @@ function NowPlayingInfo({ backgroundColor }: NowPlayingInfoProps) {
         }}
       >
         <TextWidget
-          style={{ fontSize: 64, color: '#ffffff', marginBottom: 16 }}
+          style={{ fontSize: 24, color: '#ffffff', marginBottom: 16 }}
           text="Borderline"
         />
         <TextWidget
-          style={{ fontSize: 40, color: '#DFA9A6', marginBottom: 48 }}
+          style={{ fontSize: 16, color: '#DFA9A6', marginBottom: 48 }}
           text="Tame Impala"
         />
 
@@ -103,7 +103,7 @@ function NowPlayingInfo({ backgroundColor }: NowPlayingInfoProps) {
           >
             <IconWidget
               font="material"
-              size={96}
+              size={36}
               style={{ color: '#ffffff' }}
               icon="skip_previous"
             />
@@ -124,7 +124,7 @@ function NowPlayingInfo({ backgroundColor }: NowPlayingInfoProps) {
             >
               <IconWidget
                 font="material"
-                size={96}
+                size={36}
                 style={{ color: '#ffffff' }}
                 icon="play_arrow"
               />
@@ -135,7 +135,7 @@ function NowPlayingInfo({ backgroundColor }: NowPlayingInfoProps) {
           >
             <IconWidget
               font="material"
-              size={96}
+              size={36}
               style={{ color: '#ffffff' }}
               icon="skip_next"
             />
@@ -185,7 +185,7 @@ function NextTracks({ height }: NextTracksProps) {
         text="Next tracks"
         style={{
           color: '#ffffff',
-          fontSize: 48,
+          fontSize: 18,
           marginBottom: 32,
         }}
       />
@@ -211,7 +211,7 @@ function NextTracks({ height }: NextTracksProps) {
               text="Lost in Yesterday"
               style={{
                 color: '#ffffff',
-                fontSize: imageSize / 3,
+                fontSize: imageSize / 3 / 2.75, // TODO
               }}
             />
 
@@ -221,7 +221,7 @@ function NextTracks({ height }: NextTracksProps) {
               text="Tame Impala"
               style={{
                 color: '#DFA9A6',
-                fontSize: imageSize / 3,
+                fontSize: imageSize / 3 / 2.75, // TODO
               }}
             />
           </FlexWidget>
@@ -247,7 +247,7 @@ function NextTracks({ height }: NextTracksProps) {
               text="Infinity"
               style={{
                 color: '#ffffff',
-                fontSize: imageSize / 3,
+                fontSize: imageSize / 3 / 2.75, // TODO
               }}
             />
 
@@ -257,7 +257,7 @@ function NextTracks({ height }: NextTracksProps) {
               text="Jaymes Young"
               style={{
                 color: '#DFA9A6',
-                fontSize: imageSize / 3,
+                fontSize: imageSize / 3 / 2.75, // TODO
               }}
             />
           </FlexWidget>
@@ -285,7 +285,7 @@ function NextTracks({ height }: NextTracksProps) {
               text="Lost in Yesterday"
               style={{
                 color: '#ffffff',
-                fontSize: imageSize / 3,
+                fontSize: imageSize / 3 / 2.75, // TODO
               }}
             />
 
@@ -295,7 +295,7 @@ function NextTracks({ height }: NextTracksProps) {
               text="Tame Impala"
               style={{
                 color: '#DFA9A6',
-                fontSize: imageSize / 3,
+                fontSize: imageSize / 3 / 2.75, // TODO
               }}
             />
           </FlexWidget>
@@ -321,7 +321,7 @@ function NextTracks({ height }: NextTracksProps) {
               text="One More Year"
               style={{
                 color: '#ffffff',
-                fontSize: imageSize / 3,
+                fontSize: imageSize / 3 / 2.75, // TODO
               }}
             />
 
@@ -331,7 +331,7 @@ function NextTracks({ height }: NextTracksProps) {
               text="Tame Impala"
               style={{
                 color: '#DFA9A6',
-                fontSize: imageSize / 3,
+                fontSize: imageSize / 3 / 2.75, // TODO
               }}
             />
           </FlexWidget>

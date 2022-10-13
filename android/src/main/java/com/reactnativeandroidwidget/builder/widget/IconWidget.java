@@ -1,6 +1,6 @@
 package com.reactnativeandroidwidget.builder.widget;
 
-import static android.util.TypedValue.COMPLEX_UNIT_PX;
+import static android.util.TypedValue.COMPLEX_UNIT_SP;
 
 import android.content.res.AssetManager;
 import android.graphics.Color;
@@ -25,7 +25,7 @@ public class IconWidget extends BaseWidget<TextView> {
     @Override
     protected void applyProps() {
         view.setText(getString("icon", ""));
-        view.setTextSize(COMPLEX_UNIT_PX, getInt("size", 12));
+        view.setTextSize(COMPLEX_UNIT_SP, getTextSize());
         view.setTextColor(Color.parseColor(getString("color", "#000000")));
 
         if (props.hasKey("font")) {
@@ -45,5 +45,13 @@ public class IconWidget extends BaseWidget<TextView> {
                 e.printStackTrace();
             }
         }
+    }
+
+    private float getTextSize() {
+        float textSize = 12;
+        if (props.hasKey("size")) {
+            textSize = (float) props.getDouble("size");
+        }
+        return textSize;
     }
 }

@@ -32,7 +32,7 @@ export function StepsWidget() {
         }}
       >
         <IconWidget
-          size={72}
+          size={28}
           icon="directions_walk"
           style={{ color: '#4F3A53' }}
           font="material_outlined"
@@ -40,12 +40,12 @@ export function StepsWidget() {
       </FlexWidget>
 
       <TextWidget
-        style={{ fontSize: 48, color: '#908E8D', marginBottom: 8 }}
+        style={{ fontSize: 16, color: '#908E8D', marginBottom: 8 }}
         text="Steps Today"
       />
 
       <TextWidget
-        style={{ fontSize: 64, color: '#1A161C', marginBottom: 48 }}
+        style={{ fontSize: 24, color: '#1A161C', marginBottom: 48 }}
         text="265"
       />
 
@@ -82,7 +82,7 @@ export function StepsWidget() {
             }}
           >
             <IconWidget
-              size={72}
+              size={24}
               icon="local_fire_department"
               style={{ color: '#4F3A53' }}
               font="material_outlined"
@@ -94,10 +94,10 @@ export function StepsWidget() {
             }}
           >
             <TextWidget
-              style={{ fontSize: 40, color: '#705B72' }}
+              style={{ fontSize: 16, color: '#705B72' }}
               text="Calories"
             />
-            <TextWidget style={{ fontSize: 48, color: '#1A161C' }} text="33" />
+            <TextWidget style={{ fontSize: 18, color: '#1A161C' }} text="33" />
           </FlexWidget>
         </FlexWidget>
 
@@ -121,7 +121,7 @@ export function StepsWidget() {
             }}
           >
             <IconWidget
-              size={72}
+              size={24}
               icon="map"
               style={{ color: '#4F3A53' }}
               font="material_outlined"
@@ -133,11 +133,11 @@ export function StepsWidget() {
             }}
           >
             <TextWidget
-              style={{ fontSize: 40, color: '#705B72' }}
+              style={{ fontSize: 16, color: '#705B72' }}
               text="Distance"
             />
             <TextWidget
-              style={{ fontSize: 48, color: '#1A161C' }}
+              style={{ fontSize: 18, color: '#1A161C' }}
               text="0.07km"
             />
           </FlexWidget>

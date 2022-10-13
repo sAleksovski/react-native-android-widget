@@ -81,11 +81,11 @@ function Title() {
     <FlexWidget style={{ marginBottom: 64 }}>
       <TextWidget
         text="A Better Looking Shop"
-        style={{ fontSize: 48, color: '#222222' }}
+        style={{ fontSize: 18, color: '#222222' }}
       />
       <TextWidget
         text="as of 12:08 PM"
-        style={{ fontSize: 32, color: '#717173' }}
+        style={{ fontSize: 12, color: '#717173' }}
       />
     </FlexWidget>
   );
@@ -144,14 +144,14 @@ interface MetricCellTextProps {
 function MetricCellText({ title, amount, trend }: MetricCellTextProps) {
   return (
     <FlexWidget style={{ flexDirection: 'column' }}>
-      <TextWidget text={title} style={{ fontSize: 32, color: '#717173' }} />
-      <TextWidget text={amount} style={{ fontSize: 32, color: '#222222' }} />
+      <TextWidget text={title} style={{ fontSize: 12, color: '#717173' }} />
+      <TextWidget text={amount} style={{ fontSize: 12, color: '#222222' }} />
       <FlexWidget style={{ flexDirection: 'row', alignItems: 'center' }}>
         {trend === 0 ? (
           <IconWidget
             font="material"
             icon="horizontal_rule"
-            size={64}
+            size={24}
             style={{
               color: '#8F9094',
             }}
@@ -161,7 +161,7 @@ function MetricCellText({ title, amount, trend }: MetricCellTextProps) {
           <IconWidget
             font="material"
             icon={trend < 0 ? 'arrow_drop_down' : 'arrow_drop_up'}
-            size={64}
+            size={24}
             style={{
               color: trend < 0 ? '#FF4660' : '#00A284',
             }}
@@ -170,7 +170,7 @@ function MetricCellText({ title, amount, trend }: MetricCellTextProps) {
         {trend !== 0 ? (
           <TextWidget
             text={`${Math.abs(trend)}%`}
-            style={{ fontSize: 32, color: trend < 0 ? '#FF4660' : '#00A284' }}
+            style={{ fontSize: 12, color: trend < 0 ? '#FF4660' : '#00A284' }}
           />
         ) : null}
       </FlexWidget>
