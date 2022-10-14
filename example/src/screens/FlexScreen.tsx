@@ -41,7 +41,7 @@ function FlexWidgetDemo({
         justifyContent,
         alignItems,
         backgroundColor: '#6664c8ff',
-        height: (flexDirection === 'row' ? 60 : 150) * 2.75,
+        height: flexDirection === 'row' ? 60 : 150,
         width: 'match_parent',
       }}
     >
@@ -49,24 +49,24 @@ function FlexWidgetDemo({
         // eslint-disable-next-line react-native/no-inline-styles
         style={{
           backgroundColor: '#ffff0000',
-          height: 30 * 2.75,
-          width: 50 * 2.75,
+          height: 30,
+          width: 50,
         }}
       />
       <FlexWidget
         // eslint-disable-next-line react-native/no-inline-styles
         style={{
           backgroundColor: '#ff008000',
-          height: 30 * 2.75,
-          width: 50 * 2.75,
+          height: 30,
+          width: 50,
         }}
       />
       <FlexWidget
         // eslint-disable-next-line react-native/no-inline-styles
         style={{
           backgroundColor: '#ff0000ff',
-          height: 30 * 2.75,
-          width: 50 * 2.75,
+          height: 30,
+          width: 50,
         }}
       />
     </FlexWidget>

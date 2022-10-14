@@ -28,14 +28,15 @@ public class ImageWidget extends BaseWidget<ImageView> {
     @Override
     protected void applyProps() {
         Bitmap bitmapFromURL = getBitmapFromURL(props.getMap("image").getString("uri"),
-            props.getInt("imageWidth"),
-            props.getInt("imageHeight"));
+            dpToPx(props.getDouble("imageWidth")),
+            dpToPx(props.getDouble("imageHeight"))
+        );
 
         RoundedBitmapDrawable bitmapDrawable =
             RoundedBitmapDrawableFactory.create(appContext.getResources(), bitmapFromURL);
 
         if (props.hasKey("radius")) {
-            bitmapDrawable.setCornerRadius(props.getInt("radius"));
+            bitmapDrawable.setCornerRadius(dpToPx(props.getDouble("radius")));
         }
 
         view.setImageDrawable(bitmapDrawable);

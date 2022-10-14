@@ -40,10 +40,11 @@ public class TextWidget extends BaseWidget<TextView> {
         ReadableMap shadow = props.getMap("shadow");
         if (shadow != null) {
             view.setShadowLayer(
-                shadow.getInt("radius"),
-                shadow.getInt("dx"),
-                shadow.getInt("dy"),
-                Color.parseColor(shadow.getString("color")));
+                dpToPx(shadow.getDouble("radius")),
+                dpToPx(shadow.getDouble("dx")),
+                dpToPx(shadow.getDouble("dy")),
+                Color.parseColor(shadow.getString("color"))
+            );
         }
     }
 

@@ -15,8 +15,8 @@ export function ShopifyWidget() {
         backgroundColor: '#ffffff',
         height: 'match_parent',
         width: 'match_parent',
-        borderRadius: 48,
-        padding: 48,
+        borderRadius: 18,
+        padding: 18,
       }}
     >
       <Title />
@@ -36,11 +36,11 @@ export function ShopifyWidget() {
         </Row>
 
         <Row>
-          <MetricCell paddingRight={16}>
+          <MetricCell paddingRight={6}>
             <MetricCellText title="Sessions" amount="2,008" trend={213} />
             <SparkLine />
           </MetricCell>
-          <MetricCell paddingLeft={16}>
+          <MetricCell paddingLeft={6}>
             <MetricCellText
               title="Avg order value"
               amount="$122.52"
@@ -51,22 +51,22 @@ export function ShopifyWidget() {
         </Row>
 
         <Row>
-          <MetricCell paddingRight={16}>
+          <MetricCell paddingRight={6}>
             <MetricCellText title="Conversion rate" amount="0%" trend={0} />
             <SparkLineEmpty />
           </MetricCell>
-          <MetricCell paddingLeft={16}>
+          <MetricCell paddingLeft={6}>
             <MetricCellText title="Total orders" amount="39" trend={70} />
             <SparkLine />
           </MetricCell>
         </Row>
 
         <Row>
-          <MetricCell paddingRight={16}>
+          <MetricCell paddingRight={6}>
             <MetricCellText title="Net sales" amount="1.89k" trend={-77} />
             <SparkLine />
           </MetricCell>
-          <MetricCell paddingLeft={16}>
+          <MetricCell paddingLeft={6}>
             <MetricCellText title="Visitors" amount="2,008" trend={213} />
             <SparkLine />
           </MetricCell>
@@ -78,7 +78,7 @@ export function ShopifyWidget() {
 
 function Title() {
   return (
-    <FlexWidget style={{ marginBottom: 64 }}>
+    <FlexWidget style={{ marginBottom: 24 }}>
       <TextWidget
         text="A Better Looking Shop"
         style={{ fontSize: 18, color: '#222222' }}
@@ -185,17 +185,17 @@ function BarChart() {
         flexDirection: 'row',
         alignItems: 'flex-end',
         height: 'match_parent',
-        paddingVertical: 16,
+        paddingVertical: 6,
       }}
     >
       {Array.from({ length: 18 }).map((_, i) => (
         <FlexWidget
           key={i}
           style={{
-            width: 20,
-            height: i === 5 || i === 10 ? 'match_parent' : 20,
-            borderRadius: 10,
-            marginRight: 10,
+            width: 8,
+            height: i === 5 || i === 10 ? 'match_parent' : 8,
+            borderRadius: 4,
+            marginRight: 4,
             backgroundGradient: {
               from: '#8D75F6',
               to: i === 5 || i === 10 ? '#00E1A4' : '#8D75F6',
@@ -212,8 +212,8 @@ function SparkLine() {
   return (
     <SvgWidget
       style={{
-        width: 120,
-        height: 120,
+        width: 42,
+        height: 42,
       }}
       svg={`
 <svg
@@ -246,8 +246,8 @@ function SparkLineEmpty() {
   return (
     <SvgWidget
       style={{
-        width: 120,
-        height: 120,
+        width: 42,
+        height: 42,
       }}
       svg={`
 <svg

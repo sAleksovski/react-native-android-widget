@@ -69,23 +69,23 @@ function NowPlayingInfo({ backgroundColor }: NowPlayingInfoProps) {
         width: 'match_parent',
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: backgroundColor,
       }}
     >
       <FlexWidget
         style={{
-          backgroundColor: backgroundColor,
           width: 'match_parent',
-          paddingHorizontal: 64,
+          paddingHorizontal: 24,
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
         <TextWidget
-          style={{ fontSize: 24, color: '#ffffff', marginBottom: 16 }}
+          style={{ fontSize: 24, color: '#ffffff', marginBottom: 6 }}
           text="Borderline"
         />
         <TextWidget
-          style={{ fontSize: 16, color: '#DFA9A6', marginBottom: 48 }}
+          style={{ fontSize: 16, color: '#DFA9A6', marginBottom: 18 }}
           text="Tame Impala"
         />
 
@@ -95,7 +95,7 @@ function NowPlayingInfo({ backgroundColor }: NowPlayingInfoProps) {
             flexDirection: 'row',
             alignItems: 'center',
             width: 'match_parent',
-            marginBottom: 48,
+            marginBottom: 18,
           }}
         >
           <FlexWidget
@@ -114,9 +114,9 @@ function NowPlayingInfo({ backgroundColor }: NowPlayingInfoProps) {
             <FlexWidget
               clickAction="play"
               style={{
-                height: 128,
-                width: 128,
-                borderRadius: 64,
+                height: 48,
+                width: 48,
+                borderRadius: 24,
                 backgroundColor: '#BA666B',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -144,16 +144,16 @@ function NowPlayingInfo({ backgroundColor }: NowPlayingInfoProps) {
 
         <FlexWidget
           style={{
-            height: 10,
-            borderRadius: 5,
+            height: 4,
+            borderRadius: 2,
             width: 'match_parent',
             backgroundColor: '#88ffffff',
           }}
         >
           <FlexWidget
             style={{
-              height: 10,
-              borderRadius: 5,
+              height: 4,
+              borderRadius: 2,
               width: 300,
               backgroundColor: '#ffffff',
             }}
@@ -170,13 +170,13 @@ interface NextTracksProps {
 }
 
 function NextTracks({ height }: NextTracksProps) {
-  const imageSize = (Math.min(height, 886 / 2) - (48 + 48 + 48 + 32 + 32)) / 2;
+  const imageSize = (Math.min(height, 322 / 2) - (18 + 18 + 18 + 12 + 12)) / 2;
   return (
     <FlexWidget
       style={{
         backgroundColor: '#630B0E',
-        padding: 48,
-        paddingTop: 40,
+        padding: 18,
+        paddingTop: 14,
         height: height,
         width: 'match_parent',
       }}
@@ -186,14 +186,14 @@ function NextTracks({ height }: NextTracksProps) {
         style={{
           color: '#ffffff',
           fontSize: 18,
-          marginBottom: 32,
+          marginBottom: 12,
         }}
       />
 
-      <FlexWidget style={{ flexDirection: 'row', marginBottom: 16 }}>
-        <FlexWidget style={{ flexDirection: 'row', marginRight: 32 }}>
+      <FlexWidget style={{ flexDirection: 'row', marginBottom: 6 }}>
+        <FlexWidget style={{ flexDirection: 'row', marginRight: 12 }}>
           <ImageWidget
-            radius={24}
+            radius={8}
             image={require('../../assets/tame-impala.jpeg')}
             imageHeight={imageSize}
             imageWidth={imageSize}
@@ -201,8 +201,8 @@ function NextTracks({ height }: NextTracksProps) {
 
           <FlexWidget
             style={{
-              marginLeft: 16,
-              marginBottom: 8,
+              marginLeft: 6,
+              marginBottom: 4,
             }}
           >
             <TextWidget
@@ -211,7 +211,7 @@ function NextTracks({ height }: NextTracksProps) {
               text="Lost in Yesterday"
               style={{
                 color: '#ffffff',
-                fontSize: imageSize / 3 / 2.75, // TODO
+                fontSize: imageSize / 3,
               }}
             />
 
@@ -221,7 +221,7 @@ function NextTracks({ height }: NextTracksProps) {
               text="Tame Impala"
               style={{
                 color: '#DFA9A6',
-                fontSize: imageSize / 3 / 2.75, // TODO
+                fontSize: imageSize / 3,
               }}
             />
           </FlexWidget>
@@ -229,7 +229,7 @@ function NextTracks({ height }: NextTracksProps) {
 
         <FlexWidget style={{ flexDirection: 'row' }}>
           <ImageWidget
-            radius={24}
+            radius={8}
             image={require('../../assets/james-infinity.jpg')}
             imageHeight={imageSize}
             imageWidth={imageSize}
@@ -237,8 +237,8 @@ function NextTracks({ height }: NextTracksProps) {
 
           <FlexWidget
             style={{
-              marginLeft: 16,
-              marginBottom: 8,
+              marginLeft: 6,
+              marginBottom: 3,
             }}
           >
             <TextWidget
@@ -247,7 +247,7 @@ function NextTracks({ height }: NextTracksProps) {
               text="Infinity"
               style={{
                 color: '#ffffff',
-                fontSize: imageSize / 3 / 2.75, // TODO
+                fontSize: imageSize / 3,
               }}
             />
 
@@ -257,7 +257,7 @@ function NextTracks({ height }: NextTracksProps) {
               text="Jaymes Young"
               style={{
                 color: '#DFA9A6',
-                fontSize: imageSize / 3 / 2.75, // TODO
+                fontSize: imageSize / 3,
               }}
             />
           </FlexWidget>
@@ -265,9 +265,9 @@ function NextTracks({ height }: NextTracksProps) {
       </FlexWidget>
 
       <FlexWidget style={{ flexDirection: 'row' }}>
-        <FlexWidget style={{ flexDirection: 'row', marginRight: 32 }}>
+        <FlexWidget style={{ flexDirection: 'row', marginRight: 12 }}>
           <ImageWidget
-            radius={24}
+            radius={8}
             image={require('../../assets/tame-impala.jpeg')}
             imageHeight={imageSize}
             imageWidth={imageSize}
@@ -275,8 +275,8 @@ function NextTracks({ height }: NextTracksProps) {
 
           <FlexWidget
             style={{
-              marginLeft: 16,
-              marginBottom: 8,
+              marginLeft: 6,
+              marginBottom: 3,
             }}
           >
             <TextWidget
@@ -285,7 +285,7 @@ function NextTracks({ height }: NextTracksProps) {
               text="Lost in Yesterday"
               style={{
                 color: '#ffffff',
-                fontSize: imageSize / 3 / 2.75, // TODO
+                fontSize: imageSize / 3,
               }}
             />
 
@@ -295,7 +295,7 @@ function NextTracks({ height }: NextTracksProps) {
               text="Tame Impala"
               style={{
                 color: '#DFA9A6',
-                fontSize: imageSize / 3 / 2.75, // TODO
+                fontSize: imageSize / 3,
               }}
             />
           </FlexWidget>
@@ -303,7 +303,7 @@ function NextTracks({ height }: NextTracksProps) {
 
         <FlexWidget style={{ flexDirection: 'row' }}>
           <ImageWidget
-            radius={24}
+            radius={8}
             image={require('../../assets/tame-impala.jpeg')}
             imageHeight={imageSize}
             imageWidth={imageSize}
@@ -311,8 +311,8 @@ function NextTracks({ height }: NextTracksProps) {
 
           <FlexWidget
             style={{
-              marginLeft: 16,
-              marginBottom: 8,
+              marginLeft: 6,
+              marginBottom: 3,
             }}
           >
             <TextWidget
@@ -321,7 +321,7 @@ function NextTracks({ height }: NextTracksProps) {
               text="One More Year"
               style={{
                 color: '#ffffff',
-                fontSize: imageSize / 3 / 2.75, // TODO
+                fontSize: imageSize / 3,
               }}
             />
 
@@ -331,7 +331,7 @@ function NextTracks({ height }: NextTracksProps) {
               text="Tame Impala"
               style={{
                 color: '#DFA9A6',
-                fontSize: imageSize / 3 / 2.75, // TODO
+                fontSize: imageSize / 3,
               }}
             />
           </FlexWidget>
@@ -352,7 +352,7 @@ export function ResizableMusicWidget({
   const aspectY = Math.round(height / width);
 
   const isSquare = aspectX === 1 && aspectY === 1;
-  const isBigSquare = isSquare && height > 600 && width > 760;
+  const isBigSquare = isSquare && height > 218 && width > 276;
   const Wrapper = isSquare ? OverlapWidget : FlexWidget;
 
   const nowPlayingBackgroundColor = aspectX === 1 ? '#88A6181C' : '#B20A01';

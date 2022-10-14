@@ -82,7 +82,7 @@ export function SvgScreen() {
               width: 'match_parent',
             }}
           >
-            <SvgWidget svg={svgString} style={{ height: 200, width: 200 }} />
+            <SvgWidget svg={svgString} style={{ height: 72, width: 72 }} />
           </FlexWidget>
         )}
         height={150}
@@ -102,7 +102,7 @@ export function SvgScreen() {
           >
             <SvgWidget
               svg={require('../../assets/SVG_Logo.svg')}
-              style={{ height: 200, width: 200 }}
+              style={{ height: 72, width: 72 }}
             />
           </FlexWidget>
         )}

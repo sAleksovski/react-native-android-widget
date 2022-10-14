@@ -2,6 +2,7 @@ package com.reactnativeandroidwidget.builder.widget;
 
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -60,7 +61,7 @@ public abstract class BaseWidget<T extends View> {
         int width = ViewGroup.LayoutParams.WRAP_CONTENT;
         if (props.hasKey("width")) {
             if (props.getType("width").toString().equals("Number")) {
-                width = props.getInt("width");
+                width = dpToPx(props.getDouble("width"));
             } else {
                 width = "wrap_content".equals(props.getString("width"))
                     ? ViewGroup.LayoutParams.WRAP_CONTENT
@@ -71,7 +72,7 @@ public abstract class BaseWidget<T extends View> {
         int height = ViewGroup.LayoutParams.WRAP_CONTENT;
         if (props.hasKey("height")) {
             if (props.getType("height").toString().equals("Number")) {
-                height = props.getInt("height");
+                height = dpToPx(props.getDouble("height"));
             } else {
                 height = "wrap_content".equals(props.getString("height"))
                     ? ViewGroup.LayoutParams.WRAP_CONTENT
@@ -103,14 +104,14 @@ public abstract class BaseWidget<T extends View> {
 
                 gradientDrawable.setCornerRadii(
                     new float[]{
-                        (float) borderRadius.getDouble("topLeft"),
-                        (float) borderRadius.getDouble("topLeft"),
-                        (float) borderRadius.getDouble("topRight"),
-                        (float) borderRadius.getDouble("topRight"),
-                        (float) borderRadius.getDouble("bottomRight"),
-                        (float) borderRadius.getDouble("bottomRight"),
-                        (float) borderRadius.getDouble("bottomLeft"),
-                        (float) borderRadius.getDouble("bottomLeft"),
+                        dpToPx(borderRadius.getDouble("topLeft")),
+                        dpToPx(borderRadius.getDouble("topLeft")),
+                        dpToPx(borderRadius.getDouble("topRight")),
+                        dpToPx(borderRadius.getDouble("topRight")),
+                        dpToPx(borderRadius.getDouble("bottomRight")),
+                        dpToPx(borderRadius.getDouble("bottomRight")),
+                        dpToPx(borderRadius.getDouble("bottomLeft")),
+                        dpToPx(borderRadius.getDouble("bottomLeft")),
                     }
                 );
             }
@@ -129,18 +130,18 @@ public abstract class BaseWidget<T extends View> {
 
         if (props.hasKey("borderWidth")) {
             ReadableMap borderWidth = props.getMap("borderWidth");
-            getReactViewBackground().setBorderWidth(Spacing.LEFT, borderWidth.getInt("left"));
-            getReactViewBackground().setBorderWidth(Spacing.RIGHT, borderWidth.getInt("right"));
-            getReactViewBackground().setBorderWidth(Spacing.TOP, borderWidth.getInt("top"));
-            getReactViewBackground().setBorderWidth(Spacing.BOTTOM, borderWidth.getInt("bottom"));
+            getReactViewBackground().setBorderWidth(Spacing.LEFT, dpToPx(borderWidth.getDouble("left")));
+            getReactViewBackground().setBorderWidth(Spacing.RIGHT, dpToPx(borderWidth.getDouble("right")));
+            getReactViewBackground().setBorderWidth(Spacing.TOP, dpToPx(borderWidth.getDouble("top")));
+            getReactViewBackground().setBorderWidth(Spacing.BOTTOM, dpToPx(borderWidth.getDouble("bottom")));
         }
 
         if (props.hasKey("borderRadius")) {
             ReadableMap borderRadius = props.getMap("borderRadius");
-            getReactViewBackground().setRadius(borderRadius.getInt("topRight"), 1);
-            getReactViewBackground().setRadius(borderRadius.getInt("bottomRight"), 2);
-            getReactViewBackground().setRadius(borderRadius.getInt("bottomLeft"), 3);
-            getReactViewBackground().setRadius(borderRadius.getInt("topLeft"), 0);
+            getReactViewBackground().setRadius(dpToPx(borderRadius.getDouble("topRight")), 1);
+            getReactViewBackground().setRadius(dpToPx(borderRadius.getDouble("bottomRight")), 2);
+            getReactViewBackground().setRadius(dpToPx(borderRadius.getDouble("bottomLeft")), 3);
+            getReactViewBackground().setRadius(dpToPx(borderRadius.getDouble("topLeft")), 0);
         }
 
         if (props.hasKey("borderStyle")) {
@@ -153,15 +154,15 @@ public abstract class BaseWidget<T extends View> {
         if (props.hasKey("margin")) {
             ReadableMap margin = props.getMap("margin");
             marginLayoutParams.setMargins(
-                margin.getInt("left"),
-                margin.getInt("top"),
-                margin.getInt("right"),
-                margin.getInt("bottom")
+                dpToPx(margin.getDouble("left")),
+                dpToPx(margin.getDouble("top")),
+                dpToPx(margin.getDouble("right")),
+                dpToPx(margin.getDouble("bottom"))
             );
         }
 
         if (props.hasKey("weight")) {
-            marginLayoutParams.weight = (float) props.getInt("weight");
+            marginLayoutParams.weight = props.getInt("weight");
         }
 
         view.setLayoutParams(marginLayoutParams);
@@ -172,10 +173,10 @@ public abstract class BaseWidget<T extends View> {
             Map<String, Object> padding = getObjectOrEmptyMap(props.getMap("padding"));
             Map<String, Object> borderWidth = getObjectOrEmptyMap(props.getMap("borderWidth"));
             view.setPadding(
-                ((Double) padding.get("left")).intValue() + ((Double) borderWidth.get("left")).intValue(),
-                ((Double) padding.get("top")).intValue() + ((Double) borderWidth.get("top")).intValue(),
-                ((Double) padding.get("right")).intValue() + ((Double) borderWidth.get("right")).intValue(),
-                ((Double) padding.get("bottom")).intValue() + ((Double) borderWidth.get("bottom")).intValue()
+                dpToPx(((Double) padding.get("left")) + ((Double) borderWidth.get("left"))),
+                dpToPx(((Double) padding.get("top")) + ((Double) borderWidth.get("top"))),
+                dpToPx(((Double) padding.get("right")) + ((Double) borderWidth.get("right"))),
+                dpToPx(((Double) padding.get("bottom")) + ((Double) borderWidth.get("bottom")))
             );
         }
     }
@@ -215,5 +216,9 @@ public abstract class BaseWidget<T extends View> {
         }
 
         return fallback;
+    }
+
+    protected int dpToPx(double dpValue) {
+        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) dpValue, appContext.getResources().getDisplayMetrics()));
     }
 }

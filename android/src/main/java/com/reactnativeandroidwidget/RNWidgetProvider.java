@@ -1,7 +1,5 @@
 package com.reactnativeandroidwidget;
 
-import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
-
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -72,8 +70,8 @@ public class RNWidgetProvider extends AppWidgetProvider {
         backgroundTaskIntent.putExtra("widgetAction", action);
         backgroundTaskIntent.putExtra("widgetId", widgetId);
         backgroundTaskIntent.putExtra("widgetName", getClass().getSimpleName());
-        backgroundTaskIntent.putExtra("width", getWidgetWidth(context, widgetId));
-        backgroundTaskIntent.putExtra("height", getWidgetHeight(context, widgetId));
+        backgroundTaskIntent.putExtra("width", RNWidgetUtil.getWidgetWidth(context, widgetId));
+        backgroundTaskIntent.putExtra("height", RNWidgetUtil.getWidgetHeight(context, widgetId));
         return backgroundTaskIntent;
     }
 
@@ -119,31 +117,5 @@ public class RNWidgetProvider extends AppWidgetProvider {
         } else {
             context.startService(serviceIntent);
         }
-    }
-
-    private int getWidgetWidth(Context context, int widgetId) {
-        boolean isPortrait = context.getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT;
-        if (isPortrait) {
-            return dipToPx(context, getWidgetSizeInDp(context, widgetId, AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH));
-        } else {
-            return dipToPx(context, getWidgetSizeInDp(context, widgetId, AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH));
-        }
-    }
-
-    private int getWidgetHeight(Context context, int widgetId) {
-        boolean isPortrait = context.getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT;
-        if (isPortrait) {
-            return dipToPx(context, getWidgetSizeInDp(context, widgetId, AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT));
-        } else {
-            return dipToPx(context, getWidgetSizeInDp(context, widgetId, AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT));
-        }
-    }
-
-    private int getWidgetSizeInDp(Context context, int widgetId, String key) {
-        return AppWidgetManager.getInstance(context).getAppWidgetOptions(widgetId).getInt(key, 0);
-    }
-
-    private int dipToPx(Context context, int dipValue) {
-        return Math.round(dipValue * context.getResources().getDisplayMetrics().density);
     }
 }

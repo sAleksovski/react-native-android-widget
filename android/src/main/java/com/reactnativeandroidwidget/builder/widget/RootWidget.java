@@ -26,8 +26,8 @@ public class RootWidget extends BaseLayoutWidget<FrameLayout> {
             e.printStackTrace();
         }
 
-        int specWidth = View.MeasureSpec.makeMeasureSpec(props.getInt("widgetWidth"), View.MeasureSpec.EXACTLY);
-        int specHeight = View.MeasureSpec.makeMeasureSpec(props.getInt("widgetHeight"), View.MeasureSpec.EXACTLY);
+        int specWidth = View.MeasureSpec.makeMeasureSpec(dpToPx(props.getInt("widgetWidth")), View.MeasureSpec.EXACTLY);
+        int specHeight = View.MeasureSpec.makeMeasureSpec(dpToPx(props.getInt("widgetHeight")), View.MeasureSpec.EXACTLY);
 
         view.measure(specWidth, specHeight);
         view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());

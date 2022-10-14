@@ -12,10 +12,10 @@ export function StepsWidget() {
       style={{
         alignItems: 'center',
         backgroundColor: '#FDF1FE',
-        padding: 25,
+        padding: 8,
         height: 'match_parent',
         width: 'match_parent',
-        borderRadius: 80,
+        borderRadius: 32,
       }}
     >
       <FlexWidget
@@ -23,12 +23,12 @@ export function StepsWidget() {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          height: 160,
-          width: 160,
-          borderRadius: 80,
+          height: 64,
+          width: 64,
+          borderRadius: 32,
           backgroundColor: '#E1CEE7',
-          marginTop: 48,
-          marginBottom: 32,
+          marginTop: 18,
+          marginBottom: 12,
         }}
       >
         <IconWidget
@@ -40,19 +40,19 @@ export function StepsWidget() {
       </FlexWidget>
 
       <TextWidget
-        style={{ fontSize: 16, color: '#908E8D', marginBottom: 8 }}
+        style={{ fontSize: 16, color: '#908E8D', marginBottom: 2 }}
         text="Steps Today"
       />
 
       <TextWidget
-        style={{ fontSize: 24, color: '#1A161C', marginBottom: 48 }}
+        style={{ fontSize: 24, color: '#1A161C', marginBottom: 18 }}
         text="265"
       />
 
       <FlexWidget
         style={{
           backgroundColor: '#E1CEE7',
-          borderRadius: 56,
+          borderRadius: 20,
           height: 'match_parent',
           width: 'match_parent',
         }}
@@ -66,7 +66,7 @@ export function StepsWidget() {
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            padding: 24,
+            padding: 8,
           }}
         >
           <FlexWidget
@@ -74,11 +74,11 @@ export function StepsWidget() {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center',
-              height: 140,
-              width: 140,
-              borderRadius: 70,
+              height: 50,
+              width: 50,
+              borderRadius: 25,
               backgroundColor: '#FDF1FE',
-              marginRight: 48,
+              marginRight: 18,
             }}
           >
             <IconWidget
@@ -105,7 +105,7 @@ export function StepsWidget() {
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            padding: 24,
+            padding: 8,
           }}
         >
           <FlexWidget
@@ -113,11 +113,11 @@ export function StepsWidget() {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center',
-              height: 140,
-              width: 140,
-              borderRadius: 70,
+              height: 50,
+              width: 50,
+              borderRadius: 25,
               backgroundColor: '#FDF1FE',
-              marginRight: 48,
+              marginRight: 18,
             }}
           >
             <IconWidget

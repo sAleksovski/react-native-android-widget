@@ -31,7 +31,7 @@ public class LinearLayoutWidget extends BaseLayoutWidget<LinearLayout> {
 
         if (props.hasKey("separator")) {
             ReadableMap separator = props.getMap("separator");
-            view.setDividerPadding(separator.getInt("padding"));
+            view.setDividerPadding(dpToPx(separator.getDouble("padding")));
 
             ColorDrawable divider = new ColorDrawable(Color.parseColor(separator.getString("color")));
             view.setDividerDrawable(divider);

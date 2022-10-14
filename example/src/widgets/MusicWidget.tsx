@@ -13,42 +13,42 @@ export function MusicWidget() {
       style={{
         alignItems: 'center',
         backgroundColor: '#FFF4F3',
-        padding: 24,
-        paddingTop: 48,
+        padding: 8,
+        paddingTop: 16,
         height: 'match_parent',
         width: 'match_parent',
-        borderRadius: 80,
+        borderRadius: 32,
       }}
     >
       <FlexWidget
         style={{
           alignItems: 'center',
-          height: 240,
-          width: 240,
-          marginBottom: 48,
+          height: 88,
+          width: 88,
+          marginBottom: 18,
         }}
       >
         <ImageWidget
           image={require('../../assets/james-infinity.jpg')}
-          imageWidth={240}
-          imageHeight={240}
-          radius={120}
+          imageWidth={88}
+          imageHeight={88}
+          radius={44}
         />
       </FlexWidget>
 
       <TextWidget
-        style={{ fontSize: 24, color: '#000000', marginBottom: 16 }}
+        style={{ fontSize: 24, color: '#000000', marginBottom: 6 }}
         text="Infinity"
       />
       <TextWidget
-        style={{ fontSize: 16, color: '#857674', marginBottom: 128 }}
+        style={{ fontSize: 16, color: '#857674', marginBottom: 48 }}
         text="Jaymes Young"
       />
 
       <FlexWidget
         style={{
-          borderRadius: 56,
-          paddingHorizontal: 32,
+          borderRadius: 20,
+          paddingHorizontal: 12,
           backgroundColor: '#E4BDBD',
           flexDirection: 'row',
           alignItems: 'center',
@@ -67,9 +67,9 @@ export function MusicWidget() {
           <FlexWidget
             clickAction="play"
             style={{
-              height: 128,
-              width: 128,
-              borderRadius: 64,
+              height: 48,
+              width: 48,
+              borderRadius: 24,
               backgroundColor: '#BA666B',
               alignItems: 'center',
               justifyContent: 'center',

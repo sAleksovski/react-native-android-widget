@@ -1,7 +1,5 @@
 package com.reactnativeandroidwidget;
 
-import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
-
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
@@ -52,15 +50,17 @@ public class RNWidget {
         ReadableMap configClone = Arguments.makeNativeMap(config.toHashMap());
         RemoteViews remoteWidgetView = new RemoteViews(appContext.getPackageName(), R.layout.rn_widget);
 
-        int widgetWidth = getWidgetWidth(widgetId);
-        int widgetHeight = getWidgetHeight(widgetId);
-
-        WidgetWithViews widgetWithViews = WidgetFactory.buildWidgetFromRoot(appContext, configClone, widgetWidth, widgetHeight);
+        WidgetWithViews widgetWithViews = WidgetFactory.buildWidgetFromRoot(
+            appContext,
+            configClone,
+            RNWidgetUtil.getWidgetWidth(appContext, widgetId),
+            RNWidgetUtil.getWidgetHeight(appContext, widgetId)
+        );
         View rootView = widgetWithViews.getRootView();
 
         Bitmap bitmap = Bitmap.createBitmap(
-            widgetWidth,
-            widgetHeight,
+            rootView.getMeasuredWidth(),
+            rootView.getMeasuredHeight(),
             Bitmap.Config.ARGB_8888
         );
         Canvas bitmapHolder = new Canvas(bitmap);
@@ -82,12 +82,12 @@ public class RNWidget {
     public String createPreview(int width, int height) throws Exception {
         ReadableMap configClone = Arguments.makeNativeMap(config.toHashMap());
 
-        WidgetWithViews widgetWithViews = WidgetFactory.buildWidgetFromRoot(appContext, configClone, dipToPx(width), dipToPx(height));
+        WidgetWithViews widgetWithViews = WidgetFactory.buildWidgetFromRoot(appContext, configClone, width, height);
         View rootView = widgetWithViews.getRootView();
 
         Bitmap bitmap = Bitmap.createBitmap(
-            dipToPx(width),
-            dipToPx(height),
+            rootView.getMeasuredWidth(),
+            rootView.getMeasuredHeight(),
             Bitmap.Config.ARGB_8888
         );
         Canvas bitmapHolder = new Canvas(bitmap);
@@ -132,7 +132,13 @@ public class RNWidget {
         rootWidget.offsetDescendantRectToMyCoords(clickableWidget, offsetViewBounds);
         RemoteViews clickableRemoteView = new RemoteViews(appContext.getPackageName(), R.layout.rn_widget_clickable);
 
-        clickableRemoteView.setViewPadding(R.id.rn_widget_clickable_positioner, offsetViewBounds.left, offsetViewBounds.top, getWidgetWidth(widgetId) - offsetViewBounds.right, getWidgetHeight(widgetId) - offsetViewBounds.bottom);
+        clickableRemoteView.setViewPadding(
+            R.id.rn_widget_clickable_positioner,
+            offsetViewBounds.left,
+            offsetViewBounds.top,
+            RNWidgetUtil.dpToPx(appContext, RNWidgetUtil.getWidgetWidth(appContext, widgetId)) - offsetViewBounds.right,
+            RNWidgetUtil.dpToPx(appContext, RNWidgetUtil.getWidgetHeight(appContext, widgetId)) - offsetViewBounds.bottom
+        );
 
         registerClickTask(widgetId, clickableView.getClickAction(), clickableRemoteView, R.id.rn_widget_clickable_area);
 
@@ -152,31 +158,5 @@ public class RNWidget {
                 | PendingIntent.FLAG_MUTABLE
         );
         widgetView.setOnClickPendingIntent(button, pendingIntent);
-    }
-
-    private int getWidgetWidth(int widgetId) {
-        boolean isPortrait = appContext.getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT;
-        if (isPortrait) {
-            return dipToPx(getWidgetSizeInDp(widgetId, AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH));
-        } else {
-            return dipToPx(getWidgetSizeInDp(widgetId, AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH));
-        }
-    }
-
-    private int getWidgetHeight(int widgetId) {
-        boolean isPortrait = appContext.getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT;
-        if (isPortrait) {
-            return dipToPx(getWidgetSizeInDp(widgetId, AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT));
-        } else {
-            return dipToPx(getWidgetSizeInDp(widgetId, AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT));
-        }
-    }
-
-    private int getWidgetSizeInDp(int widgetId, String key) {
-        return AppWidgetManager.getInstance(appContext).getAppWidgetOptions(widgetId).getInt(key, 0);
-    }
-
-    private int dipToPx(int dipValue) {
-        return Math.round(dipValue * appContext.getResources().getDisplayMetrics().density);
     }
 }

@@ -11,7 +11,7 @@ export function RotatedWidget() {
         backgroundColor: '#FDF1FE',
         height: 'match_parent',
         width: 'match_parent',
-        borderRadius: 80,
+        borderRadius: 32,
         flex: 1,
         flexDirection: 'row',
       }}

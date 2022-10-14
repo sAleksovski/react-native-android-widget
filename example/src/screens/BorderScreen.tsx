@@ -14,35 +14,35 @@ export function BorderScreen() {
         renderWidget={() => (
           <FlexWidget
             style={{
-              height: 150 * 2.75,
-              width: 320 * 2.75,
+              height: 150,
+              width: 320,
               backgroundColor: '#6664c8ff',
               borderTopColor: '#ff0000',
               borderLeftColor: '#0000ff',
-              borderTopWidth: 10 * 2.75,
-              borderLeftWidth: 20 * 2.75,
+              borderTopWidth: 10,
+              borderLeftWidth: 20,
             }}
           >
             <FlexWidget
               style={{
-                width: 50 * 2.75,
-                height: 30 * 2.75,
+                width: 50,
+                height: 30,
                 backgroundColor: 'teal',
               }}
               children={[]}
             />
             <FlexWidget
               style={{
-                width: 50 * 2.75,
-                height: 30 * 2.75,
+                width: 50,
+                height: 30,
                 backgroundColor: 'red',
               }}
               children={[]}
             />
             <FlexWidget
               style={{
-                width: 50 * 2.75,
-                height: 30 * 2.75,
+                width: 50,
+                height: 30,
                 backgroundColor: 'yellow',
               }}
               children={[]}

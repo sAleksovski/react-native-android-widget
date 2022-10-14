@@ -23,9 +23,9 @@ function ActionSelector({ isActive, iconName }: ActionSelectorProps) {
       <FlexWidget
         clickAction={iconName}
         style={{
-          height: 128,
-          width: 128,
-          borderRadius: 32,
+          height: 46,
+          width: 46,
+          borderRadius: 12,
           backgroundColor: isActive ? '#254B58' : '#5CC6E2',
           alignItems: 'center',
           justifyContent: 'center',
@@ -49,7 +49,7 @@ function StepsWalked() {
         flexDirection: 'column',
         height: 'match_parent',
         width: 'match_parent',
-        padding: 32,
+        padding: 12,
       }}
     >
       <TextWidget
@@ -63,16 +63,16 @@ function StepsWalked() {
           backgroundColor: '#54B4CE',
           width: 'match_parent',
           height: 'wrap_content',
-          borderRadius: 16,
-          marginBottom: 32,
+          borderRadius: 6,
+          marginBottom: 12,
         }}
       >
         <FlexWidget
           style={{
             backgroundColor: '#306374',
-            height: 32,
-            width: 128,
-            borderRadius: 16,
+            height: 12,
+            width: 46,
+            borderRadius: 6,
           }}
         >
           <TextWidget style={{ fontSize: 0 }} text="0" />
@@ -113,7 +113,7 @@ function Activity() {
         height: 'match_parent',
         width: 'match_parent',
         justifyContent: 'center',
-        padding: 32,
+        padding: 12,
       }}
     >
       <TextWidget
@@ -129,7 +129,7 @@ function Activity() {
         style={{
           flexDirection: 'row',
           width: 'match_parent',
-          marginTop: 32,
+          marginTop: 12,
         }}
       >
         <FlexWidget style={{ flex: 1 }}>
@@ -161,7 +161,7 @@ function StepsHistory() {
       style={{
         height: 'match_parent',
         width: 'match_parent',
-        padding: 32,
+        padding: 12,
       }}
     >
       <FlexWidget
@@ -174,7 +174,7 @@ function StepsHistory() {
         <FlexWidget
           style={{
             flexDirection: 'row',
-            marginBottom: 16,
+            marginBottom: 6,
             flex: 1,
           }}
         >
@@ -194,8 +194,8 @@ function StepsHistory() {
             width: 'match_parent',
             height: 'wrap_content',
             flex: 2,
-            borderRadius: 32,
-            marginBottom: 32,
+            borderRadius: 12,
+            marginBottom: 12,
           }}
         >
           <FlexWidget
@@ -204,8 +204,8 @@ function StepsHistory() {
               flexDirection: 'row',
               height: 'match_parent',
               flex: 1,
-              borderRadius: 32,
-              width: 256,
+              borderRadius: 12,
+              width: 92,
             }}
           >
             <TextWidget style={{ fontSize: 0 }} text="0" />
@@ -223,7 +223,7 @@ function StepsHistory() {
         <FlexWidget
           style={{
             flexDirection: 'row',
-            marginBottom: 16,
+            marginBottom: 6,
             flex: 1,
           }}
         >
@@ -243,8 +243,8 @@ function StepsHistory() {
             width: 'match_parent',
             height: 'wrap_content',
             flex: 2,
-            borderRadius: 32,
-            marginBottom: 32,
+            borderRadius: 12,
+            marginBottom: 12,
           }}
         >
           <FlexWidget
@@ -252,8 +252,8 @@ function StepsHistory() {
               backgroundColor: '#306374',
               flexDirection: 'row',
               height: 'match_parent',
-              borderRadius: 32,
-              width: 300,
+              borderRadius: 12,
+              width: 110,
             }}
           >
             <TextWidget style={{ fontSize: 0 }} text="0" />
@@ -271,7 +271,7 @@ function StepsHistory() {
         <FlexWidget
           style={{
             flexDirection: 'row',
-            marginBottom: 16,
+            marginBottom: 6,
             flex: 1,
           }}
         >
@@ -291,8 +291,8 @@ function StepsHistory() {
             width: 'match_parent',
             height: 'wrap_content',
             flex: 2,
-            borderRadius: 32,
-            marginBottom: 32,
+            borderRadius: 12,
+            marginBottom: 12,
           }}
         >
           <FlexWidget
@@ -300,8 +300,8 @@ function StepsHistory() {
               backgroundColor: '#306374',
               flexDirection: 'row',
               height: 'match_parent',
-              borderRadius: 32,
-              width: 64,
+              borderRadius: 12,
+              width: 24,
             }}
           >
             <TextWidget style={{ fontSize: 0 }} text="0" />
@@ -325,12 +325,12 @@ export function FitnessWidget({ activeView }: FitnessWidgetProps) {
         backgroundColor: '#5CC6E2',
         height: 'match_parent',
         width: 'match_parent',
-        borderRadius: 48,
+        borderRadius: 16,
       }}
     >
       <FlexWidget
         style={{
-          padding: 32,
+          padding: 12,
           height: 'match_parent',
           width: 'wrap_content',
         }}

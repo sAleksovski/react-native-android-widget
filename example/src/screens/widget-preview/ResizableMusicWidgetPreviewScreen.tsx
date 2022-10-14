@@ -5,20 +5,18 @@ import { WidgetPreview } from 'react-native-android-widget';
 
 import { ResizableMusicWidget } from '../../widgets/ResizableMusicWidget';
 
-const PIXEL_5_SCALE = 2.75;
-
 const WIDGET_SIZES = [
-  { width: 558, height: 575 },
-  { width: 759, height: 575 },
-  { width: 960, height: 575 },
+  { width: 202, height: 210 },
+  { width: 276, height: 210 },
+  { width: 350, height: 210 },
 
-  { width: 558, height: 886 },
-  { width: 759, height: 886 },
-  { width: 960, height: 886 },
+  { width: 202, height: 322 },
+  { width: 276, height: 322 },
+  { width: 350, height: 322 },
 
-  { width: 558, height: 1194 },
-  { width: 759, height: 1194 },
-  { width: 960, height: 1194 },
+  { width: 202, height: 434 },
+  { width: 276, height: 434 },
+  { width: 350, height: 434 },
 ];
 
 export function ResizableMusicWidgetPreviewScreen() {
@@ -33,13 +31,10 @@ export function ResizableMusicWidgetPreviewScreen() {
       </View>
       <WidgetPreview
         renderWidget={({ width, height }) => (
-          <ResizableMusicWidget
-            width={Math.round(width * PIXEL_5_SCALE)}
-            height={Math.round(height * PIXEL_5_SCALE)}
-          />
+          <ResizableMusicWidget width={width} height={height} />
         )}
-        height={Math.round(size!.height / PIXEL_5_SCALE)}
-        width={Math.round(size!.width / PIXEL_5_SCALE)}
+        height={size!.height}
+        width={size!.width}
         showBorder
       />
     </View>
