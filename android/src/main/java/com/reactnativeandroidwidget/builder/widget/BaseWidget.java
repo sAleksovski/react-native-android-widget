@@ -122,10 +122,26 @@ public abstract class BaseWidget<T extends View> {
     private void setBorder() {
         if (props.hasKey("borderColor")) {
             ReadableMap borderColor = props.getMap("borderColor");
-            getReactViewBackground().setBorderColor(Spacing.LEFT, Color.parseColor(borderColor.getString("left")), 255);
-            getReactViewBackground().setBorderColor(Spacing.RIGHT, Color.parseColor(borderColor.getString("right")), 255);
-            getReactViewBackground().setBorderColor(Spacing.TOP, Color.parseColor(borderColor.getString("top")), 255);
-            getReactViewBackground().setBorderColor(Spacing.BOTTOM, Color.parseColor(borderColor.getString("bottom")), 255);
+            getReactViewBackground().setBorderColor(
+                Spacing.LEFT,
+                Color.parseColor(borderColor.getString("left")),
+                Color.alpha(Color.parseColor(borderColor.getString("left")))
+            );
+            getReactViewBackground().setBorderColor(
+                Spacing.RIGHT,
+                Color.parseColor(borderColor.getString("right")),
+                Color.alpha(Color.parseColor(borderColor.getString("right")))
+            );
+            getReactViewBackground().setBorderColor(
+                Spacing.TOP,
+                Color.parseColor(borderColor.getString("top")),
+                Color.alpha(Color.parseColor(borderColor.getString("top")))
+            );
+            getReactViewBackground().setBorderColor(
+                Spacing.BOTTOM,
+                Color.parseColor(borderColor.getString("bottom")),
+                Color.alpha(Color.parseColor(borderColor.getString("bottom")))
+            );
         }
 
         if (props.hasKey("borderWidth")) {
