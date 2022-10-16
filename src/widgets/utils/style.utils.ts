@@ -1,5 +1,7 @@
 import type { CommonInternalProps } from './common-internal.props';
-import type { CommonStyleProps } from './style.props';
+import type { ColorProp, CommonStyleProps, HexColor } from './style.props';
+
+const WHITE = '#ffffff';
 
 export function convertCommonStyle(
   style: CommonStyleProps
@@ -8,15 +10,69 @@ export function convertCommonStyle(
 
   copyProp(style, internalProps, 'height');
   copyProp(style, internalProps, 'width');
-  copyProp(style, internalProps, 'backgroundColor');
-  copyProp(style, internalProps, 'backgroundGradient');
   copyProp(style, internalProps, 'rotation');
+
+  if (style?.backgroundColor) {
+    internalProps.backgroundColor = convertColor(style.backgroundColor);
+  }
+
+  if (style?.backgroundGradient) {
+    internalProps.backgroundGradient = {
+      ...style.backgroundGradient,
+      from: convertColor(style.backgroundGradient.from ?? '#fff'),
+      to: convertColor(style.backgroundGradient.to ?? '#fff'),
+    };
+  }
 
   buildMargin(style, internalProps);
   buildPadding(style, internalProps);
   buildBorder(style, internalProps);
 
   return internalProps;
+}
+
+export function convertColor(color: ColorProp): HexColor {
+  if (color.startsWith('#')) {
+    const colorWithoutHash = color.substring(1);
+
+    if (colorWithoutHash.length === 3) {
+      const [r, g, b] = colorWithoutHash.split('');
+      return `#${r}${r}${g}${g}${b}${b}`;
+    }
+
+    if (colorWithoutHash.length === 4) {
+      const [r, g, b, a] = colorWithoutHash.split('');
+      return `#${a}${a}${r}${r}${g}${g}${b}${b}`;
+    }
+
+    if (colorWithoutHash.length === 8) {
+      return `#${colorWithoutHash.substring(6)}${colorWithoutHash.substring(
+        0,
+        6
+      )}`;
+    }
+  }
+
+  if (color.startsWith('rgba')) {
+    const [r, g, b, a]: string[] = color
+      .replace('rgba(', '')
+      .replace(')', '')
+      .split(',')
+      .map((x) => x.trim())
+      .map((x) => parseFloat(x))
+      .map((x, i: number) => Math.round(i === 3 ? x * 255 : x))
+      .map((x) => Math.min(Math.max(0, x), 255))
+      .map((x) => x.toString(16).padStart(2, '0')) as [
+      string,
+      string,
+      string,
+      string
+    ];
+
+    return `#${a}${r}${g}${b}`;
+  }
+
+  return color.startsWith('#') ? (color as HexColor) : '#ffffff';
 }
 
 function copyProp(
@@ -178,30 +234,30 @@ function buildBorder(
 
   if ('borderColor' in props) {
     const borderColor = getBorderColor(internalProps);
-    borderColor.top = props.borderColor ?? '#ffffffff';
-    borderColor.right = props.borderColor ?? '#ffffffff';
-    borderColor.bottom = props.borderColor ?? '#ffffffff';
-    borderColor.left = props.borderColor ?? '#ffffffff';
+    borderColor.top = convertColor(props.borderColor ?? WHITE);
+    borderColor.right = convertColor(props.borderColor ?? WHITE);
+    borderColor.bottom = convertColor(props.borderColor ?? WHITE);
+    borderColor.left = convertColor(props.borderColor ?? WHITE);
   }
 
   if ('borderTopColor' in props) {
     const borderColor = getBorderColor(internalProps);
-    borderColor.top = props.borderTopColor ?? '#ffffffff';
+    borderColor.top = convertColor(props.borderTopColor ?? WHITE);
   }
 
   if ('borderRightColor' in props) {
     const borderColor = getBorderColor(internalProps);
-    borderColor.right = props.borderRightColor ?? '#ffffffff';
+    borderColor.right = convertColor(props.borderRightColor ?? WHITE);
   }
 
   if ('borderBottomColor' in props) {
     const borderColor = getBorderColor(internalProps);
-    borderColor.bottom = props.borderBottomColor ?? '#ffffffff';
+    borderColor.bottom = convertColor(props.borderBottomColor ?? WHITE);
   }
 
   if ('borderLeftColor' in props) {
     const borderColor = getBorderColor(internalProps);
-    borderColor.left = props.borderLeftColor ?? '#ffffffff';
+    borderColor.left = convertColor(props.borderLeftColor ?? WHITE);
   }
 
   if ('borderRadius' in props) {
@@ -251,10 +307,10 @@ function getBorderWidth(internalProps: CommonInternalProps) {
 
 function getBorderColor(internalProps: CommonInternalProps) {
   internalProps.borderColor = internalProps.borderColor ?? {
-    top: '#ffffffff',
-    right: '#ffffffff',
-    bottom: '#ffffffff',
-    left: '#ffffffff',
+    top: WHITE,
+    right: WHITE,
+    bottom: WHITE,
+    left: WHITE,
   };
   return internalProps.borderColor;
 }

@@ -1,17 +1,21 @@
 import type { CommonInternalProps } from './utils/common-internal.props';
-import type { CommonStyleProps } from './utils/style.props';
-import { convertCommonStyle } from './utils/style.utils';
+import type {
+  ColorProp,
+  CommonStyleProps,
+  HexColor,
+} from './utils/style.props';
+import { convertColor, convertCommonStyle } from './utils/style.utils';
 
 export interface IconWidgetInternalProps extends CommonInternalProps {
   icon: string;
   size: number;
   font: 'material' | 'material_outlined';
 
-  color?: string;
+  color?: HexColor;
 }
 
 interface IconWidgetStyle extends CommonStyleProps {
-  color?: string;
+  color?: ColorProp;
 }
 
 interface IconWidgetProps {
@@ -35,6 +39,6 @@ IconWidget.convertProps = (props: IconWidgetProps): IconWidgetInternalProps => {
     icon: props.icon,
     size: props.size,
     font: props.font,
-    ...(props?.style?.color ? { color: props?.style?.color } : {}),
+    ...(props?.style?.color ? { color: convertColor(props.style.color) } : {}),
   };
 };

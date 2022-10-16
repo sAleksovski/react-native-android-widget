@@ -1,3 +1,8 @@
+export type HexColor = `#${string}`;
+type RgbaColor = `rgba(${number}, ${number}, ${number}, ${number})`;
+
+export type ColorProp = HexColor | RgbaColor;
+
 export interface MarginStyleProps {
   margin?: number;
   marginHorizontal?: number;
@@ -25,11 +30,11 @@ export interface BorderStyleProps {
   borderLeftWidth?: number;
   borderRightWidth?: number;
 
-  borderColor?: string;
-  borderTopColor?: string;
-  borderBottomColor?: string;
-  borderLeftColor?: string;
-  borderRightColor?: string;
+  borderColor?: ColorProp;
+  borderTopColor?: ColorProp;
+  borderBottomColor?: ColorProp;
+  borderLeftColor?: ColorProp;
+  borderRightColor?: ColorProp;
 
   borderRadius?: number;
   borderTopLeftRadius?: number;
@@ -46,19 +51,10 @@ export interface SizeStyleProps {
 }
 
 export interface BackgroundStyleProps {
-  /**
-   * #RRGGBB or #AARRGGBB
-   */
-  backgroundColor?: string;
+  backgroundColor?: ColorProp;
   backgroundGradient?: {
-    /**
-     * #RRGGBB or #AARRGGBB
-     */
-    from: string;
-    /**
-     * #RRGGBB or #AARRGGBB
-     */
-    to: string;
+    from: ColorProp;
+    to: ColorProp;
     orientation:
       | 'TOP_BOTTOM'
       | 'TR_BL'

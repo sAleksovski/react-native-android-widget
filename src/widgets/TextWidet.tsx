@@ -1,30 +1,30 @@
 import type { CommonInternalProps } from './utils/common-internal.props';
-import type { CommonStyleProps } from './utils/style.props';
-import { convertCommonStyle } from './utils/style.utils';
+import type {
+  ColorProp,
+  CommonStyleProps,
+  HexColor,
+} from './utils/style.props';
+import { convertColor, convertCommonStyle } from './utils/style.utils';
 
 export interface TextWidgetInternalProps extends CommonInternalProps {
   text: string;
   fontSize: number;
-  /**
-   * #RRGGBB or #AARRGGBB
-   * Default is #000
-   */
-  color?: string;
+  color?: HexColor;
   shadow?: {
     radius: number;
     dx: number;
     dy: number;
-    color: string;
+    color: HexColor;
   };
   truncate?: 'START' | 'MIDDLE' | 'END';
   maxLines?: number;
 }
 
 interface TextWidgetStyle extends CommonStyleProps {
-  color?: string;
+  color?: ColorProp;
   fontSize?: number;
 
-  textShadowColor?: string;
+  textShadowColor?: ColorProp;
   textShadowRadius?: number;
   textShadowOffset?: { height: number; width: number };
 }
@@ -48,7 +48,7 @@ TextWidget.convertProps = (props: TextWidgetProps): TextWidgetInternalProps => {
     ...convertCommonStyle(props.style ?? {}),
     text: props.text,
     fontSize: props.style?.fontSize ?? 12,
-    ...(props.style?.color ? { color: props.style?.color } : {}),
+    ...(props.style?.color ? { color: convertColor(props.style.color) } : {}),
     ...buildTextShadow(props.style ?? {}),
     ...(props.truncate ? { truncate: props.truncate } : {}),
     ...(props.maxLines ? { maxLines: props.maxLines } : {}),
@@ -69,7 +69,7 @@ function buildTextShadow(
         radius: style.textShadowRadius ?? 0,
         dx: style.textShadowOffset?.width ?? 0,
         dy: style.textShadowOffset?.height ?? 0,
-        color: style.textShadowColor ?? '#fff',
+        color: convertColor(style.textShadowColor ?? '#fff'),
       },
     };
   }

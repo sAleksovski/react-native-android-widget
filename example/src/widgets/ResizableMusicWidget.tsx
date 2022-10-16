@@ -1,6 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {
+  ColorProp,
   FlexWidget,
   IconWidget,
   ImageWidget,
@@ -33,8 +34,8 @@ function AlbumArt({
         <OverlapWidget
           style={{
             backgroundGradient: {
-              from: '#00B20A01',
-              to: '#ffB20A01',
+              from: '#B20A0100',
+              to: '#B20A01ff',
               orientation: overlayGradientOrientation,
             },
             height:
@@ -58,7 +59,7 @@ function AlbumArt({
 }
 
 interface NowPlayingInfoProps {
-  backgroundColor: string;
+  backgroundColor: ColorProp;
 }
 
 function NowPlayingInfo({ backgroundColor }: NowPlayingInfoProps) {
@@ -147,7 +148,7 @@ function NowPlayingInfo({ backgroundColor }: NowPlayingInfoProps) {
             height: 4,
             borderRadius: 2,
             width: 'match_parent',
-            backgroundColor: '#88ffffff',
+            backgroundColor: '#ffffff88',
           }}
         >
           <FlexWidget
@@ -355,7 +356,7 @@ export function ResizableMusicWidget({
   const isBigSquare = isSquare && height > 218 && width > 276;
   const Wrapper = isSquare ? OverlapWidget : FlexWidget;
 
-  const nowPlayingBackgroundColor = aspectX === 1 ? '#88A6181C' : '#B20A01';
+  const nowPlayingBackgroundColor = aspectX === 1 ? '#A6181C88' : '#B20A01';
 
   const albumArtWidth = isSquare ? width : aspectX === 2 ? width / 2 : width;
   const albumArtHeight = isSquare

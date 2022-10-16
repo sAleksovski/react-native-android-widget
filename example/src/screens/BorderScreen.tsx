@@ -16,7 +16,7 @@ export function BorderScreen() {
             style={{
               height: 150,
               width: 320,
-              backgroundColor: '#6664c8ff',
+              backgroundColor: 'rgba(100, 200, 255, 0.4)',
               borderTopColor: '#ff0000',
               borderLeftColor: '#0000ff',
               borderTopWidth: 10,
@@ -27,7 +27,7 @@ export function BorderScreen() {
               style={{
                 width: 50,
                 height: 30,
-                backgroundColor: 'teal',
+                backgroundColor: '#008080',
               }}
               children={[]}
             />
@@ -35,7 +35,7 @@ export function BorderScreen() {
               style={{
                 width: 50,
                 height: 30,
-                backgroundColor: 'red',
+                backgroundColor: '#ff0000',
               }}
               children={[]}
             />
@@ -43,7 +43,7 @@ export function BorderScreen() {
               style={{
                 width: 50,
                 height: 30,
-                backgroundColor: 'yellow',
+                backgroundColor: '#ffff00',
               }}
               children={[]}
             />
@@ -58,9 +58,9 @@ export function BorderScreen() {
         style={[
           styles.wrapper,
           {
-            borderTopColor: 'red',
+            borderTopColor: '#ff0000',
             borderTopWidth: 10,
-            borderLeftColor: 'blue',
+            borderLeftColor: '#0000ff',
             borderLeftWidth: 20,
           },
         ]}
@@ -85,17 +85,17 @@ const styles = StyleSheet.create({
   child1: {
     width: 50,
     height: 30,
-    backgroundColor: 'teal',
+    backgroundColor: '#008080',
   },
   child2: {
     width: 50,
     height: 30,
-    backgroundColor: 'red',
+    backgroundColor: '#ff0000',
   },
   child3: {
     width: 50,
     height: 30,
-    backgroundColor: 'yellow',
+    backgroundColor: '#ffff00',
   },
   wrapper: {
     width: 320,
