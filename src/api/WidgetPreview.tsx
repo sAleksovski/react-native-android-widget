@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, View } from 'react-native';
-import { AndroidWidget } from './AndroidWidget';
-import { buildTree } from './build-tree';
+import { AndroidWidget } from '../AndroidWidget';
+import { buildWidgetTree } from './build-widget-tree';
 
 interface WidgetPreviewProps {
   renderWidget: (props: { width: number; height: number }) => JSX.Element;
@@ -20,7 +20,7 @@ export function WidgetPreview({
   useEffect(() => {
     async function init() {
       const base64Image = await AndroidWidget.createPreview(
-        buildTree(renderWidget({ width, height })),
+        buildWidgetTree(renderWidget({ width, height })),
         width,
         height
       );

@@ -1,9 +1,9 @@
-import type { FlexWidgetInternalProps } from './widgets/FlexWidget';
-import type { IconWidgetInternalProps } from './widgets/IconWidget';
-import type { ImageWidgetInternalProps } from './widgets/ImageWidget';
-import type { OverlapWidgetInternalProps } from './widgets/OverlapWidget';
-import type { SvgWidgetInternalProps } from './widgets/SvgWidget';
-import type { TextWidgetInternalProps } from './widgets/TextWidet';
+import type { FlexWidgetInternalProps } from '../widgets/FlexWidget';
+import type { IconWidgetInternalProps } from '../widgets/IconWidget';
+import type { ImageWidgetInternalProps } from '../widgets/ImageWidget';
+import type { OverlapWidgetInternalProps } from '../widgets/OverlapWidget';
+import type { SvgWidgetInternalProps } from '../widgets/SvgWidget';
+import type { TextWidgetInternalProps } from '../widgets/TextWidet';
 
 interface IconNode {
   type: 'IconWidget';
@@ -45,7 +45,7 @@ export type WidgetTree =
   | SvgNode
   | TextNode;
 
-export function buildTree(jsxTree: JSX.Element): WidgetTree {
+export function buildWidgetTree(jsxTree: JSX.Element): WidgetTree {
   if (typeof jsxTree === 'string' || typeof jsxTree === 'number') {
     return jsxTree;
   }
@@ -71,7 +71,7 @@ export function buildTree(jsxTree: JSX.Element): WidgetTree {
             : [updatedChildren]
           )
             .filter((x) => !!x)
-            .map((x) => buildTree(x))
+            .map((x) => buildWidgetTree(x))
             .flat(1),
         }
       : {}),

@@ -3,8 +3,17 @@ package com.reactnativeandroidwidget;
 import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
 
 import android.appwidget.AppWidgetManager;
+import android.appwidget.AppWidgetProviderInfo;
+import android.content.ComponentName;
 import android.content.Context;
 import android.util.TypedValue;
+
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.WritableArray;
+import com.facebook.react.bridge.WritableMap;
+
+import java.util.List;
 
 public class RNWidgetUtil {
     public static int getWidgetWidth(Context context, int widgetId) {
@@ -31,5 +40,58 @@ public class RNWidgetUtil {
 
     private static int getWidgetSizeInDp(Context context, int widgetId, String key) {
         return AppWidgetManager.getInstance(context).getAppWidgetOptions(widgetId).getInt(key, 0);
+    }
+
+    public static WritableArray getWidgetInfo(ReactApplicationContext context, String widgetName) {
+        int[] widgetIds = getWidgetIds(context, widgetName);
+
+        WritableArray writableArray = Arguments.createArray();
+
+        for (int id : widgetIds) {
+            WritableMap widgetMap = Arguments.createMap();
+            widgetMap.putString("widgetName", widgetName);
+            widgetMap.putInt("widgetId", id);
+            widgetMap.putInt("height", getWidgetHeight(context, id));
+            widgetMap.putInt("width", getWidgetWidth(context, id));
+            widgetMap.putMap("screenInfo", getScreenInfo(context));
+
+            writableArray.pushMap(widgetMap);
+        }
+
+        return writableArray;
+    }
+
+    public static WritableMap getScreenInfo(Context context) {
+        WritableMap screenInfo = Arguments.createMap();
+        screenInfo.putInt("screenHeightDp", context.getResources().getConfiguration().screenHeightDp);
+        screenInfo.putInt("screenWidthDp", context.getResources().getConfiguration().screenWidthDp);
+        screenInfo.putDouble("density", context.getResources().getDisplayMetrics().density);
+        screenInfo.putInt("densityDpi", context.getResources().getDisplayMetrics().densityDpi);
+        return screenInfo;
+    }
+
+    public static int[] getWidgetIds(ReactApplicationContext context, String widgetName) {
+        String widgetProviderClassName = getWidgetProviderClassName(context, widgetName);
+
+        if (widgetProviderClassName == null) {
+            return new int[]{};
+        }
+
+        ComponentName name = new ComponentName(context, widgetProviderClassName);
+        return AppWidgetManager.getInstance(context).getAppWidgetIds(name);
+    }
+
+    public static String getWidgetProviderClassName(ReactApplicationContext context, String widgetName) {
+        List<AppWidgetProviderInfo> installedProviders = AppWidgetManager.getInstance(context).getInstalledProviders();
+
+        for (AppWidgetProviderInfo providerInfo : installedProviders) {
+            if (providerInfo.provider.getPackageName().equals(context.getPackageName())
+                && providerInfo.provider.getShortClassName().endsWith("." + widgetName)) {
+
+                return providerInfo.provider.getClassName();
+            }
+        }
+
+        return null;
     }
 }

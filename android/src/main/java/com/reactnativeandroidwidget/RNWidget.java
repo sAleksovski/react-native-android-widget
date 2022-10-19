@@ -2,7 +2,6 @@ package com.reactnativeandroidwidget;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
-import android.appwidget.AppWidgetProviderInfo;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -39,7 +38,7 @@ public class RNWidget {
     }
 
     public void drawWidgets() throws Exception {
-        int[] widgetIds = getWidgetIds();
+        int[] widgetIds = RNWidgetUtil.getWidgetIds(appContext, widgetName);
 
         for (int widgetId : widgetIds) {
             drawWidget(widgetId);
@@ -56,24 +55,11 @@ public class RNWidget {
             RNWidgetUtil.getWidgetWidth(appContext, widgetId),
             RNWidgetUtil.getWidgetHeight(appContext, widgetId)
         );
-        View rootView = widgetWithViews.getRootView();
 
-        Bitmap bitmap = Bitmap.createBitmap(
-            rootView.getMeasuredWidth(),
-            rootView.getMeasuredHeight(),
-            Bitmap.Config.ARGB_8888
-        );
-        Canvas bitmapHolder = new Canvas(bitmap);
-        rootView.draw(bitmapHolder);
-
+        Bitmap bitmap = drawViewToBitmap(widgetWithViews.getRootView());
         remoteWidgetView.setImageViewBitmap(R.id.rn_widget_image, bitmap);
 
-        remoteWidgetView.removeAllViews(R.id.rn_widget_clickable_container);
-        List<ClickableView> clickableViews = widgetWithViews.getClickableViews();
-        for (int i = 0; i < clickableViews.size(); i++) {
-            ClickableView clickableView = clickableViews.get(i);
-            addClickableArea(remoteWidgetView, (ViewGroup) rootView, clickableView, widgetId);
-        }
+        addClickableAreas(widgetId, remoteWidgetView, widgetWithViews);
 
         AppWidgetManager.getInstance(appContext)
             .updateAppWidget(widgetId, remoteWidgetView);
@@ -83,15 +69,7 @@ public class RNWidget {
         ReadableMap configClone = Arguments.makeNativeMap(config.toHashMap());
 
         WidgetWithViews widgetWithViews = WidgetFactory.buildWidgetFromRoot(appContext, configClone, width, height);
-        View rootView = widgetWithViews.getRootView();
-
-        Bitmap bitmap = Bitmap.createBitmap(
-            rootView.getMeasuredWidth(),
-            rootView.getMeasuredHeight(),
-            Bitmap.Config.ARGB_8888
-        );
-        Canvas bitmapHolder = new Canvas(bitmap);
-        rootView.draw(bitmapHolder);
+        Bitmap bitmap = drawViewToBitmap(widgetWithViews.getRootView());
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
@@ -100,29 +78,25 @@ public class RNWidget {
         return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
 
-    private int[] getWidgetIds() {
-        String widgetProviderClassName = getWidgetProviderClassName();
-
-        if (widgetProviderClassName == null) {
-            return new int[]{};
-        }
-
-        ComponentName name = new ComponentName(appContext, widgetProviderClassName);
-        return AppWidgetManager.getInstance(appContext).getAppWidgetIds(name);
+    private Bitmap drawViewToBitmap(View rootView) {
+        Bitmap bitmap = Bitmap.createBitmap(
+            rootView.getMeasuredWidth(),
+            rootView.getMeasuredHeight(),
+            Bitmap.Config.ARGB_8888
+        );
+        Canvas bitmapHolder = new Canvas(bitmap);
+        rootView.draw(bitmapHolder);
+        return bitmap;
     }
 
-    private String getWidgetProviderClassName() {
-        List<AppWidgetProviderInfo> installedProviders = AppWidgetManager.getInstance(appContext).getInstalledProviders();
-
-        for (AppWidgetProviderInfo providerInfo : installedProviders) {
-            if (providerInfo.provider.getPackageName().equals(appContext.getPackageName())
-                && providerInfo.provider.getShortClassName().endsWith("." + widgetName)) {
-
-                return providerInfo.provider.getClassName();
-            }
+    private void addClickableAreas(int widgetId, RemoteViews remoteWidgetView, WidgetWithViews widgetWithViews) {
+        remoteWidgetView.removeAllViews(R.id.rn_widget_clickable_container);
+        ViewGroup rootView = (ViewGroup) widgetWithViews.getRootView();
+        List<ClickableView> clickableViews = widgetWithViews.getClickableViews();
+        for (int i = 0; i < clickableViews.size(); i++) {
+            ClickableView clickableView = clickableViews.get(i);
+            addClickableArea(remoteWidgetView, rootView, clickableView, widgetId);
         }
-
-        return null;
     }
 
     private void addClickableArea(RemoteViews widgetView, ViewGroup rootWidget, ClickableView clickableView, int widgetId) {
@@ -147,7 +121,7 @@ public class RNWidget {
 
     private void registerClickTask(int id, String clickAction, RemoteViews widgetView, Integer button) {
         Intent intent = new Intent("com.reactnativeandroidwidget.WIDGET_CLICK");
-        intent.setComponent(new ComponentName(appContext, getWidgetProviderClassName()));
+        intent.setComponent(new ComponentName(appContext, RNWidgetUtil.getWidgetProviderClassName(appContext, widgetName)));
         intent.putExtra("widgetId", id);
         intent.putExtra("clickAction", clickAction);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(

@@ -3,6 +3,7 @@ package com.reactnativeandroidwidget;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.WritableArray;
 
 /**
  * This is where the module implementation lives
@@ -35,5 +36,10 @@ public class AndroidWidgetModuleImpl {
             e.printStackTrace();
         }
         promise.resolve(preview);
+    }
+
+    public static void getWidgetInfo(ReactApplicationContext context, String widgetName, Promise promise) {
+        WritableArray widgetInfo = RNWidgetUtil.getWidgetInfo(context, widgetName);
+        promise.resolve(widgetInfo);
     }
 }

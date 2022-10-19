@@ -35,4 +35,9 @@ public class AndroidWidgetModule extends ReactContextBaseJavaModule {
     public void createPreview(ReadableMap config, double width, double height, Promise promise) {
         AndroidWidgetModuleImpl.createPreview(this.getReactApplicationContext(), config, (int) width, (int) height, promise);
     }
+
+    @ReactMethod
+    public void getWidgetInfo(String widgetName, Promise promise) {
+        AndroidWidgetModuleImpl.getWidgetInfo(this.getReactApplicationContext(), widgetName, promise);
+    }
 }
