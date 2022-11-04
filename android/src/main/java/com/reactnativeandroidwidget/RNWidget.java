@@ -120,7 +120,7 @@ public class RNWidget {
     }
 
     private void registerClickTask(int id, String clickAction, RemoteViews widgetView, Integer button) {
-        Intent intent = new Intent("com.reactnativeandroidwidget.WIDGET_CLICK");
+        Intent intent = new Intent(appContext.getPackageName() + ".WIDGET_CLICK");
         intent.setComponent(new ComponentName(appContext, RNWidgetUtil.getWidgetProviderClassName(appContext, widgetName)));
         intent.putExtra("widgetId", id);
         intent.putExtra("clickAction", clickAction);

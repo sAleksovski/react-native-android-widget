@@ -32,7 +32,7 @@ export default (config: ExpoConfig, params: { widgets: Widget[] }) => {
       params.widgets.forEach((widget: Widget) => {
         withWidgetProviderClass(config, androidManifestConfig, widget);
         withWidgetProviderXml(androidManifestConfig, widget);
-        withWidgetReceiver(mainApplication, widget);
+        withWidgetReceiver(config, mainApplication, widget);
       });
 
       return androidManifestConfig;
@@ -124,6 +124,7 @@ function withWidgetProviderXml(
 }
 
 function withWidgetReceiver(
+  config: ExpoConfig,
   mainApplication: AndroidConfig.Manifest.ManifestApplication,
   widget: Widget
 ): void {
@@ -151,7 +152,7 @@ function withWidgetReceiver(
           },
           {
             $: {
-              'android:name': 'com.reactnativeandroidwidget.WIDGET_CLICK',
+              'android:name': `${config.android?.package}.WIDGET_CLICK`,
             },
           },
         ],

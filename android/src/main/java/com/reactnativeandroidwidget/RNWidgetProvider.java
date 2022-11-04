@@ -50,7 +50,7 @@ public class RNWidgetProvider extends AppWidgetProvider {
     public void onReceive(final Context context, final Intent incomingIntent) {
         super.onReceive(context, incomingIntent);
 
-        if (!incomingIntent.getAction().startsWith("com.reactnativeandroidwidget.WIDGET")) {
+        if (!incomingIntent.getAction().startsWith(context.getPackageName() + ".WIDGET")) {
             return;
         }
 
@@ -93,7 +93,7 @@ public class RNWidgetProvider extends AppWidgetProvider {
         RemoteViews remoteWidgetView = new RemoteViews(context.getPackageName(), R.layout.rn_widget);
         RemoteViews clickableView = new RemoteViews(context.getPackageName(), R.layout.rn_widget_placeholder);
 
-        Intent intent = new Intent("com.reactnativeandroidwidget.WIDGET_CLICK");
+        Intent intent = new Intent(context.getPackageName() + ".WIDGET_CLICK");
         intent.setClass(context, getClass());
         intent.putExtra("widgetId", widgetId);
         intent.putExtra("widgetAction", backgroundTaskIntent.getStringExtra("widgetAction"));

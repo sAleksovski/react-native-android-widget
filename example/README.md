@@ -30,7 +30,7 @@
   android:label="Fitness">
   <intent-filter>
     <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-    <action android:name="com.reactnativeandroidwidget.WIDGET_CLICK" />
+    <action android:name="com.example.reactnativeandroidwidget.WIDGET_CLICK" />
   </intent-filter>
   <meta-data
     android:name="android.appwidget.provider"
