@@ -60,7 +60,13 @@ public class WidgetFactory {
         View view = baseWidget.getView();
 
         if (config.getMap("props").hasKey("clickAction")) {
-            clickableViews.add(new ClickableView(view, config.getMap("props").getString("clickAction")));
+            clickableViews.add(
+                new ClickableView(
+                    view,
+                    config.getMap("props").getString("clickAction"),
+                    config.getMap("props").getMap("clickActionData")
+                )
+            );
         }
 
         return view;

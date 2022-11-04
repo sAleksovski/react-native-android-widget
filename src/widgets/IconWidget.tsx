@@ -1,3 +1,4 @@
+import { ClickActionProps, convertClickAction } from './utils/click-action';
 import type { CommonInternalProps } from './utils/common-internal.props';
 import type {
   ColorProp,
@@ -18,9 +19,8 @@ interface IconWidgetStyle extends CommonStyleProps {
   color?: ColorProp;
 }
 
-interface IconWidgetProps {
+interface IconWidgetProps extends ClickActionProps {
   style?: IconWidgetStyle;
-  clickAction?: string;
   children?: never;
 
   icon: string;
@@ -35,7 +35,7 @@ IconWidget.__name__ = 'IconWidget';
 IconWidget.convertProps = (props: IconWidgetProps): IconWidgetInternalProps => {
   return {
     ...convertCommonStyle(props.style ?? {}),
-    ...(props.clickAction ? { clickAction: props.clickAction } : {}),
+    ...convertClickAction(props),
     icon: props.icon,
     size: props.size,
     font: props.font,

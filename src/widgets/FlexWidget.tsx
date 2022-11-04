@@ -1,3 +1,4 @@
+import { ClickActionProps, convertClickAction } from './utils/click-action';
 import type { CommonInternalProps } from './utils/common-internal.props';
 import type { CommonStyleProps } from './utils/style.props';
 import { convertCommonStyle } from './utils/style.utils';
@@ -38,10 +39,9 @@ export interface FlexStyleProps {
 
 interface FlexWidgetStyle extends FlexStyleProps, CommonStyleProps {}
 
-interface FlexWidgetProps {
+interface FlexWidgetProps extends ClickActionProps {
   children?: any;
   style?: FlexWidgetStyle;
-  clickAction?: string;
 }
 
 export function FlexWidget({ children }: FlexWidgetProps) {
@@ -52,7 +52,7 @@ FlexWidget.convertProps = (props: FlexWidgetProps): FlexWidgetInternalProps => {
   return {
     ...convertCommonStyle(props.style ?? {}),
     ...convertFlexStyle(props.style ?? {}),
-    ...(props.clickAction ? { clickAction: props.clickAction } : {}),
+    ...convertClickAction(props),
   };
 };
 FlexWidget.processChildren = (

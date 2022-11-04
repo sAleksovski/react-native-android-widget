@@ -1,4 +1,5 @@
 import { Image, ImageRequireSource } from 'react-native';
+import { ClickActionProps, convertClickAction } from './utils/click-action';
 import type { CommonInternalProps } from './utils/common-internal.props';
 import type { CommonStyleProps } from './utils/style.props';
 import { convertCommonStyle } from './utils/style.utils';
@@ -10,9 +11,8 @@ export interface SvgWidgetInternalProps extends CommonInternalProps {
 
 type SvgWidgetStyle = CommonStyleProps;
 
-interface SvgWidgetProps {
+interface SvgWidgetProps extends ClickActionProps {
   style?: SvgWidgetStyle;
-  clickAction?: string;
   children?: never;
 
   svg: string | ImageRequireSource;
@@ -30,7 +30,7 @@ SvgWidget.convertProps = (props: SvgWidgetProps): SvgWidgetInternalProps => {
 
   return {
     ...convertCommonStyle(props.style ?? {}),
-    ...(props.clickAction ? { clickAction: props.clickAction } : {}),
+    ...convertClickAction(props),
     ...(typeof props.svg === 'string' ? { svgString: svg } : {}),
     ...(typeof props.svg !== 'string' ? { svgUrl: svg } : {}),
   };

@@ -61,6 +61,7 @@ public class RNWidgetProvider extends AppWidgetProvider {
 
         if (incomingIntent.hasExtra("clickAction")) {
             backgroundTaskIntent.putExtra("clickAction", incomingIntent.getStringExtra("clickAction"));
+            backgroundTaskIntent.putExtra("clickActionData", incomingIntent.getBundleExtra("clickActionData"));
         }
 
         startBackgroundTask(context, backgroundTaskIntent);

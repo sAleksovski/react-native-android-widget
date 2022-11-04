@@ -114,16 +114,17 @@ public class RNWidget {
             RNWidgetUtil.dpToPx(appContext, RNWidgetUtil.getWidgetHeight(appContext, widgetId)) - offsetViewBounds.bottom
         );
 
-        registerClickTask(widgetId, clickableView.getClickAction(), clickableRemoteView, R.id.rn_widget_clickable_area);
+        registerClickTask(widgetId, clickableView, clickableRemoteView, R.id.rn_widget_clickable_area);
 
         widgetView.addView(R.id.rn_widget_clickable_container, clickableRemoteView);
     }
 
-    private void registerClickTask(int id, String clickAction, RemoteViews widgetView, Integer button) {
+    private void registerClickTask(int id, ClickableView clickableView, RemoteViews widgetView, Integer button) {
         Intent intent = new Intent(appContext.getPackageName() + ".WIDGET_CLICK");
         intent.setComponent(new ComponentName(appContext, RNWidgetUtil.getWidgetProviderClassName(appContext, widgetName)));
         intent.putExtra("widgetId", id);
-        intent.putExtra("clickAction", clickAction);
+        intent.putExtra("clickAction", clickableView.getClickAction());
+        intent.putExtra("clickActionData", Arguments.toBundle(clickableView.getClickActionData()));
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
             appContext,
             (int) System.currentTimeMillis(),

@@ -8,12 +8,14 @@ const HEADLESS_TASK_KEY = 'RNWidgetBackgroundTaskService';
 interface NativeTaskInfo extends WidgetInfo {
   widgetAction: 'WIDGET_ADDED' | 'WIDGET_RESIZED' | 'WIDGET_CLICK';
   clickAction?: string;
+  clickActionData?: Record<string, unknown>;
 }
 
 export interface WidgetTaskHandlerProps {
   widgetInfo: WidgetInfo;
   widgetAction: 'WIDGET_ADDED' | 'WIDGET_RESIZED' | 'WIDGET_CLICK';
   clickAction?: string;
+  clickActionData?: Record<string, unknown>;
   renderWidget: (widgetComponent: JSX.Element) => void;
 }
 
@@ -25,6 +27,7 @@ export function registerWidgetTaskHandler(handler: WidgetTaskHandler) {
   async function taskProvider({
     widgetAction,
     clickAction,
+    clickActionData,
     ...widgetInfo
   }: NativeTaskInfo) {
     function renderWidget(widgetComponent: JSX.Element) {
@@ -35,7 +38,13 @@ export function registerWidgetTaskHandler(handler: WidgetTaskHandler) {
       );
     }
 
-    await handler({ widgetInfo, widgetAction, clickAction, renderWidget });
+    await handler({
+      widgetInfo,
+      widgetAction,
+      clickAction,
+      clickActionData,
+      renderWidget,
+    });
   }
 
   AppRegistry.registerHeadlessTask(HEADLESS_TASK_KEY, () => taskProvider);

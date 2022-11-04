@@ -3,6 +3,7 @@ import {
   ImageRequireSource,
   ImageResolvedAssetSource,
 } from 'react-native';
+import { ClickActionProps, convertClickAction } from './utils/click-action';
 import type { CommonInternalProps } from './utils/common-internal.props';
 import type { CommonStyleProps } from './utils/style.props';
 import { convertCommonStyle } from './utils/style.utils';
@@ -15,9 +16,8 @@ export interface ImageWidgetInternalProps extends CommonInternalProps {
 
 type ImageWidgetStyle = CommonStyleProps;
 
-interface ImageWidgetProps {
+interface ImageWidgetProps extends ClickActionProps {
   style?: ImageWidgetStyle;
-  clickAction?: string;
   children?: never;
 
   imageWidth: number;
@@ -35,7 +35,7 @@ ImageWidget.convertProps = (
 ): ImageWidgetInternalProps => {
   return {
     ...convertCommonStyle(props.style ?? {}),
-    ...(props.clickAction ? { clickAction: props.clickAction } : {}),
+    ...convertClickAction(props),
     imageHeight: props.imageHeight,
     imageWidth: props.imageWidth,
     image: Image.resolveAssetSource(props.image),

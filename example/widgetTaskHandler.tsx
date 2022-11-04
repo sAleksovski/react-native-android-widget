@@ -37,6 +37,16 @@ export default async function widgetTaskHandler(props: WidgetTaskHandlerProps) {
           <Widget {...widgetInfo} activeView={props.clickAction as any} />
         );
       }
+
+      if (widgetInfo.widgetName === 'Resizable') {
+        props.renderWidget(
+          <Widget
+            {...widgetInfo}
+            status={props.clickAction === 'pause' ? 'stopped' : 'playing'}
+            songId={(props.clickActionData?.songId as number) ?? 0}
+          />
+        );
+      }
       break;
 
     default:

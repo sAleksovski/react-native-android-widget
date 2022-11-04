@@ -1,3 +1,4 @@
+import { ClickActionProps, convertClickAction } from './utils/click-action';
 import type { CommonInternalProps } from './utils/common-internal.props';
 import type {
   ColorProp,
@@ -29,9 +30,8 @@ interface TextWidgetStyle extends CommonStyleProps {
   textShadowOffset?: { height: number; width: number };
 }
 
-interface TextWidgetProps {
+interface TextWidgetProps extends ClickActionProps {
   style?: TextWidgetStyle;
-  clickAction?: string;
   children?: never;
 
   text: string;
@@ -46,6 +46,7 @@ export function TextWidget(_: TextWidgetProps) {
 TextWidget.convertProps = (props: TextWidgetProps): TextWidgetInternalProps => {
   return {
     ...convertCommonStyle(props.style ?? {}),
+    ...convertClickAction(props),
     text: props.text,
     fontSize: props.style?.fontSize ?? 12,
     ...(props.style?.color ? { color: convertColor(props.style.color) } : {}),

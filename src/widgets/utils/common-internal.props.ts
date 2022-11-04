@@ -3,6 +3,7 @@ export interface CommonInternalProps {
   width?: 'wrap_content' | 'match_parent' | number;
   weight?: number;
   clickAction?: string;
+  clickActionData?: Record<string, unknown>;
   /**
    * #RRGGBB or #AARRGGBB
    */

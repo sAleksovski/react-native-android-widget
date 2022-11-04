@@ -1,3 +1,4 @@
+import { ClickActionProps, convertClickAction } from './utils/click-action';
 import type { CommonInternalProps } from './utils/common-internal.props';
 import type { CommonStyleProps } from './utils/style.props';
 import { convertCommonStyle } from './utils/style.utils';
@@ -6,10 +7,9 @@ export type OverlapWidgetInternalProps = CommonInternalProps;
 
 type OverlapWidgetStyle = CommonStyleProps;
 
-interface OverlapWidgetProps {
+interface OverlapWidgetProps extends ClickActionProps {
   children?: any;
   style?: OverlapWidgetStyle;
-  clickAction?: string;
 }
 
 export function OverlapWidget({ children }: OverlapWidgetProps) {
@@ -21,6 +21,6 @@ OverlapWidget.convertProps = (
 ): OverlapWidgetInternalProps => {
   return {
     ...convertCommonStyle(props.style ?? {}),
-    ...(props.clickAction ? { clickAction: props.clickAction } : {}),
+    ...convertClickAction(props),
   };
 };

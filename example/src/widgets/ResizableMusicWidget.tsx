@@ -9,14 +9,60 @@ import {
   TextWidget,
 } from 'react-native-android-widget';
 
+interface Song {
+  id: number;
+  title: string;
+  artist: string;
+  albumArt: number;
+  mainColor: ColorProp;
+  secondaryColor: ColorProp;
+}
+
+const songs: [Song, Song, Song, Song] = [
+  {
+    id: 0,
+    title: 'Infinity',
+    artist: 'Jaymes Young',
+    albumArt: require('../../assets/james-infinity.jpg'),
+    mainColor: '#000000',
+    secondaryColor: '#3a3a3a',
+  },
+  {
+    id: 1,
+    title: 'Lost in Yesterday',
+    artist: 'Tame Impala',
+    albumArt: require('../../assets/tame-impala.jpeg'),
+    mainColor: '#B20A01',
+    secondaryColor: '#630B0E',
+  },
+  {
+    id: 2,
+    title: 'Borderline',
+    artist: 'Tame Impala',
+    albumArt: require('../../assets/tame-impala.jpeg'),
+    mainColor: '#B20A01',
+    secondaryColor: '#630B0E',
+  },
+  {
+    id: 3,
+    title: 'One More Year',
+    artist: 'Tame Impala',
+    albumArt: require('../../assets/tame-impala.jpeg'),
+    mainColor: '#B20A01',
+    secondaryColor: '#630B0E',
+  },
+];
+
 interface AlbumArtProps {
   height: number;
   width: number;
   showGradientOverlay: boolean;
   overlayGradientOrientation: 'TOP_BOTTOM' | 'LEFT_RIGHT';
+  song: Song;
 }
 
 function AlbumArt({
+  song,
   height,
   width,
   showGradientOverlay,
@@ -25,7 +71,7 @@ function AlbumArt({
   return (
     <OverlapWidget style={{ height, width }}>
       <ImageWidget
-        image={require('../../assets/tame-impala.jpeg')}
+        image={song.albumArt}
         imageWidth={width}
         imageHeight={height}
       />
@@ -34,8 +80,8 @@ function AlbumArt({
         <OverlapWidget
           style={{
             backgroundGradient: {
-              from: '#B20A0100',
-              to: '#B20A01ff',
+              from: `${song.mainColor}00` as ColorProp,
+              to: `${song.mainColor}ff` as ColorProp,
               orientation: overlayGradientOrientation,
             },
             height:
@@ -59,10 +105,16 @@ function AlbumArt({
 }
 
 interface NowPlayingInfoProps {
+  song: Song;
   backgroundColor: ColorProp;
+  status: 'playing' | 'stopped';
 }
 
-function NowPlayingInfo({ backgroundColor }: NowPlayingInfoProps) {
+function NowPlayingInfo({
+  status,
+  song,
+  backgroundColor,
+}: NowPlayingInfoProps) {
   return (
     <FlexWidget
       style={{
@@ -82,12 +134,14 @@ function NowPlayingInfo({ backgroundColor }: NowPlayingInfoProps) {
         }}
       >
         <TextWidget
-          style={{ fontSize: 24, color: '#ffffff', marginBottom: 6 }}
-          text="Borderline"
+          style={{ fontSize: 20, color: '#ffffff', marginBottom: 6 }}
+          text={song.title}
+          truncate="END"
+          maxLines={1}
         />
         <TextWidget
-          style={{ fontSize: 16, color: '#DFA9A6', marginBottom: 18 }}
-          text="Tame Impala"
+          style={{ fontSize: 16, color: '#ffffffcc', marginBottom: 18 }}
+          text={song.artist}
         />
 
         <FlexWidget
@@ -100,6 +154,10 @@ function NowPlayingInfo({ backgroundColor }: NowPlayingInfoProps) {
           }}
         >
           <FlexWidget
+            clickAction="change-song"
+            clickActionData={{
+              songId: (song.id + songs.length - 1) % songs.length,
+            }}
             style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
           >
             <IconWidget
@@ -113,12 +171,13 @@ function NowPlayingInfo({ backgroundColor }: NowPlayingInfoProps) {
             style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
           >
             <FlexWidget
-              clickAction="play"
+              clickAction={status === 'playing' ? 'pause' : 'play'}
+              clickActionData={{ songId: song.id }}
               style={{
                 height: 48,
                 width: 48,
                 borderRadius: 24,
-                backgroundColor: '#BA666B',
+                backgroundColor: song.secondaryColor,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
@@ -127,11 +186,13 @@ function NowPlayingInfo({ backgroundColor }: NowPlayingInfoProps) {
                 font="material"
                 size={36}
                 style={{ color: '#ffffff' }}
-                icon="play_arrow"
+                icon={status === 'playing' ? 'pause' : 'play_arrow'}
               />
             </FlexWidget>
           </FlexWidget>
           <FlexWidget
+            clickAction="change-song"
+            clickActionData={{ songId: (song.id + 1) % songs.length }}
             style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
           >
             <IconWidget
@@ -168,14 +229,15 @@ function NowPlayingInfo({ backgroundColor }: NowPlayingInfoProps) {
 
 interface NextTracksProps {
   height: number;
+  backgroundColor: ColorProp;
 }
 
-function NextTracks({ height }: NextTracksProps) {
+function NextTracks({ height, backgroundColor }: NextTracksProps) {
   const imageSize = (Math.min(height, 322 / 2) - (18 + 18 + 18 + 12 + 12)) / 2;
   return (
     <FlexWidget
       style={{
-        backgroundColor: '#630B0E',
+        backgroundColor,
         padding: 18,
         paddingTop: 14,
         height: height,
@@ -191,11 +253,22 @@ function NextTracks({ height }: NextTracksProps) {
         }}
       />
 
-      <FlexWidget style={{ flexDirection: 'row', marginBottom: 6 }}>
-        <FlexWidget style={{ flexDirection: 'row', marginRight: 12 }}>
+      <FlexWidget
+        style={{ flexDirection: 'row', marginBottom: 6, width: 'match_parent' }}
+      >
+        <FlexWidget
+          clickAction="change-song"
+          clickActionData={{ songId: 0 }}
+          style={{
+            flexDirection: 'row',
+            marginRight: 12,
+            flex: 1,
+            width: 'match_parent',
+          }}
+        >
           <ImageWidget
             radius={8}
-            image={require('../../assets/tame-impala.jpeg')}
+            image={songs[0].albumArt}
             imageHeight={imageSize}
             imageWidth={imageSize}
           />
@@ -209,7 +282,7 @@ function NextTracks({ height }: NextTracksProps) {
             <TextWidget
               truncate="END"
               maxLines={1}
-              text="Lost in Yesterday"
+              text={songs[0].title}
               style={{
                 color: '#ffffff',
                 fontSize: imageSize / 3,
@@ -219,19 +292,23 @@ function NextTracks({ height }: NextTracksProps) {
             <TextWidget
               truncate="END"
               maxLines={1}
-              text="Tame Impala"
+              text={songs[0].artist}
               style={{
-                color: '#DFA9A6',
+                color: '#ffffffcc',
                 fontSize: imageSize / 3,
               }}
             />
           </FlexWidget>
         </FlexWidget>
 
-        <FlexWidget style={{ flexDirection: 'row' }}>
+        <FlexWidget
+          clickAction="change-song"
+          clickActionData={{ songId: 1 }}
+          style={{ flexDirection: 'row', flex: 1, width: 'match_parent' }}
+        >
           <ImageWidget
             radius={8}
-            image={require('../../assets/james-infinity.jpg')}
+            image={songs[1].albumArt}
             imageHeight={imageSize}
             imageWidth={imageSize}
           />
@@ -245,7 +322,7 @@ function NextTracks({ height }: NextTracksProps) {
             <TextWidget
               truncate="END"
               maxLines={1}
-              text="Infinity"
+              text={songs[1].title}
               style={{
                 color: '#ffffff',
                 fontSize: imageSize / 3,
@@ -255,9 +332,9 @@ function NextTracks({ height }: NextTracksProps) {
             <TextWidget
               truncate="END"
               maxLines={1}
-              text="Jaymes Young"
+              text={songs[1].artist}
               style={{
-                color: '#DFA9A6',
+                color: '#ffffffcc',
                 fontSize: imageSize / 3,
               }}
             />
@@ -265,11 +342,20 @@ function NextTracks({ height }: NextTracksProps) {
         </FlexWidget>
       </FlexWidget>
 
-      <FlexWidget style={{ flexDirection: 'row' }}>
-        <FlexWidget style={{ flexDirection: 'row', marginRight: 12 }}>
+      <FlexWidget style={{ flexDirection: 'row', width: 'match_parent' }}>
+        <FlexWidget
+          clickAction="change-song"
+          clickActionData={{ songId: 2 }}
+          style={{
+            flexDirection: 'row',
+            marginRight: 12,
+            flex: 1,
+            width: 'match_parent',
+          }}
+        >
           <ImageWidget
             radius={8}
-            image={require('../../assets/tame-impala.jpeg')}
+            image={songs[2].albumArt}
             imageHeight={imageSize}
             imageWidth={imageSize}
           />
@@ -283,7 +369,7 @@ function NextTracks({ height }: NextTracksProps) {
             <TextWidget
               truncate="END"
               maxLines={1}
-              text="Lost in Yesterday"
+              text={songs[2].title}
               style={{
                 color: '#ffffff',
                 fontSize: imageSize / 3,
@@ -293,19 +379,23 @@ function NextTracks({ height }: NextTracksProps) {
             <TextWidget
               truncate="END"
               maxLines={1}
-              text="Tame Impala"
+              text={songs[2].artist}
               style={{
-                color: '#DFA9A6',
+                color: '#ffffffcc',
                 fontSize: imageSize / 3,
               }}
             />
           </FlexWidget>
         </FlexWidget>
 
-        <FlexWidget style={{ flexDirection: 'row' }}>
+        <FlexWidget
+          clickAction="change-song"
+          clickActionData={{ songId: 3 }}
+          style={{ flexDirection: 'row', flex: 1, width: 'match_parent' }}
+        >
           <ImageWidget
             radius={8}
-            image={require('../../assets/tame-impala.jpeg')}
+            image={songs[3].albumArt}
             imageHeight={imageSize}
             imageWidth={imageSize}
           />
@@ -319,7 +409,7 @@ function NextTracks({ height }: NextTracksProps) {
             <TextWidget
               truncate="END"
               maxLines={1}
-              text="One More Year"
+              text={songs[3].title}
               style={{
                 color: '#ffffff',
                 fontSize: imageSize / 3,
@@ -329,9 +419,9 @@ function NextTracks({ height }: NextTracksProps) {
             <TextWidget
               truncate="END"
               maxLines={1}
-              text="Tame Impala"
+              text={songs[3].artist}
               style={{
-                color: '#DFA9A6',
+                color: '#ffffffcc',
                 fontSize: imageSize / 3,
               }}
             />
@@ -345,10 +435,16 @@ function NextTracks({ height }: NextTracksProps) {
 export function ResizableMusicWidget({
   height,
   width,
+  songId = 2,
+  status = 'playing',
 }: {
   height: number;
   width: number;
+  songId?: number;
+  status?: 'playing' | 'stopped';
 }) {
+  const song = songs[songId % songs.length] ?? songs[0];
+
   const aspectX = Math.round(width / height);
   const aspectY = Math.round(height / width);
 
@@ -356,7 +452,8 @@ export function ResizableMusicWidget({
   const isBigSquare = isSquare && height > 218 && width > 276;
   const Wrapper = isSquare ? OverlapWidget : FlexWidget;
 
-  const nowPlayingBackgroundColor = aspectX === 1 ? '#A6181C88' : '#B20A01';
+  const nowPlayingBackgroundColor =
+    aspectX === 1 ? (`${song!.mainColor}88` as ColorProp) : song!.mainColor;
 
   const albumArtWidth = isSquare ? width : aspectX === 2 ? width / 2 : width;
   const albumArtHeight = isSquare
@@ -376,22 +473,30 @@ export function ResizableMusicWidget({
         <FlexWidget
           style={{
             flexDirection: 'row',
-            backgroundColor: '#B20A01',
+            backgroundColor: song!.mainColor,
             height: height / 2,
             width: 'match_parent',
           }}
         >
           <AlbumArt
+            song={song!}
             height={height / 2}
             width={width / 2}
             showGradientOverlay={true}
             overlayGradientOrientation="LEFT_RIGHT"
           />
 
-          <NowPlayingInfo backgroundColor={nowPlayingBackgroundColor} />
+          <NowPlayingInfo
+            song={song!}
+            backgroundColor={nowPlayingBackgroundColor}
+            status={status}
+          />
         </FlexWidget>
 
-        <NextTracks height={height / 2} />
+        <NextTracks
+          height={height / 2}
+          backgroundColor={song!.secondaryColor}
+        />
       </FlexWidget>
     );
   }
@@ -400,19 +505,24 @@ export function ResizableMusicWidget({
     <Wrapper
       style={{
         flexDirection: aspectY === 1 ? 'row' : 'column',
-        backgroundColor: '#B20A01',
+        backgroundColor: song!.mainColor,
         height: 'match_parent',
         width: 'match_parent',
       }}
     >
       <AlbumArt
+        song={song!}
         height={albumArtHeight}
         width={albumArtWidth}
         showGradientOverlay={!isSquare}
         overlayGradientOrientation={aspectX === 2 ? 'LEFT_RIGHT' : 'TOP_BOTTOM'}
       />
 
-      <NowPlayingInfo backgroundColor={nowPlayingBackgroundColor} />
+      <NowPlayingInfo
+        song={song!}
+        backgroundColor={nowPlayingBackgroundColor}
+        status={status}
+      />
     </Wrapper>
   );
 }
