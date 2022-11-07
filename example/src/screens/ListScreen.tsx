@@ -23,6 +23,7 @@ export type ExampleScreens = {
   FlexScreen: undefined;
   BorderScreen: undefined;
   SvgScreen: undefined;
+  TextScreen: undefined;
 };
 
 interface Item {
@@ -66,6 +67,10 @@ const items: Item[] = [
   {
     title: 'Svg Demo',
     screen: 'SvgScreen',
+  },
+  {
+    title: 'Text Demo',
+    screen: 'TextScreen',
   },
 ];
 

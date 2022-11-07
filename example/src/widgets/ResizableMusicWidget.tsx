@@ -134,7 +134,12 @@ function NowPlayingInfo({
         }}
       >
         <TextWidget
-          style={{ fontSize: 20, color: '#ffffff', marginBottom: 6 }}
+          style={{
+            fontSize: 20,
+            color: '#ffffff',
+            marginBottom: 6,
+            adjustsFontSizeToFit: true,
+          }}
           text={song.title}
           truncate="END"
           maxLines={1}

@@ -10,6 +10,23 @@ import { convertColor, convertCommonStyle } from './utils/style.utils';
 export interface TextWidgetInternalProps extends CommonInternalProps {
   text: string;
   fontSize: number;
+  fontFamily?: string;
+  fontStyle?: 'normal' | 'italic';
+  fontWeight?:
+    | 'normal'
+    | 'bold'
+    | '100'
+    | '200'
+    | '300'
+    | '400'
+    | '500'
+    | '600'
+    | '700'
+    | '800'
+    | '900';
+  adjustsFontSizeToFit?: boolean;
+  textAlign?: 'center' | 'left' | 'right';
+  letterSpacing?: number;
   color?: HexColor;
   shadow?: {
     radius: number;
@@ -24,6 +41,28 @@ export interface TextWidgetInternalProps extends CommonInternalProps {
 interface TextWidgetStyle extends CommonStyleProps {
   color?: ColorProp;
   fontSize?: number;
+  fontFamily?: string | undefined;
+  fontStyle?: 'normal' | 'italic';
+  /**
+   * Specifies font weight. The values 'normal' and 'bold' are supported
+   * for most fonts. Not all fonts have a variant for each of the numeric
+   * values, in that case the closest one is chosen.
+   */
+  fontWeight?:
+    | 'normal'
+    | 'bold'
+    | '100'
+    | '200'
+    | '300'
+    | '400'
+    | '500'
+    | '600'
+    | '700'
+    | '800'
+    | '900';
+  adjustsFontSizeToFit?: boolean;
+  textAlign?: 'center' | 'left' | 'right';
+  letterSpacing?: number;
 
   textShadowColor?: ColorProp;
   textShadowRadius?: number;
@@ -49,6 +88,16 @@ TextWidget.convertProps = (props: TextWidgetProps): TextWidgetInternalProps => {
     ...convertClickAction(props),
     text: props.text,
     fontSize: props.style?.fontSize ?? 12,
+    ...(props.style?.fontFamily ? { fontFamily: props.style.fontFamily } : {}),
+    ...(props.style?.fontStyle ? { fontStyle: props.style.fontStyle } : {}),
+    ...(props.style?.fontWeight ? { fontWeight: props.style.fontWeight } : {}),
+    ...(props.style?.textAlign ? { textAlign: props.style.textAlign } : {}),
+    ...(props.style?.letterSpacing
+      ? { letterSpacing: props.style.letterSpacing }
+      : {}),
+    ...(props.style?.adjustsFontSizeToFit
+      ? { adjustsFontSizeToFit: props.style.adjustsFontSizeToFit }
+      : {}),
     ...(props.style?.color ? { color: convertColor(props.style.color) } : {}),
     ...buildTextShadow(props.style ?? {}),
     ...(props.truncate ? { truncate: props.truncate } : {}),

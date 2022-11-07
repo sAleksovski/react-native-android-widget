@@ -5,6 +5,7 @@ import { BorderScreen } from './screens/BorderScreen';
 import { FlexScreen } from './screens/FlexScreen';
 import { ExampleScreens, ListScreen } from './screens/ListScreen';
 import { SvgScreen } from './screens/SvgScreen';
+import { TextScreen } from './screens/TextScreen';
 import { FitnessWidgetPreviewScreen } from './screens/widget-preview/FitnessWidgetPreviewScreen';
 import { MusicWidgetPreviewScreen } from './screens/widget-preview/MusicWidgetPreviewScreen';
 import { ResizableMusicWidgetPreviewScreen } from './screens/widget-preview/ResizableMusicWidgetPreviewScreen';
@@ -37,6 +38,11 @@ export default function App() {
           name="SvgScreen"
           component={SvgScreen}
           options={{ title: 'Svg Demo' }}
+        />
+        <Stack.Screen
+          name="TextScreen"
+          component={TextScreen}
+          options={{ title: 'Text Demo' }}
         />
         <Stack.Screen
           name="FitnessWidgetPreviewScreen"
