@@ -55,18 +55,16 @@ export function StepsWidget() {
           borderRadius: 20,
           height: 'match_parent',
           width: 'match_parent',
+          flexGap: 1,
+          flexGapColor: '#ffffff',
+          paddingHorizontal: 8,
         }}
-        // TODO
-        // separator={{
-        //   padding: 24,
-        //   color: '#ffffff',
-        // }}
       >
         <FlexWidget
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            padding: 8,
+            paddingVertical: 8,
           }}
         >
           <FlexWidget
@@ -105,7 +103,7 @@ export function StepsWidget() {
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            padding: 8,
+            paddingVertical: 8,
           }}
         >
           <FlexWidget

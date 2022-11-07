@@ -1,7 +1,7 @@
 import { ClickActionProps, convertClickAction } from './utils/click-action';
 import type { CommonInternalProps } from './utils/common-internal.props';
-import type { CommonStyleProps } from './utils/style.props';
-import { convertCommonStyle } from './utils/style.utils';
+import type { ColorProp, CommonStyleProps } from './utils/style.props';
+import { convertColor, convertCommonStyle } from './utils/style.utils';
 
 const GRAVITY = {
   START: 8388611,
@@ -15,11 +15,10 @@ const GRAVITY = {
 export interface FlexWidgetInternalProps extends CommonInternalProps {
   orientation?: 'VERTICAL' | 'HORIZONTAL';
   gravity?: number;
-  // TODO
-  // separator?: {
-  //   padding: number;
-  //   color: string;
-  // };
+  separator?: {
+    size: number;
+    color: string;
+  };
 }
 
 export interface FlexStyleProps {
@@ -33,8 +32,8 @@ export interface FlexStyleProps {
     | 'space-around'
     | 'space-between'
     | 'space-evenly';
-  // TODO
-  // flexGap?: number;
+  flexGap?: number;
+  flexGapColor?: ColorProp;
 }
 
 interface FlexWidgetStyle extends FlexStyleProps, CommonStyleProps {}
@@ -53,6 +52,14 @@ FlexWidget.convertProps = (props: FlexWidgetProps): FlexWidgetInternalProps => {
     ...convertCommonStyle(props.style ?? {}),
     ...convertFlexStyle(props.style ?? {}),
     ...convertClickAction(props),
+    ...(props.style?.flexGap
+      ? {
+          separator: {
+            size: props.style.flexGap,
+            color: convertColor(props.style.flexGapColor ?? '#ffffff00'),
+          },
+        }
+      : {}),
   };
 };
 FlexWidget.processChildren = (

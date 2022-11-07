@@ -2,6 +2,7 @@ package com.reactnativeandroidwidget.builder.widget;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -31,9 +32,14 @@ public class LinearLayoutWidget extends BaseLayoutWidget<LinearLayout> {
 
         if (props.hasKey("separator")) {
             ReadableMap separator = props.getMap("separator");
-            view.setDividerPadding(dpToPx(separator.getDouble("padding")));
 
-            ColorDrawable divider = new ColorDrawable(Color.parseColor(separator.getString("color")));
+            ShapeDrawable divider = new ShapeDrawable();
+            divider.getPaint().setColor(Color.parseColor(separator.getString("color")));
+            if (("HORIZONTAL").equals(props.getString("orientation"))) {
+                divider.setIntrinsicWidth(dpToPx(separator.getDouble("size")));
+            } else {
+                divider.setIntrinsicHeight(dpToPx(separator.getDouble("size")));
+            }
             view.setDividerDrawable(divider);
             view.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
         }
