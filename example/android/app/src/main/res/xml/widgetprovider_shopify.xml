@@ -7,6 +7,8 @@
 
     android:initialLayout="@layout/rn_widget"
 
+    android:previewImage="@drawable/shopify_preview"
+
     android:resizeMode="none"
 
     android:widgetCategory="home_screen">

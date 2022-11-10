@@ -7,6 +7,8 @@
 
     android:initialLayout="@layout/rn_widget"
 
+    android:previewImage="@drawable/fitness_preview"
+
     android:resizeMode="none"
 
     android:widgetCategory="home_screen">
