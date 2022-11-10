@@ -49,12 +49,17 @@ android {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
   }
+
   sourceSets {
     main {
       if (isNewArchitectureEnabled()) {
-          java.srcDirs += ['src/turbo']
+          java.srcDirs += [
+            "src/newarch",
+            // This is needed to build Kotlin project with NewArch enabled
+            "${project.buildDir}/generated/source/codegen/java"
+          ]
       } else {
-          java.srcDirs += ['src/legacy']
+          java.srcDirs += ["src/oldarch"]
       }
     }
   }

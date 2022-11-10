@@ -4,7 +4,7 @@ import type { Spec } from './NativeAndroidWidget';
 const LINKING_ERROR =
   `The package 'react-native-android-widget' doesn't seem to be linked. Make sure: \n\n` +
   '- You rebuilt the app after installing the package\n' +
-  '- You are not using Expo managed workflow\n';
+  '- You are not using Expo Go\n';
 
 // @ts-expect-error
 const isTurboModuleEnabled = global.__turboModuleProxy != null;

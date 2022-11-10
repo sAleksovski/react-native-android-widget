@@ -1,4 +1,4 @@
-package com.example.reactnativeandroidwidget.newarchitecture;
+package com.androidwidgetexample.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.example.reactnativeandroidwidget.BuildConfig;
-import com.example.reactnativeandroidwidget.newarchitecture.components.MainComponentsRegistry;
-import com.example.reactnativeandroidwidget.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.androidwidgetexample.BuildConfig;
+import com.androidwidgetexample.newarchitecture.components.MainComponentsRegistry;
+import com.androidwidgetexample.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

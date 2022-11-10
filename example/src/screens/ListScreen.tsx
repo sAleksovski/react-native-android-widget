@@ -87,7 +87,7 @@ export function ListScreen({
             onPress={() => navigation.navigate(item.screen)}
             style={styles.listItem}
           >
-            <Text>{item.title}</Text>
+            <Text style={{ color: 'black' }}>{item.title}</Text>
           </TouchableOpacity>
         )}
       />

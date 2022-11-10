@@ -1,6 +1,4 @@
-package com.example.reactnativeandroidwidget;
-
-import android.os.Bundle;
+package com.androidwidgetexample;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
@@ -14,7 +12,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "main";
+    return "AndroidWidgetExample";
   }
 
   /**
@@ -25,15 +23,6 @@ public class MainActivity extends ReactActivity {
   @Override
   protected ReactActivityDelegate createReactActivityDelegate() {
     return new MainActivityDelegate(this, getMainComponentName());
-  }
-
-  /**
-   * Needed for React Navigation
-   * https://reactnavigation.org/docs/getting-started/
-   */
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(null);
   }
 
   public static class MainActivityDelegate extends ReactActivityDelegate {

@@ -1,5 +1,7 @@
 # react-native-android-widget
+
 React Native support for Android Widgets
+
 ## Installation
 
 ```sh
@@ -9,7 +11,7 @@ npm install react-native-android-widget
 ## Usage
 
 ```js
-import { multiply } from "react-native-android-widget";
+import { multiply } from 'react-native-android-widget';
 
 // ...
 

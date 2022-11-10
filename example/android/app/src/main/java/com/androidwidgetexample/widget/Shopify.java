@@ -1,4 +1,4 @@
-package com.example.reactnativeandroidwidget.widget;
+package com.androidwidgetexample.widget;
 
 import com.reactnativeandroidwidget.RNWidgetProvider;
 

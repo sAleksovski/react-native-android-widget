@@ -90,6 +90,7 @@ export function TextScreen() {
                   fontSize: 24,
                   fontStyle,
                   fontWeight,
+                  color: 'black',
                 }}
               >
                 {fontStyle} {fontWeight} RN

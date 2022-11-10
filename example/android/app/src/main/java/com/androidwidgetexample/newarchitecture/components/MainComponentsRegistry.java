@@ -1,4 +1,4 @@
-package com.example.reactnativeandroidwidget.newarchitecture.components;
+package com.androidwidgetexample.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;
