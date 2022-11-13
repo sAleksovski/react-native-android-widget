@@ -14,9 +14,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -24,10 +22,22 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.androidwidgetexampleexpo"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "be9e6b81-3f11-4eae-913f-f1acdefe6e97"
+      }
+    },
+    "plugins": [
+      [
+        "@bacons/link-assets",
+        ["./assets/fonts/material.ttf", "./assets/fonts/material_outlined.otf"]
+      ]
+    ]
   }
 }
