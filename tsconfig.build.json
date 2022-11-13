@@ -1,5 +1,5 @@
 
 {
   "extends": "./tsconfig",
-  "exclude": ["example", "app.plugin.ts"]
+  "exclude": ["example", "example-expo", "app.plugin.ts"]
 }
