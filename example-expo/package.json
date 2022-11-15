@@ -5,14 +5,13 @@
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
-    "prebuild:dev-client": "cd .. && yarn prepare && npm pack && mv react-native-android-widget-* ./example-expo && cd example-expo && yarn add ./react-native-android-widget*",
+    "build:lib": "rm -f ./react-native-android-widget* && yarn remove react-native-android-widget && rm -rf node_modules/react-native-android-widget && cd .. && yarn prepare && npm pack && pwd && mv react-native-android-widget-* ./example-expo/react-native-android-widget-$(shuf -i 10000-100000 -n1).tgz && cd example-expo && yarn add ./react-native-android-widget*",
+    "prebuild:dev-client": "yarn build:lib",
     "build:dev-client": "EAS_BUILD_PROFILE=development eas build --profile development --platform android",
-    "prebuild:apk": "cd .. && yarn prepare && npm pack && mv react-native-android-widget-* ./example-expo && cd example-expo && yarn add ./react-native-android-widget*",
-    "build:apk": "eas build --platform android",
-    "preinstall": "cd .. && yarn prepare && npm pack && mv react-native-android-widget-* ./example-expo && cd example-expo && yarn add ./react-native-android-widget*"
+    "prebuild:apk": "yarn build:lib",
+    "build:apk": "eas build --platform android"
   },
   "dependencies": {
-    "@bacons/link-assets": "^1.1.0",
     "@react-navigation/native": "^6.0.12",
     "@react-navigation/native-stack": "^6.8.0",
     "expo": "~47.0.3",
@@ -20,7 +19,7 @@
     "expo-status-bar": "~1.4.2",
     "react": "18.1.0",
     "react-native": "0.70.5",
-    "react-native-android-widget": "./react-native-android-widget-0.1.0.tgz",
+    "react-native-android-widget": "./react-native-android-widget-33068.tgz",
     "react-native-safe-area-context": "^4.3.3",
     "react-native-screens": "^3.17.0"
   },

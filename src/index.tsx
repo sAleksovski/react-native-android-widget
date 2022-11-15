@@ -2,6 +2,7 @@ export * from './api/register-widget-task-handler';
 export * from './api/request-widget-update';
 export * from './api/types';
 export * from './api/WidgetPreview';
+export * from './config-plugin.type';
 export * from './widgets/FlexWidget';
 export * from './widgets/IconWidget';
 export * from './widgets/ImageWidget';

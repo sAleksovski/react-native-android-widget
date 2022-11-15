@@ -1051,13 +1051,6 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
-"@bacons/link-assets@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@bacons/link-assets/-/link-assets-1.1.0.tgz#72f092384cddce21ad5998de92f2336910760404"
-  integrity sha512-prDE88rp3on2gL/L5pQmlgHMrPj5kMHN62zE3ty9pSA1xKeW3uj7PBl4Pn9tG/OVOIKYgdW7gQreZ9pUHDi7lA==
-  dependencies:
-    mime "^3.0.0"
-
 "@expo/bunyan@4.0.0", "@expo/bunyan@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@expo/bunyan/-/bunyan-4.0.0.tgz#be0c1de943c7987a9fbd309ea0b1acd605890c7b"
@@ -4699,11 +4692,6 @@ mime@^2.4.1, mime@^2.4.4:
   resolved "https://registry.yarnpkg.com/mime/-/mime-2.6.0.tgz#a2a682a95cd4d0cb1d6257e28f83da7e35800367"
   integrity sha512-USPkMeET31rOMiarsBNIHZKLGgvKc/LrjofAnBlOttf5ajRvqiRA8QsenbcooctK6d6Ts6aqZXBA+XbkKthiQg==
 
-mime@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/mime/-/mime-3.0.0.tgz#b374550dca3a0c18443b0c950a6a58f1931cf7a7"
-  integrity sha512-jSCU7/VB1loIWBZe14aEYHU/+1UMEHoaO7qxCOVJOw9GgH72VAWppxNcjU+x9a2k3GSIBXNKxXQFqRvvZ7vr3A==
-
 mimic-fn@^1.0.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/mimic-fn/-/mimic-fn-1.2.0.tgz#820c86a39334640e99516928bd03fca88057d022"
@@ -5389,9 +5377,9 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
-react-native-android-widget@./react-native-android-widget-0.1.0.tgz:
+react-native-android-widget@./react-native-android-widget-33068.tgz:
   version "0.1.0"
-  resolved "./react-native-android-widget-0.1.0.tgz#940874eeae2d4737cc38683798a8e640a5c79906"
+  resolved "./react-native-android-widget-33068.tgz#f1b5e0bcdcdb653492bc1b698b8ac364350c3a9c"
 
 react-native-codegen@^0.70.6:
   version "0.70.6"

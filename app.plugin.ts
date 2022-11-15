@@ -1,25 +1,55 @@
+import type { ExpoConfig } from 'expo/config';
 import {
   AndroidConfig,
   ExportedConfigWithProps,
   withAndroidManifest,
-} from '@expo/config-plugins';
-import type { ExpoConfig } from '@expo/config-types';
+  withDangerousMod,
+  withStringsXml,
+} from 'expo/config-plugins';
 import * as fs from 'fs';
 import * as path from 'path';
 
 const { getMainApplicationOrThrow } = AndroidConfig.Manifest;
 
-interface Widget {
+export type ResourcePath = `./${string}` | `../${string}`;
+
+export interface Widget {
   name: string;
+  label?: string;
+  description?: string;
+  minWidth: `${number}dp`;
+  minHeight: `${number}dp`;
+  maxResizeWidth?: `${number}dp`;
+  maxResizeHeight?: `${number}dp`;
+  previewImage?: ResourcePath;
+  resizeMode?: 'none' | 'horizontal' | 'vertical' | 'horizontal|vertical';
 }
 
-export default (config: ExpoConfig, params: { widgets: Widget[] }) => {
+export interface WithAndroidWidgetsParams {
+  fonts?: ResourcePath[];
+  widgets: Widget[];
+}
+
+interface ProjectPaths {
+  platformProjectRoot: string;
+  projectRoot: string;
+}
+
+export default function withAndroidWidgets(
+  config: ExpoConfig,
+  params: WithAndroidWidgetsParams
+) {
   config = AndroidConfig.Permissions.withPermissions(config, [
     'android.permission.WAKE_LOCK',
     'android.permission.FOREGROUND_SERVICE',
   ]);
 
-  return withAndroidManifest(
+  let projectPaths: ProjectPaths = {
+    platformProjectRoot: '',
+    projectRoot: '',
+  };
+
+  config = withAndroidManifest(
     config,
     (
       androidManifestConfig: ExportedConfigWithProps<AndroidConfig.Manifest.AndroidManifest>
@@ -29,16 +59,24 @@ export default (config: ExpoConfig, params: { widgets: Widget[] }) => {
       );
       withBackgroundTaskService(mainApplication);
 
-      params.widgets.forEach((widget: Widget) => {
-        withWidgetProviderClass(config, androidManifestConfig, widget);
-        withWidgetProviderXml(androidManifestConfig, widget);
-        withWidgetReceiver(config, mainApplication, widget);
+      projectPaths.platformProjectRoot =
+        androidManifestConfig.modRequest.platformProjectRoot;
+      projectPaths.projectRoot = androidManifestConfig.modRequest.projectRoot;
+
+      params.widgets.forEach((widget) => {
+        withWidgetReceiver(androidManifestConfig, mainApplication, widget);
       });
 
       return androidManifestConfig;
     }
   );
-};
+
+  config = withWidgetDescriptions(config, params.widgets);
+  config = withFonts(config, projectPaths, params.fonts ?? []);
+  config = withWidgets(config, projectPaths, params.widgets);
+
+  return config;
+}
 
 function withBackgroundTaskService(
   mainApplication: AndroidConfig.Manifest.ManifestApplication
@@ -62,67 +100,6 @@ function withBackgroundTaskService(
   });
 }
 
-function withWidgetProviderClass(
-  config: ExpoConfig,
-  androidManifestConfig: ExportedConfigWithProps<AndroidConfig.Manifest.AndroidManifest>,
-  widget: Widget
-) {
-  const widgetPackagePath = path.join(
-    androidManifestConfig.modRequest.platformProjectRoot,
-    'app/src/main/java/' +
-      config.android?.package?.split('.').join('/') +
-      '/widget'
-  );
-
-  const javaFilePath = path.join(widgetPackagePath, `/${widget.name}.java`);
-
-  const data = `package ${config.android?.package}.widget;
-
-import com.reactnativeandroidwidget.RNWidgetProvider;
-
-public class ${widget.name} extends RNWidgetProvider {
-}
-`;
-
-  fs.mkdirSync(widgetPackagePath, { recursive: true });
-
-  fs.writeFileSync(javaFilePath, data);
-}
-
-function withWidgetProviderXml(
-  androidManifestConfig: ExportedConfigWithProps<AndroidConfig.Manifest.AndroidManifest>,
-  widget: Widget
-) {
-  const xmlFolderPath = path.join(
-    androidManifestConfig.modRequest.platformProjectRoot,
-    'app/src/main/res/xml'
-  );
-
-  const xmlPath = path.join(
-    xmlFolderPath,
-    `/widgetprovider_${widget.name.toLowerCase()}.xml`
-  );
-
-  const data = `<?xml version="1.0" encoding="utf-8"?>
-<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:minWidth="300dp"
-    android:minHeight="120dp"
-
-    android:updatePeriodMillis="0"
-
-    android:initialLayout="@layout/rn_widget"
-
-    android:resizeMode="none"
-
-    android:widgetCategory="home_screen">
-</appwidget-provider>
-`;
-
-  fs.mkdirSync(xmlFolderPath, { recursive: true });
-
-  fs.writeFileSync(xmlPath, data);
-}
-
 function withWidgetReceiver(
   config: ExpoConfig,
   mainApplication: AndroidConfig.Manifest.ManifestApplication,
@@ -140,7 +117,7 @@ function withWidgetReceiver(
     '$': {
       'android:name': `.widget.${widget.name}`,
       'android:exported': 'false',
-      'android:label': widget.name,
+      'android:label': `.widget.${widget.label ?? widget.name}`,
     } as any,
     'intent-filter': [
       {
@@ -165,4 +142,184 @@ function withWidgetReceiver(
       },
     },
   } as any);
+}
+
+function withWidgetDescriptions(config: ExpoConfig, widgets: Widget[]) {
+  return withStringsXml(config, (stringsXml) => {
+    widgets
+      .filter((widget) => !!widget.description)
+      .forEach((widget) => {
+        stringsXml.modResults = AndroidConfig.Strings.setStringItem(
+          [
+            {
+              $: {
+                name: `widget_${widget.name.toLowerCase()}_description`,
+                translatable: 'false',
+              },
+              _: `${widget.description}`.replace(/'/g, "\\'"),
+            },
+          ],
+          stringsXml.modResults
+        );
+      });
+    return stringsXml;
+  });
+}
+
+function withFonts(
+  config: ExpoConfig,
+  androidManifestConfig: ProjectPaths,
+  fonts: ResourcePath[]
+) {
+  return withDangerousMod(config, [
+    'android',
+    (dangerousConfig) => {
+      if (fonts.length === 0) {
+        return dangerousConfig;
+      }
+
+      const fontsDir = path.join(
+        androidManifestConfig.platformProjectRoot,
+        'android/app/src/main/assets/fonts'
+      );
+      fs.mkdirSync(fontsDir, { recursive: true });
+
+      fonts.forEach((font: ResourcePath) => {
+        const fontAssetPath = path.resolve(
+          androidManifestConfig.projectRoot,
+          font
+        );
+
+        const output = path.join(fontsDir, path.basename(fontAssetPath));
+        fs.copyFileSync(fontAssetPath, output);
+      });
+      return dangerousConfig;
+    },
+  ]);
+}
+
+function withWidgets(
+  config: ExpoConfig,
+  projectPaths: ProjectPaths,
+  widgets: Widget[]
+) {
+  widgets.forEach((widget: Widget) => {
+    withWidget(config, projectPaths, widget);
+  });
+  return config;
+}
+
+function withWidget(
+  config: ExpoConfig,
+  projectPaths: ProjectPaths,
+  widget: Widget
+) {
+  withDangerousMod(config, [
+    'android',
+    (dangerousConfig) => {
+      withWidgetProviderClass(dangerousConfig, projectPaths, widget);
+      withWidgetProviderXml(projectPaths, widget);
+      withWidgetPreview(projectPaths, widget);
+      return dangerousConfig;
+    },
+  ]);
+}
+
+function withWidgetProviderClass(
+  config: ExpoConfig,
+  projectPaths: ProjectPaths,
+  widget: Widget
+) {
+  const widgetPackagePath = path.join(
+    projectPaths.platformProjectRoot,
+    'android/app/src/main/java/' +
+      config.android?.package?.split('.').join('/') +
+      '/widget'
+  );
+
+  const javaFilePath = path.join(widgetPackagePath, `/${widget.name}.java`);
+
+  const data = `package ${config.android?.package}.widget;
+
+import com.reactnativeandroidwidget.RNWidgetProvider;
+
+public class ${widget.name} extends RNWidgetProvider {
+}
+`;
+
+  fs.mkdirSync(widgetPackagePath, { recursive: true });
+
+  fs.writeFileSync(javaFilePath, data);
+}
+
+function withWidgetProviderXml(projectPaths: ProjectPaths, widget: Widget) {
+  const xmlFolderPath = path.join(
+    projectPaths.platformProjectRoot,
+    'android/app/src/main/res/xml'
+  );
+
+  const xmlPath = path.join(
+    xmlFolderPath,
+    `/widgetprovider_${widget.name.toLowerCase()}.xml`
+  );
+
+  const data = `<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="${widget.minWidth}"
+    android:minHeight="${widget.minHeight}"
+${
+  widget.maxResizeWidth
+    ? `    android:maxResizeWidth="${widget.maxResizeWidth}"`
+    : ''
+}
+${
+  widget.maxResizeHeight
+    ? `    android:maxResizeHeight="${widget.maxResizeHeight}"`
+    : ''
+}
+
+    android:resizeMode="${widget.resizeMode ?? 'none'}"
+
+${
+  widget.description
+    ? `    android:description="@string/widget_${widget.name.toLowerCase()}_description"`
+    : ''
+}
+
+    android:initialLayout="@layout/rn_widget"
+${
+  widget.previewImage
+    ? `    android:previewImage="@drawable/${widget.name.toLowerCase()}_preview"`
+    : ''
+}
+
+    android:updatePeriodMillis="0"
+    android:widgetCategory="home_screen">
+</appwidget-provider>
+`;
+
+  fs.mkdirSync(xmlFolderPath, { recursive: true });
+
+  fs.writeFileSync(xmlPath, data);
+}
+
+function withWidgetPreview(projectPaths: ProjectPaths, widget: Widget) {
+  if (widget.previewImage) {
+    const drawableDir = path.join(
+      projectPaths.platformProjectRoot,
+      'android/app/src/main/res/drawable'
+    );
+    fs.mkdirSync(drawableDir, { recursive: true });
+
+    const previewAssetPath = path.resolve(
+      projectPaths.projectRoot,
+      widget.previewImage
+    );
+
+    const output = path.join(
+      drawableDir,
+      `${widget.name.toLowerCase()}_preview${path.extname(previewAssetPath)}`
+    );
+    fs.copyFileSync(previewAssetPath, output);
+  }
 }
