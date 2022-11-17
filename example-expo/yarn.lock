@@ -3126,11 +3126,6 @@ expo-modules-core@1.0.2:
     compare-versions "^3.4.0"
     invariant "^2.2.4"
 
-expo-status-bar@~1.4.2:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/expo-status-bar/-/expo-status-bar-1.4.2.tgz#14f2b9a6dc7d550578421f07e0046f5fafc2b403"
-  integrity sha512-ZWjO6D4ARGYfAd3SWDD3STNudHDhyBZDZjhhseqoEmsf7bS9ykny8KKOhlzJW24qIQNPhkgdvHhaw9fQwMJy3Q==
-
 expo-updates-interface@~0.8.0:
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/expo-updates-interface/-/expo-updates-interface-0.8.1.tgz#baeeeb01a77439682432be83ba78bc2e00547c4e"
@@ -5377,9 +5372,9 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
-react-native-android-widget@./react-native-android-widget-33068.tgz:
+react-native-android-widget@./react-native-android-widget-10362.tgz:
   version "0.1.0"
-  resolved "./react-native-android-widget-33068.tgz#f1b5e0bcdcdb653492bc1b698b8ac364350c3a9c"
+  resolved "./react-native-android-widget-10362.tgz#365bd1658e72ea91d9c5a8f10c4a6874c5f42900"
 
 react-native-codegen@^0.70.6:
   version "0.70.6"

@@ -18,6 +18,7 @@ import com.reactnativeandroidwidget.builder.widget.LinearLayoutWidget;
 import com.reactnativeandroidwidget.builder.widget.RootWidget;
 import com.reactnativeandroidwidget.builder.widget.SvgWidget;
 import com.reactnativeandroidwidget.builder.widget.TextWidget;
+import com.reactnativeandroidwidget.builder.widget.utils.ResourceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,7 @@ public class WidgetFactory {
         WidgetWithViews widgetWithViews = new WidgetWithViews(view, clickableViews);
 
         clickableViews = new ArrayList<>();
+        ResourceUtils.clear();
 
         return widgetWithViews;
     }

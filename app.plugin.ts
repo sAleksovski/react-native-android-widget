@@ -117,7 +117,7 @@ function withWidgetReceiver(
     '$': {
       'android:name': `.widget.${widget.name}`,
       'android:exported': 'false',
-      'android:label': `.widget.${widget.label ?? widget.name}`,
+      'android:label': `${widget.label ?? widget.name}`,
     } as any,
     'intent-filter': [
       {

@@ -1,7 +1,6 @@
 package com.reactnativeandroidwidget.builder.widget;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.widget.ImageView;
 
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
@@ -9,11 +8,9 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReadableMap;
+import com.reactnativeandroidwidget.builder.widget.utils.ResourceUtils;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class ImageWidget extends BaseWidget<ImageView> {
     public ImageWidget(ReactApplicationContext context, ReadableMap props) {
@@ -44,13 +41,8 @@ public class ImageWidget extends BaseWidget<ImageView> {
 
     private Bitmap getBitmapFromURL(String src, int width, int height) {
         try {
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return Bitmap.createScaledBitmap(myBitmap, width, height, true);
+            Bitmap bitmap = ResourceUtils.getBitmap(appContext, src);
+            return Bitmap.createScaledBitmap(bitmap, width, height, true);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
