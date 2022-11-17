@@ -15,7 +15,7 @@ import { StepsWidgetPreviewScreen } from './screens/widget-preview/StepsWidgetPr
 
 const Stack = createNativeStackNavigator<ExampleScreens>();
 
-export default function App() {
+export function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>

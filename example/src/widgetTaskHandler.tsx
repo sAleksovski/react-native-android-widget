@@ -1,11 +1,11 @@
 import React from 'react';
 import type { WidgetTaskHandlerProps } from 'react-native-android-widget';
-import { FitnessWidget } from './src/widgets/FitnessWidget';
-import { MusicWidget } from './src/widgets/MusicWidget';
-import { ResizableMusicWidget } from './src/widgets/ResizableMusicWidget';
-import { RotatedWidget } from './src/widgets/RotatedWidget';
-import { ShopifyWidget } from './src/widgets/ShopifyWidget';
-import { StepsWidget } from './src/widgets/StepsWidget';
+import { FitnessWidget } from './widgets/FitnessWidget';
+import { MusicWidget } from './widgets/MusicWidget';
+import { ResizableMusicWidget } from './widgets/ResizableMusicWidget';
+import { RotatedWidget } from './widgets/RotatedWidget';
+import { ShopifyWidget } from './widgets/ShopifyWidget';
+import { StepsWidget } from './widgets/StepsWidget';
 
 const nameToWidget = {
   Fitness: FitnessWidget,
@@ -16,7 +16,7 @@ const nameToWidget = {
   Shopify: ShopifyWidget,
 };
 
-export default async function widgetTaskHandler(props: WidgetTaskHandlerProps) {
+export async function widgetTaskHandler(props: WidgetTaskHandlerProps) {
   console.log(props);
   const widgetInfo = props.widgetInfo;
   const Widget =

@@ -79,9 +79,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     },
     package: 'com.androidwidgetexampleexpo',
   },
-  web: {
-    favicon: './assets/favicon.png',
-  },
   extra: {
     eas: {
       projectId: 'be9e6b81-3f11-4eae-913f-f1acdefe6e97',
