@@ -21,6 +21,8 @@ const WIDGET_SIZES = [
 
 export function ResizableMusicWidgetPreviewScreen() {
   const [sizeIndex, setSizeIndex] = React.useState(0);
+  const [songId, setSongId] = React.useState(0);
+  const [status, setStatus] = React.useState<'playing' | 'stopped'>('playing');
 
   const size = WIDGET_SIZES[sizeIndex % WIDGET_SIZES.length];
 
@@ -31,8 +33,17 @@ export function ResizableMusicWidgetPreviewScreen() {
       </View>
       <WidgetPreview
         renderWidget={({ width, height }) => (
-          <ResizableMusicWidget width={width} height={height} />
+          <ResizableMusicWidget
+            width={width}
+            height={height}
+            songId={songId}
+            status={status}
+          />
         )}
+        onClick={({ clickAction, clickActionData }) => {
+          setStatus(clickAction === 'pause' ? 'stopped' : 'playing');
+          setSongId((clickActionData?.songId as number) ?? 0);
+        }}
         height={size!.height}
         width={size!.width}
         showBorder

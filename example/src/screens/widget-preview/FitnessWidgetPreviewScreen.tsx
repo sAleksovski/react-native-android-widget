@@ -1,35 +1,22 @@
 import * as React from 'react';
 
-import { Button, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { WidgetPreview } from 'react-native-android-widget';
 
 import { FitnessWidget } from '../../widgets/FitnessWidget';
 
-const FITNESS_VIEWS: ('directions_walk' | 'schedule' | 'bar_chart')[] = [
-  'directions_walk',
-  'schedule',
-  'bar_chart',
-];
-
 export function FitnessWidgetPreviewScreen() {
-  const [viewIndex, setViewIndex] = React.useState(0);
-
-  const activeView = FITNESS_VIEWS[viewIndex % FITNESS_VIEWS.length];
+  const [view, setView] = React.useState<
+    'directions_walk' | 'schedule' | 'bar_chart'
+  >('directions_walk');
 
   return (
     <View style={styles.container}>
-      <View style={styles.buttonContainer}>
-        <Button
-          title="Change View"
-          onPress={() => setViewIndex(viewIndex + 1)}
-        />
-      </View>
-
       <WidgetPreview
-        renderWidget={() => <FitnessWidget activeView={activeView} />}
+        renderWidget={() => <FitnessWidget activeView={view} />}
+        onClick={({ clickAction }) => setView(clickAction as any)}
         height={209}
         width={320}
-        showBorder
       />
     </View>
   );

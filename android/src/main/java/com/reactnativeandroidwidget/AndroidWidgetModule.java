@@ -7,6 +7,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableArray;
+import com.facebook.react.bridge.WritableMap;
 
 public class AndroidWidgetModule extends com.reactnativeandroidwidget.AndroidWidgetSpec {
     public static final String NAME = "AndroidWidget";
@@ -41,7 +42,7 @@ public class AndroidWidgetModule extends com.reactnativeandroidwidget.AndroidWid
 
     @ReactMethod
     public void createPreview(ReadableMap config, double width, double height, Promise promise) {
-        String preview = null;
+        WritableMap preview = null;
         try {
             preview = new RNWidget(getReactApplicationContext(), config).createPreview((int) width, (int) height);
         } catch (Exception e) {

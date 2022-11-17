@@ -15,6 +15,8 @@ import android.widget.RemoteViews;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.WritableArray;
+import com.facebook.react.bridge.WritableMap;
 import com.reactnativeandroidwidget.builder.ClickableView;
 import com.reactnativeandroidwidget.builder.WidgetFactory;
 import com.reactnativeandroidwidget.builder.WidgetWithViews;
@@ -65,17 +67,17 @@ public class RNWidget {
             .updateAppWidget(widgetId, remoteWidgetView);
     }
 
-    public String createPreview(int width, int height) throws Exception {
+    public WritableMap createPreview(int width, int height) throws Exception {
         ReadableMap configClone = Arguments.makeNativeMap(config.toHashMap());
 
         WidgetWithViews widgetWithViews = WidgetFactory.buildWidgetFromRoot(appContext, configClone, width, height);
         Bitmap bitmap = drawViewToBitmap(widgetWithViews.getRootView());
 
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-        byte[] byteArray = byteArrayOutputStream.toByteArray();
+        WritableMap preview = Arguments.createMap();
+        preview.putString("base64Image", convertBitmapToBase64(bitmap));
+        preview.putArray("clickableAreas", createClickableAreasPreview(widgetWithViews));
 
-        return Base64.encodeToString(byteArray, Base64.DEFAULT);
+        return preview;
     }
 
     private Bitmap drawViewToBitmap(View rootView) {
@@ -133,5 +135,42 @@ public class RNWidget {
                 | PendingIntent.FLAG_MUTABLE
         );
         widgetView.setOnClickPendingIntent(button, pendingIntent);
+    }
+
+    private String convertBitmapToBase64(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
+    }
+
+    private WritableArray createClickableAreasPreview(WidgetWithViews widgetWithViews) {
+        WritableArray clickableAreas = Arguments.createArray();
+        ViewGroup rootView = (ViewGroup) widgetWithViews.getRootView();
+
+        for (ClickableView clickableView : widgetWithViews.getClickableViews()) {
+            WritableMap clickableViewMap = createClickableAreaPreview(rootView, clickableView);
+            clickableAreas.pushMap(clickableViewMap);
+        }
+
+        return clickableAreas;
+    }
+
+    private WritableMap createClickableAreaPreview(ViewGroup rootView, ClickableView clickableView) {
+        View clickableWidget = clickableView.getView();
+        Rect offsetViewBounds = new Rect();
+        clickableWidget.getDrawingRect(offsetViewBounds);
+        rootView.offsetDescendantRectToMyCoords(clickableWidget, offsetViewBounds);
+
+        WritableMap clickableViewMap = Arguments.createMap();
+        clickableViewMap.putDouble("left", RNWidgetUtil.pxToDp(appContext, offsetViewBounds.left));
+        clickableViewMap.putDouble("top", RNWidgetUtil.pxToDp(appContext, offsetViewBounds.top));
+        clickableViewMap.putDouble("width", RNWidgetUtil.pxToDp(appContext, offsetViewBounds.width()));
+        clickableViewMap.putDouble("height", RNWidgetUtil.pxToDp(appContext, offsetViewBounds.height()));
+        clickableViewMap.putString("clickAction", clickableView.getClickAction());
+        clickableViewMap.putMap("clickActionData", Arguments.makeNativeMap(clickableView.getClickActionData().toHashMap()));
+
+        return clickableViewMap;
     }
 }

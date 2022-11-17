@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
 import android.content.ComponentName;
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
 import com.facebook.react.bridge.Arguments;
@@ -36,6 +37,11 @@ public class RNWidgetUtil {
 
     public static int dpToPx(Context context, double dpValue) {
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) dpValue, context.getResources().getDisplayMetrics()));
+    }
+
+    public static double pxToDp(Context context, double pxValue) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        return pxValue / displayMetrics.density;
     }
 
     private static int getWidgetSizeInDp(Context context, int widgetId, String key) {
