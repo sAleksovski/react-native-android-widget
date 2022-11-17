@@ -10,7 +10,7 @@ import { convertColor, convertCommonStyle } from './utils/style.utils';
 export interface IconWidgetInternalProps extends CommonInternalProps {
   icon: string;
   size: number;
-  font: 'material' | 'material_outlined';
+  font: string;
 
   color?: HexColor;
 }
@@ -25,7 +25,7 @@ interface IconWidgetProps extends ClickActionProps {
 
   icon: string;
   size: number;
-  font: 'material' | 'material_outlined';
+  font: string;
 }
 
 export function IconWidget(_: IconWidgetProps) {

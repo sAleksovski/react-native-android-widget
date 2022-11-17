@@ -2,7 +2,6 @@ package com.reactnativeandroidwidget.builder.widget;
 
 import static android.util.TypedValue.COMPLEX_UNIT_SP;
 
-import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -14,8 +13,7 @@ import androidx.core.widget.TextViewCompat;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReadableMap;
-
-import java.io.IOException;
+import com.reactnativeandroidwidget.builder.widget.utils.ResourceUtils;
 
 public class TextWidget extends BaseWidget<TextView> {
     public TextWidget(ReactApplicationContext context, ReadableMap props) {
@@ -68,7 +66,7 @@ public class TextWidget extends BaseWidget<TextView> {
     }
 
     private void setFont() {
-        Typeface typeface = getTypeface();
+        Typeface typeface = ResourceUtils.getTypeface(appContext, props.getString("fontFamily"));
         boolean isItalic = "italic".equals(props.getString("fontStyle"));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
 
@@ -102,27 +100,6 @@ public class TextWidget extends BaseWidget<TextView> {
 
             view.setTypeface(typeface, typefaceStyle);
         }
-    }
-
-    private Typeface getTypeface() {
-        if (props.hasKey("fontFamily")) {
-            try {
-                AssetManager assets = appContext.getAssets();
-                String[] list = assets.list("fonts/");
-
-                String assetFont = list[0];
-                String propFont = props.getString("fontFamily");
-                for (String s : list) {
-                    if (s.startsWith(propFont + ".")) {
-                        assetFont = s;
-                    }
-                }
-                return Typeface.createFromAsset(assets, "fonts/" + assetFont);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return Typeface.DEFAULT;
     }
 
     private void setShadow() {

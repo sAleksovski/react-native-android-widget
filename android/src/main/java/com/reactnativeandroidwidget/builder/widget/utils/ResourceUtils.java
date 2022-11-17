@@ -1,9 +1,14 @@
 package com.reactnativeandroidwidget.builder.widget.utils;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.net.Uri;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.caverock.androidsvg.SVG;
 import com.caverock.androidsvg.SVGParseException;
@@ -19,9 +24,11 @@ import java.util.Map;
 
 public class ResourceUtils {
     public static Map<String, Integer> resourceToIdMap = new HashMap<>();
+    public static Map<String, Typeface> fontNameToTypefaceMap = new HashMap<>();
 
     public static void clear() {
         resourceToIdMap.clear();
+        fontNameToTypefaceMap.clear();
     }
 
     public static Bitmap getBitmap(ReactApplicationContext context, String source) throws IOException {
@@ -43,6 +50,19 @@ public class ResourceUtils {
             InputStream input = getInputStreamFromSource(source);
             return SVG.getFromInputStream(input);
         }
+    }
+
+    public static Typeface getTypeface(ReactApplicationContext context, @Nullable String fontName) {
+        if (fontName != null) {
+            if (!fontNameToTypefaceMap.containsKey(fontName)) {
+                Typeface typeface = loadTypeface(context, fontName);
+                fontNameToTypefaceMap.put(fontName, typeface);
+            }
+
+            return fontNameToTypefaceMap.get(fontName);
+        }
+
+        return Typeface.DEFAULT;
     }
 
     private static boolean isResource(String source) {
@@ -79,5 +99,32 @@ public class ResourceUtils {
         connection.setDoInput(true);
         connection.connect();
         return connection.getInputStream();
+    }
+
+    private static Typeface loadTypeface(ReactApplicationContext context, @NonNull String fontName) {
+        try {
+            String assetFont = findAssetFont(context.getAssets(), fontName);
+
+            if (assetFont != null) {
+                return Typeface.createFromAsset(context.getAssets(), "fonts/" + assetFont);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return Typeface.DEFAULT;
+    }
+
+    @Nullable
+    private static String findAssetFont(AssetManager assetManager, @NonNull String fontName) throws IOException {
+        String[] fontFiles = assetManager.list("fonts/");
+
+        String assetFont = null;
+        for (String file : fontFiles) {
+            if (file.startsWith(fontName + ".")) {
+                assetFont = file;
+            }
+        }
+
+        return assetFont;
     }
 }
