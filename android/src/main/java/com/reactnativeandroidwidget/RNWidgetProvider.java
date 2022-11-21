@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.RemoteViews;
@@ -17,9 +18,11 @@ public class RNWidgetProvider extends AppWidgetProvider {
     public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
         super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
 
-        Intent backgroundTaskIntent = buildIntent(context, appWidgetId, "WIDGET_RESIZED");
+        if (isSizeChanged(context, appWidgetId)) {
+            Intent backgroundTaskIntent = buildIntent(context, appWidgetId, "WIDGET_RESIZED");
 
-        executeJs(context, backgroundTaskIntent, appWidgetId);
+            executeJs(context, backgroundTaskIntent, appWidgetId);
+        }
     }
 
     /*
@@ -40,8 +43,9 @@ public class RNWidgetProvider extends AppWidgetProvider {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
 
         for (int widgetId : appWidgetIds) {
-            Intent backgroundTaskIntent = buildIntent(context, widgetId, "WIDGET_ADDED");
+            storeWidgetSize(context, widgetId);
 
+            Intent backgroundTaskIntent = buildIntent(context, widgetId, "WIDGET_ADDED");
             executeJs(context, backgroundTaskIntent, widgetId);
         }
     }
@@ -65,6 +69,15 @@ public class RNWidgetProvider extends AppWidgetProvider {
         }
 
         startBackgroundTask(context, backgroundTaskIntent);
+    }
+
+    @Override
+    public void onDeleted(Context context, int[] appWidgetIds) {
+        super.onDeleted(context, appWidgetIds);
+
+        for (int widgetId : appWidgetIds) {
+            removeWidgetSize(context, widgetId);
+        }
     }
 
     private Intent buildIntent(Context context, int widgetId, String action) {
@@ -123,5 +136,54 @@ public class RNWidgetProvider extends AppWidgetProvider {
         } else {
             context.startService(serviceIntent);
         }
+    }
+
+    private boolean isSizeChanged(Context context, int widgetId) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+            context.getPackageName() + ".WIDGET_SIZES", Context.MODE_PRIVATE);
+        int oldWidth = sharedPref.getInt(widgetId + "-width", 0);
+        int oldHeight = sharedPref.getInt(widgetId + "-height", 0);
+        int newWidth = RNWidgetUtil.getWidgetWidth(context, widgetId);
+        int newHeight = RNWidgetUtil.getWidgetHeight(context, widgetId);
+
+        boolean sizeChanged = oldWidth != newWidth || oldHeight != newHeight;
+
+        if (sizeChanged) {
+            SharedPreferences.Editor editor = sharedPref.edit();
+
+            editor.putInt(widgetId + "-width", newWidth);
+            editor.putInt(widgetId + "-height", newHeight);
+
+            editor.apply();
+        }
+
+        return sizeChanged;
+    }
+
+    private void storeWidgetSize(Context context, int widgetId) {
+        int width = RNWidgetUtil.getWidgetWidth(context, widgetId);
+        int height = RNWidgetUtil.getWidgetHeight(context, widgetId);
+
+        SharedPreferences sharedPref = context.getSharedPreferences(
+            context.getPackageName() + ".WIDGET_SIZES", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+
+        editor.putInt(widgetId + "-width", width);
+        editor.putInt(widgetId + "-height", height);
+
+        editor.apply();
+    }
+
+    private void removeWidgetSize(Context context, int widgetId) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+            context.getPackageName() + ".WIDGET_SIZES", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+
+        editor.remove(widgetId + "-width");
+        editor.remove(widgetId + "-height");
+
+        editor.apply();
     }
 }

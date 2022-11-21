@@ -32,7 +32,6 @@ public class ResourceUtils {
     }
 
     public static Bitmap getBitmap(ReactApplicationContext context, String source) throws IOException {
-        System.out.println(source);
         if (isResource(source)) {
             int resourceId = getResourceId(context, "drawable", source);
             return BitmapFactory.decodeResource(context.getResources(), resourceId);
