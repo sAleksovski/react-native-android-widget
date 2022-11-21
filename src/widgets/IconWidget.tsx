@@ -11,12 +11,14 @@ export interface IconWidgetInternalProps extends CommonInternalProps {
   icon: string;
   size: number;
   font: string;
+  adjustsFontSizeToFit?: boolean;
 
   color?: HexColor;
 }
 
 interface IconWidgetStyle extends CommonStyleProps {
   color?: ColorProp;
+  adjustsFontSizeToFit?: boolean;
 }
 
 interface IconWidgetProps extends ClickActionProps {
@@ -40,5 +42,8 @@ IconWidget.convertProps = (props: IconWidgetProps): IconWidgetInternalProps => {
     size: props.size,
     font: props.font,
     ...(props?.style?.color ? { color: convertColor(props.style.color) } : {}),
+    ...(props.style?.adjustsFontSizeToFit
+      ? { adjustsFontSizeToFit: props.style.adjustsFontSizeToFit }
+      : {}),
   };
 };

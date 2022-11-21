@@ -168,7 +168,7 @@ function NowPlayingInfo({
             <IconWidget
               font="material"
               size={36}
-              style={{ color: '#ffffff' }}
+              style={{ color: '#ffffff', adjustsFontSizeToFit: true }}
               icon="skip_previous"
             />
           </FlexWidget>
@@ -190,7 +190,7 @@ function NowPlayingInfo({
               <IconWidget
                 font="material"
                 size={36}
-                style={{ color: '#ffffff' }}
+                style={{ color: '#ffffff', adjustsFontSizeToFit: true }}
                 icon={status === 'playing' ? 'pause' : 'play_arrow'}
               />
             </FlexWidget>
@@ -203,7 +203,7 @@ function NowPlayingInfo({
             <IconWidget
               font="material"
               size={36}
-              style={{ color: '#ffffff' }}
+              style={{ color: '#ffffff', adjustsFontSizeToFit: true }}
               icon="skip_next"
             />
           </FlexWidget>
