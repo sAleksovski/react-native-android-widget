@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Image,
+  StyleSheet,
   TouchableNativeFeedback,
   View,
 } from 'react-native';
@@ -16,6 +17,7 @@ interface WidgetPreviewProps {
   height: number;
   width: number;
   showBorder?: boolean;
+  highlightClickableAreas?: boolean;
 }
 
 export function WidgetPreview({
@@ -24,6 +26,7 @@ export function WidgetPreview({
   width,
   height,
   showBorder,
+  highlightClickableAreas,
 }: WidgetPreviewProps) {
   const [preview, setPreview] = useState<WidgetPreviewData | null>();
   useEffect(() => {
@@ -89,8 +92,13 @@ export function WidgetPreview({
                   top: area.top,
                   width: area.width,
                   height: area.height,
+                  ...(highlightClickableAreas
+                    ? { borderWidth: 1, borderColor: 'red' }
+                    : {}),
                 }}
-              />
+              >
+                {highlightClickableAreas ? <ClickableAreaBorder /> : null}
+              </View>
             </TouchableNativeFeedback>
           ))}
         </View>
@@ -100,3 +108,57 @@ export function WidgetPreview({
     </View>
   );
 }
+
+function ClickableAreaBorder() {
+  return (
+    <>
+      <View style={styles.clickableHighlightTopLeft} />
+      <View style={styles.clickableHighlightTopRight} />
+      <View style={styles.clickableHighlightBottomLeft} />
+      <View style={styles.clickableHighlightBottomRight} />
+    </>
+  );
+}
+
+const styles = StyleSheet.create({
+  clickableHighlightTopLeft: {
+    borderTopWidth: 1,
+    borderLeftWidth: 1,
+    borderColor: 'blue',
+    height: 8,
+    width: 8,
+    position: 'absolute',
+    left: -1,
+    top: -1,
+  },
+  clickableHighlightTopRight: {
+    borderTopWidth: 1,
+    borderRightWidth: 1,
+    borderColor: 'blue',
+    height: 8,
+    width: 8,
+    position: 'absolute',
+    right: -1,
+    top: -1,
+  },
+  clickableHighlightBottomLeft: {
+    borderBottomWidth: 1,
+    borderLeftWidth: 1,
+    borderColor: 'blue',
+    height: 8,
+    width: 8,
+    position: 'absolute',
+    left: -1,
+    bottom: -1,
+  },
+  clickableHighlightBottomRight: {
+    borderBottomWidth: 1,
+    borderRightWidth: 1,
+    borderColor: 'blue',
+    height: 8,
+    width: 8,
+    position: 'absolute',
+    right: -1,
+    bottom: -1,
+  },
+});
