@@ -2,16 +2,15 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 import { BorderScreen } from './screens/BorderScreen';
+import { CounterScreen } from './screens/CounterScreen';
 import { FlexScreen } from './screens/FlexScreen';
 import { ExampleScreens, ListScreen } from './screens/ListScreen';
 import { SvgScreen } from './screens/SvgScreen';
 import { TextScreen } from './screens/TextScreen';
 import { FitnessWidgetPreviewScreen } from './screens/widget-preview/FitnessWidgetPreviewScreen';
-import { MusicWidgetPreviewScreen } from './screens/widget-preview/MusicWidgetPreviewScreen';
 import { ResizableMusicWidgetPreviewScreen } from './screens/widget-preview/ResizableMusicWidgetPreviewScreen';
 import { RotatedWidgetPreviewScreen } from './screens/widget-preview/RotatedWidgetPreviewScreen';
 import { ShopifyWidgetPreviewScreen } from './screens/widget-preview/ShopifyWidgetPreviewScreen';
-import { StepsWidgetPreviewScreen } from './screens/widget-preview/StepsWidgetPreviewScreen';
 
 const Stack = createNativeStackNavigator<ExampleScreens>();
 
@@ -45,14 +44,14 @@ export function App() {
           options={{ title: 'Text Demo' }}
         />
         <Stack.Screen
+          name="CounterScreen"
+          component={CounterScreen}
+          options={{ title: 'Counter Demo' }}
+        />
+        <Stack.Screen
           name="FitnessWidgetPreviewScreen"
           component={FitnessWidgetPreviewScreen}
           options={{ title: 'Fitness Widget Preview' }}
-        />
-        <Stack.Screen
-          name="MusicWidgetPreviewScreen"
-          component={MusicWidgetPreviewScreen}
-          options={{ title: 'Music Widget Preview' }}
         />
         <Stack.Screen
           name="ResizableMusicWidgetPreviewScreen"
@@ -63,11 +62,6 @@ export function App() {
           name="RotatedWidgetPreviewScreen"
           component={RotatedWidgetPreviewScreen}
           options={{ title: 'Rotated Widget Preview' }}
-        />
-        <Stack.Screen
-          name="StepsWidgetPreviewScreen"
-          component={StepsWidgetPreviewScreen}
-          options={{ title: 'Steps Widget Preview' }}
         />
         <Stack.Screen
           name="ShopifyWidgetPreviewScreen"

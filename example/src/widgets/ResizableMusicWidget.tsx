@@ -16,40 +16,42 @@ interface Song {
   albumArt: number;
   mainColor: ColorProp;
   secondaryColor: ColorProp;
+  textColor?: ColorProp;
 }
 
 const songs: [Song, Song, Song, Song] = [
   {
     id: 0,
-    title: 'Infinity',
-    artist: 'Jaymes Young',
-    albumArt: require('../../assets/james-infinity.jpg'),
-    mainColor: '#000000',
-    secondaryColor: '#3a3a3a',
+    title: 'Fly Me to the Moon',
+    artist: 'Frank Sinatra',
+    albumArt: require('../../assets/music/sinatra.jpg'),
+    mainColor: '#4080B8',
+    secondaryColor: '#2080DE',
   },
   {
     id: 1,
-    title: 'Lost in Yesterday',
-    artist: 'Tame Impala',
-    albumArt: require('../../assets/tame-impala.jpeg'),
-    mainColor: '#B20A01',
-    secondaryColor: '#630B0E',
+    title: 'I Believe',
+    artist: 'JJ Grey & Mofro',
+    albumArt: require('../../assets/music/believe.png'),
+    mainColor: '#FF8A4A',
+    secondaryColor: '#000000',
   },
   {
     id: 2,
-    title: 'Borderline',
-    artist: 'Tame Impala',
-    albumArt: require('../../assets/tame-impala.jpeg'),
-    mainColor: '#B20A01',
-    secondaryColor: '#630B0E',
+    title: 'All Along the Watchtower',
+    artist: 'Jimi Hendrix',
+    albumArt: require('../../assets/music/Electric_Ladyland.jpg'),
+    mainColor: '#47342B',
+    secondaryColor: '#161B1E',
   },
   {
     id: 3,
-    title: 'One More Year',
-    artist: 'Tame Impala',
-    albumArt: require('../../assets/tame-impala.jpeg'),
-    mainColor: '#B20A01',
-    secondaryColor: '#630B0E',
+    title: 'Dreams',
+    artist: 'Fleetwood Mac',
+    albumArt: require('../../assets/music/FMacRumours.png'),
+    mainColor: '#FDF5E4',
+    secondaryColor: '#272C33',
+    textColor: '#000000',
   },
 ];
 
@@ -136,16 +138,21 @@ function NowPlayingInfo({
         <TextWidget
           style={{
             fontSize: 20,
-            color: '#ffffff',
+            color: song.textColor ?? '#ffffff',
             marginBottom: 6,
             adjustsFontSizeToFit: true,
+            textAlign: 'center',
           }}
           text={song.title}
           truncate="END"
-          maxLines={1}
+          maxLines={2}
         />
         <TextWidget
-          style={{ fontSize: 16, color: '#ffffffcc', marginBottom: 18 }}
+          style={{
+            fontSize: 16,
+            color: song.textColor ?? '#ffffff',
+            marginBottom: 18,
+          }}
           text={song.artist}
         />
 
@@ -155,7 +162,6 @@ function NowPlayingInfo({
             flexDirection: 'row',
             alignItems: 'center',
             width: 'match_parent',
-            marginBottom: 18,
           }}
         >
           <FlexWidget
@@ -168,7 +174,10 @@ function NowPlayingInfo({
             <IconWidget
               font="material"
               size={36}
-              style={{ color: '#ffffff', adjustsFontSizeToFit: true }}
+              style={{
+                color: song.textColor ?? '#ffffff',
+                adjustsFontSizeToFit: true,
+              }}
               icon="skip_previous"
             />
           </FlexWidget>
@@ -182,7 +191,7 @@ function NowPlayingInfo({
                 height: 48,
                 width: 48,
                 borderRadius: 24,
-                backgroundColor: song.secondaryColor,
+                backgroundColor: ((song.textColor ?? '#ffffff') + '55') as any,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
@@ -190,7 +199,10 @@ function NowPlayingInfo({
               <IconWidget
                 font="material"
                 size={36}
-                style={{ color: '#ffffff', adjustsFontSizeToFit: true }}
+                style={{
+                  color: song.textColor ?? '#ffffff',
+                  adjustsFontSizeToFit: true,
+                }}
                 icon={status === 'playing' ? 'pause' : 'play_arrow'}
               />
             </FlexWidget>
@@ -203,29 +215,13 @@ function NowPlayingInfo({
             <IconWidget
               font="material"
               size={36}
-              style={{ color: '#ffffff', adjustsFontSizeToFit: true }}
+              style={{
+                color: song.textColor ?? '#ffffff',
+                adjustsFontSizeToFit: true,
+              }}
               icon="skip_next"
             />
           </FlexWidget>
-        </FlexWidget>
-
-        <FlexWidget
-          style={{
-            height: 4,
-            borderRadius: 2,
-            width: 'match_parent',
-            backgroundColor: '#ffffff88',
-          }}
-        >
-          <FlexWidget
-            style={{
-              height: 4,
-              borderRadius: 2,
-              width: 300,
-              backgroundColor: '#ffffff',
-            }}
-            children={[]}
-          />
         </FlexWidget>
       </FlexWidget>
     </FlexWidget>
@@ -250,7 +246,7 @@ function NextTracks({ height, backgroundColor }: NextTracksProps) {
       }}
     >
       <TextWidget
-        text="Next tracks"
+        text="Recommended"
         style={{
           color: '#ffffff',
           fontSize: 18,

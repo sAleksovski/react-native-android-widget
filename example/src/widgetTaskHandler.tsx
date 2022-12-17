@@ -1,34 +1,46 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 import type { WidgetTaskHandlerProps } from 'react-native-android-widget';
+import { CounterWidget } from './widgets/CounterWidget';
 import { FitnessWidget } from './widgets/FitnessWidget';
-import { MusicWidget } from './widgets/MusicWidget';
 import { ResizableMusicWidget } from './widgets/ResizableMusicWidget';
 import { RotatedWidget } from './widgets/RotatedWidget';
 import { ShopifyWidget } from './widgets/ShopifyWidget';
-import { StepsWidget } from './widgets/StepsWidget';
 
 const nameToWidget = {
   Fitness: FitnessWidget,
-  Music: MusicWidget,
   Resizable: ResizableMusicWidget,
   Rotated: RotatedWidget,
-  Steps: StepsWidget,
   Shopify: ShopifyWidget,
+  Counter: CounterWidget,
 };
+
+const COUNTER_STORAGE_KEY = 'CounterWidget:count';
 
 export async function widgetTaskHandler(props: WidgetTaskHandlerProps) {
   console.log(props);
   const widgetInfo = props.widgetInfo;
-  const Widget =
-    nameToWidget[widgetInfo.widgetName as keyof typeof nameToWidget];
+  const Widget = nameToWidget[
+    widgetInfo.widgetName as keyof typeof nameToWidget
+  ] as any;
 
   switch (props.widgetAction) {
     case 'WIDGET_RESIZED':
-      props.renderWidget(<Widget {...widgetInfo} />);
+      if (widgetInfo.widgetName === 'Counter') {
+        const count = +((await AsyncStorage.getItem(COUNTER_STORAGE_KEY)) ?? 0);
+        props.renderWidget(<CounterWidget count={count} />);
+      } else {
+        props.renderWidget(<Widget {...widgetInfo} />);
+      }
       break;
 
     case 'WIDGET_ADDED':
-      props.renderWidget(<Widget {...widgetInfo} />);
+      if (widgetInfo.widgetName === 'Counter') {
+        const count = +((await AsyncStorage.getItem(COUNTER_STORAGE_KEY)) ?? 0);
+        props.renderWidget(<CounterWidget count={count} />);
+      } else {
+        props.renderWidget(<Widget {...widgetInfo} />);
+      }
       break;
 
     case 'WIDGET_CLICK':
@@ -36,6 +48,15 @@ export async function widgetTaskHandler(props: WidgetTaskHandlerProps) {
         props.renderWidget(
           <Widget {...widgetInfo} activeView={props.clickAction as any} />
         );
+      }
+
+      if (widgetInfo.widgetName === 'Counter') {
+        const count =
+          (props.clickActionData?.value as number) +
+          (props.clickAction === 'INCREMENT' ? 1 : -1);
+        props.renderWidget(<CounterWidget count={count} />);
+
+        AsyncStorage.setItem(COUNTER_STORAGE_KEY, `${count}`);
       }
 
       if (widgetInfo.widgetName === 'Resizable') {

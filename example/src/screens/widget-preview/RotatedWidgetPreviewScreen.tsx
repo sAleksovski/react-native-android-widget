@@ -12,7 +12,6 @@ export function RotatedWidgetPreviewScreen() {
         renderWidget={() => <RotatedWidget />}
         height={322}
         width={201}
-        showBorder
       />
     </View>
   );

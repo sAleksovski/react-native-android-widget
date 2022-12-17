@@ -44,19 +44,6 @@
         </receiver>
 
         <receiver
-            android:name=".widget.Music"
-            android:exported="false"
-            android:label="Music">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="com.androidwidgetexample.WIDGET_CLICK" />
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widgetprovider_music" />
-        </receiver>
-
-        <receiver
             android:name=".widget.Resizable"
             android:exported="false"
             android:label="Resizable">
@@ -83,19 +70,6 @@
         </receiver>
 
         <receiver
-            android:name=".widget.Steps"
-            android:exported="false"
-            android:label="Steps">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="com.androidwidgetexample.WIDGET_CLICK" />
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widgetprovider_steps" />
-        </receiver>
-
-        <receiver
             android:name=".widget.Shopify"
             android:exported="false"
             android:label="Shopify">
@@ -106,6 +80,19 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widgetprovider_shopify" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.Counter"
+            android:exported="false"
+            android:label="Counter">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.androidwidgetexample.WIDGET_CLICK" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widgetprovider_counter" />
         </receiver>
     </application>
 </manifest>

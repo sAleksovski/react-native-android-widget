@@ -5,6 +5,7 @@ const widgetConfig: WithAndroidWidgetsParams = {
   fonts: [
     './assets/fonts/material.ttf',
     './assets/fonts/material_outlined.otf',
+    './assets/fonts/Ndot-55.otf',
   ],
   widgets: [
     {
@@ -13,12 +14,6 @@ const widgetConfig: WithAndroidWidgetsParams = {
       minWidth: '300dp',
       description: 'Track your fitness level',
       previewImage: './assets/widget-preview/fitness.png',
-    },
-    {
-      name: 'Music',
-      minHeight: '150dp',
-      minWidth: '180dp',
-      previewImage: './assets/widget-preview/music.png',
     },
     {
       name: 'Resizable',
@@ -43,11 +38,10 @@ const widgetConfig: WithAndroidWidgetsParams = {
       previewImage: './assets/widget-preview/shopify.png',
     },
     {
-      name: 'Steps',
-      minHeight: '150dp',
-      minWidth: '180dp',
-      description: 'Your steps at a glance',
-      previewImage: './assets/widget-preview/steps.png',
+      name: 'Counter',
+      minHeight: '120dp',
+      minWidth: '300dp',
+      previewImage: './assets/widget-preview/counter.png',
     },
   ],
 };

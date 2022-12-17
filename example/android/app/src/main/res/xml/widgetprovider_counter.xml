@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:minWidth="180dp"
-    android:minHeight="150dp"
+    android:minWidth="300dp"
+    android:minHeight="120dp"
 
     android:updatePeriodMillis="0"
 
     android:initialLayout="@layout/rn_widget"
 
-    android:previewImage="@drawable/music_preview"
+    android:previewImage="@drawable/counter_preview"
 
     android:resizeMode="none"
 

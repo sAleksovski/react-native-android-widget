@@ -58,6 +58,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 });
 ```
 
+## Example
+
+Check the [example widget](https://github.com/sAleksovski/react-native-android-widget/blob/master/example/src/widgets/RotatedWidget.tsx)
+
 ## Props
 
 Check the props in the [Public API](/docs/public-api/interfaces/TextWidgetProps) documentation

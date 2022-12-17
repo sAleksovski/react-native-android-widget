@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
 import {
@@ -15,15 +16,14 @@ function Separator() {
 export type ExampleScreens = {
   ListScreen: undefined;
   FitnessWidgetPreviewScreen: undefined;
-  MusicWidgetPreviewScreen: undefined;
   ResizableMusicWidgetPreviewScreen: undefined;
   RotatedWidgetPreviewScreen: undefined;
-  StepsWidgetPreviewScreen: undefined;
   ShopifyWidgetPreviewScreen: undefined;
   FlexScreen: undefined;
   BorderScreen: undefined;
   SvgScreen: undefined;
   TextScreen: undefined;
+  CounterScreen: undefined;
 };
 
 interface Item {
@@ -37,10 +37,6 @@ const items: Item[] = [
     screen: 'FitnessWidgetPreviewScreen',
   },
   {
-    title: 'Music Widget Preview',
-    screen: 'MusicWidgetPreviewScreen',
-  },
-  {
     title: 'Resizable Music Widget Preview',
     screen: 'ResizableMusicWidgetPreviewScreen',
   },
@@ -49,12 +45,12 @@ const items: Item[] = [
     screen: 'RotatedWidgetPreviewScreen',
   },
   {
-    title: 'Steps Widget Preview',
-    screen: 'StepsWidgetPreviewScreen',
-  },
-  {
     title: 'Shopify Widget Preview',
     screen: 'ShopifyWidgetPreviewScreen',
+  },
+  {
+    title: 'Counter Demo',
+    screen: 'CounterScreen',
   },
   {
     title: 'Flexbox Demo',

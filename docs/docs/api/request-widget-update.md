@@ -18,14 +18,14 @@ If the user has added the `CounterWidget` multiple times, `renderWidget` will be
 
 ### Example
 
-```jsx title="CounterWidgetScreen.tsx"
+```jsx title="CounterScreen.tsx"
 import * as React from 'react';
 import { Button, StyleSheet, View } from 'react-native';
 import { requestWidgetUpdate } from 'react-native-android-widget';
 
 import { CounterWidget } from './CounterWidget';
 
-export function CounterWidgetScreen() {
+export function CounterScreen() {
   const [count, setCount] = React.useState(0);
 
   React.useEffect(() => {
@@ -51,6 +51,10 @@ const styles = StyleSheet.create({
   },
 });
 ```
+
+### Demo
+
+Check the demo in the [Example App](https://github.com/sAleksovski/react-native-android-widget/releases)
 
 ## Types
 

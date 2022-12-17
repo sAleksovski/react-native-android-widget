@@ -2,13 +2,23 @@
 import React from 'react';
 import { FlexWidget, TextWidget } from 'react-native-android-widget';
 
+const WEEKDAY = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+];
+
 export function RotatedWidget() {
   return (
     <FlexWidget
       style={{
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#FDF1FE',
+        backgroundColor: '#FFFFFF',
         height: 'match_parent',
         width: 'match_parent',
         borderRadius: 32,
@@ -18,11 +28,12 @@ export function RotatedWidget() {
     >
       <TextWidget
         style={{
-          fontSize: 36,
-          color: '#908E8D',
+          fontFamily: 'Ndot-55',
+          fontSize: 42,
+          color: '#000000',
           rotation: -90,
         }}
-        text="Wednesday"
+        text={WEEKDAY[new Date().getDay()] ?? ''}
       />
     </FlexWidget>
   );
