@@ -11,12 +11,30 @@ import { AndroidWidget } from '../AndroidWidget';
 import { buildWidgetTree } from './build-widget-tree';
 import type { OnClick, WidgetPreviewData } from './private.types';
 
-interface WidgetPreviewProps {
+export interface WidgetPreviewProps {
+  /**
+   * Callback function that will be called by `WidgetPreview` to generate the widget UI.
+   */
   renderWidget: (props: { width: number; height: number }) => JSX.Element;
+  /**
+   * Callback function that will be called when clicked on a clickable area of the widget.
+   */
   onClick?: (props: OnClick) => void;
+  /**
+   * The height of the widget
+   */
   height: number;
+  /**
+   * The width of the widget
+   */
   width: number;
+  /**
+   * Whether to show a border around the widget. Usefull for widgets that do not use the whole space.
+   */
   showBorder?: boolean;
+  /**
+   * Whether to add a highlight to the clickable areas
+   */
   highlightClickableAreas?: boolean;
 }
 

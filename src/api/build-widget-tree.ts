@@ -1,49 +1,13 @@
-import type { FlexWidgetInternalProps } from '../widgets/FlexWidget';
-import type { IconWidgetInternalProps } from '../widgets/IconWidget';
-import type { ImageWidgetInternalProps } from '../widgets/ImageWidget';
-import type { OverlapWidgetInternalProps } from '../widgets/OverlapWidget';
-import type { SvgWidgetInternalProps } from '../widgets/SvgWidget';
-import type { TextWidgetInternalProps } from '../widgets/TextWidet';
-
-interface IconNode {
-  type: 'IconWidget';
-  props: IconWidgetInternalProps;
+export interface WidgetTree {
+  type:
+    | 'IconWidget'
+    | 'ImageWidget'
+    | 'SvgWidget'
+    | 'TextWidget'
+    | 'FlexWidget'
+    | 'OverlapWidget';
+  props: unknown;
 }
-
-interface ImageNode {
-  type: 'ImageWidget';
-  props: ImageWidgetInternalProps;
-}
-
-interface SvgNode {
-  type: 'SvgWidget';
-  props: SvgWidgetInternalProps;
-}
-
-interface TextNode {
-  type: 'TextWidget';
-  props: TextWidgetInternalProps;
-}
-
-interface FlexNode {
-  type: 'FlexWidget';
-  props: FlexWidgetInternalProps;
-  children: WidgetTree[];
-}
-
-interface OverlapNode {
-  type: 'OverlapWidget';
-  props: OverlapWidgetInternalProps;
-  children: WidgetTree[];
-}
-
-export type WidgetTree =
-  | FlexNode
-  | OverlapNode
-  | IconNode
-  | ImageNode
-  | SvgNode
-  | TextNode;
 
 export function buildWidgetTree(jsxTree: JSX.Element): WidgetTree {
   if (typeof jsxTree === 'string' || typeof jsxTree === 'number') {

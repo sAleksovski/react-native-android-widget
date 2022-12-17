@@ -7,7 +7,7 @@ import type {
 } from './utils/style.props';
 import { convertColor, convertCommonStyle } from './utils/style.utils';
 
-export interface TextWidgetInternalProps extends CommonInternalProps {
+interface TextWidgetInternalProps extends CommonInternalProps {
   text: string;
   fontSize: number;
   fontFamily?: string;
@@ -38,7 +38,7 @@ export interface TextWidgetInternalProps extends CommonInternalProps {
   maxLines?: number;
 }
 
-interface TextWidgetStyle extends CommonStyleProps {
+export interface TextWidgetStyle extends CommonStyleProps {
   color?: ColorProp;
   fontSize?: number;
   fontFamily?: string | undefined;
@@ -69,13 +69,21 @@ interface TextWidgetStyle extends CommonStyleProps {
   textShadowOffset?: { height: number; width: number };
 }
 
-interface TextWidgetProps extends ClickActionProps {
+export interface TextWidgetProps extends ClickActionProps {
   style?: TextWidgetStyle;
-  children?: never;
 
+  /**
+   * Text to show
+   */
   text: string;
 
+  /**
+   * How to truncate the text if it cannot fit
+   */
   truncate?: 'START' | 'MIDDLE' | 'END';
+  /**
+   * Maximum number of lines to if text overflows in next line
+   */
   maxLines?: number;
 }
 

@@ -1,5 +1,5 @@
 export type HexColor = `#${string}`;
-type RgbaColor = `rgba(${number}, ${number}, ${number}, ${number})`;
+export type RgbaColor = `rgba(${number}, ${number}, ${number}, ${number})`;
 
 export type ColorProp = HexColor | RgbaColor;
 

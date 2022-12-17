@@ -4,17 +4,19 @@ import type { CommonInternalProps } from './utils/common-internal.props';
 import type { CommonStyleProps } from './utils/style.props';
 import { convertCommonStyle } from './utils/style.utils';
 
-export interface SvgWidgetInternalProps extends CommonInternalProps {
+interface SvgWidgetInternalProps extends CommonInternalProps {
   svgString?: string;
   svgUrl?: string;
 }
 
-type SvgWidgetStyle = CommonStyleProps;
+export type SvgWidgetStyle = CommonStyleProps;
 
-interface SvgWidgetProps extends ClickActionProps {
+export interface SvgWidgetProps extends ClickActionProps {
   style?: SvgWidgetStyle;
-  children?: never;
 
+  /**
+   * SVG file loaded with `require('./path/to/svg/file')` or a SVG string
+   */
   svg: string | ImageRequireSource;
 }
 

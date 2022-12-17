@@ -27,7 +27,7 @@
   "scripts": {
     "test": "jest",
     "typescript": "tsc --noEmit",
-    "lint": "eslint \"**/*.{js,ts,tsx}\"",
+    "lint": "eslint \"src/**/*.{js,ts,tsx}\"",
     "preprepare": "tsc app.plugin.ts --skipLibCheck",
     "prepare": "bob build",
     "release": "release-it",

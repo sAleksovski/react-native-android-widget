@@ -12,7 +12,7 @@ const GRAVITY = {
   CENTER_VERTICAL: 16,
 };
 
-export interface FlexWidgetInternalProps extends CommonInternalProps {
+interface FlexWidgetInternalProps extends CommonInternalProps {
   orientation?: 'VERTICAL' | 'HORIZONTAL';
   gravity?: number;
   separator?: {
@@ -21,7 +21,7 @@ export interface FlexWidgetInternalProps extends CommonInternalProps {
   };
 }
 
-export interface FlexStyleProps {
+interface FlexStyleProps {
   flex?: number;
   flexDirection?: 'row' | 'column';
   alignItems?: 'flex-start' | 'center' | 'flex-end';
@@ -36,9 +36,9 @@ export interface FlexStyleProps {
   flexGapColor?: ColorProp;
 }
 
-interface FlexWidgetStyle extends FlexStyleProps, CommonStyleProps {}
+export interface FlexWidgetStyle extends FlexStyleProps, CommonStyleProps {}
 
-interface FlexWidgetProps extends ClickActionProps {
+export interface FlexWidgetProps extends ClickActionProps {
   children?: any;
   style?: FlexWidgetStyle;
 }

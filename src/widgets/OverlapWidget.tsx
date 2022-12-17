@@ -3,11 +3,11 @@ import type { CommonInternalProps } from './utils/common-internal.props';
 import type { CommonStyleProps } from './utils/style.props';
 import { convertCommonStyle } from './utils/style.utils';
 
-export type OverlapWidgetInternalProps = CommonInternalProps;
+type OverlapWidgetInternalProps = CommonInternalProps;
 
-type OverlapWidgetStyle = CommonStyleProps;
+export type OverlapWidgetStyle = CommonStyleProps;
 
-interface OverlapWidgetProps extends ClickActionProps {
+export interface OverlapWidgetProps extends ClickActionProps {
   children?: any;
   style?: OverlapWidgetStyle;
 }

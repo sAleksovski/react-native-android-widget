@@ -7,7 +7,7 @@ import type {
 } from './utils/style.props';
 import { convertColor, convertCommonStyle } from './utils/style.utils';
 
-export interface IconWidgetInternalProps extends CommonInternalProps {
+interface IconWidgetInternalProps extends CommonInternalProps {
   icon: string;
   size: number;
   font: string;
@@ -16,17 +16,25 @@ export interface IconWidgetInternalProps extends CommonInternalProps {
   color?: HexColor;
 }
 
-interface IconWidgetStyle extends CommonStyleProps {
+export interface IconWidgetStyle extends CommonStyleProps {
   color?: ColorProp;
   adjustsFontSizeToFit?: boolean;
 }
 
-interface IconWidgetProps extends ClickActionProps {
+export interface IconWidgetProps extends ClickActionProps {
   style?: IconWidgetStyle;
-  children?: never;
 
+  /**
+   * Icon from the specified font
+   */
   icon: string;
+  /**
+   * Size of the icon
+   */
   size: number;
+  /**
+   * Font of the icon. It must be added to the application
+   */
   font: string;
 }
 

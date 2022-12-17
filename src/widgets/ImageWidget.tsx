@@ -8,7 +8,7 @@ import type { CommonInternalProps } from './utils/common-internal.props';
 import type { CommonStyleProps } from './utils/style.props';
 import { convertCommonStyle } from './utils/style.utils';
 
-export interface ImageWidgetInternalProps extends CommonInternalProps {
+interface ImageWidgetInternalProps extends CommonInternalProps {
   imageWidth: number;
   imageHeight: number;
   image: ImageResolvedAssetSource;
@@ -16,13 +16,24 @@ export interface ImageWidgetInternalProps extends CommonInternalProps {
 
 type ImageWidgetStyle = CommonStyleProps;
 
-interface ImageWidgetProps extends ClickActionProps {
+export interface ImageWidgetProps extends ClickActionProps {
   style?: ImageWidgetStyle;
-  children?: never;
 
+  /**
+   * Width of the image
+   */
   imageWidth: number;
+  /**
+   * Height of the image
+   */
   imageHeight: number;
+  /**
+   * Image loaded using `require('./path/to/image')`
+   */
   image: ImageRequireSource;
+  /**
+   * Image radius
+   */
   radius?: number;
 }
 

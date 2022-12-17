@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import {
-  FlexStyleProps,
+  FlexWidgetStyle,
   FlexWidget,
   WidgetPreview,
 } from 'react-native-android-widget';
@@ -32,7 +32,7 @@ function FlexWidgetDemo({
   flexDirection,
   justifyContent,
   alignItems,
-}: FlexStyleProps) {
+}: FlexWidgetStyle) {
   return (
     <FlexWidget
       // eslint-disable-next-line react-native/no-inline-styles

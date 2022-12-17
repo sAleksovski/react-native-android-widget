@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {
-  FlexStyleProps,
+  FlexWidgetStyle,
   FlexWidget,
   IconWidget,
   SvgWidget,
@@ -93,7 +93,7 @@ function Title() {
 
 interface RowProps {
   children: any;
-  style?: FlexStyleProps;
+  style?: FlexWidgetStyle;
 }
 
 function Row({ children, style }: RowProps) {
