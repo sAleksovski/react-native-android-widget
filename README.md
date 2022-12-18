@@ -4,19 +4,21 @@ React Native support for Android Widgets
 
 ## Installation
 
+npm:
+
 ```sh
-npm install react-native-android-widget
+npm install --save react-native-android-widget
+```
+
+yarn:
+
+```sh
+yarn add react-native-android-widget
 ```
 
 ## Usage
 
-```js
-import { multiply } from 'react-native-android-widget';
-
-// ...
-
-const result = await multiply(3, 7);
-```
+For usage see the [documentation](https://saleksovski.github.io/react-native-android-widget/).
 
 ## Contributing
 

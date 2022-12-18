@@ -74,13 +74,12 @@ Create a new xml file in the resources directory containing the details about th
 
 Then we need to register the new widget in `AndroidManifest.xml`
 
-First, for the library to function we need to add `FOREGROUND_SERVICE` permission to our app. In the permissions add
+First, for the library to function we need to add `FOREGROUND_SERVICE` and `WAKE_LOCK` permissions to our app. In the permissions add
 
 ```xml title="android/app/src/main/AndroidManifest.xml"
 <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+<uses-permission android:name="android.permission.WAKE_LOCK" />
 ```
-
-<!-- TODO Do we need WAKE_LOCK? -->
 
 Under the application section in the manifest, add a new `RNWidgetBackgroundTaskService` service. This service will be shared between all widgets, so it needs to be added only once.
 

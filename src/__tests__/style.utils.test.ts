@@ -1,4 +1,4 @@
-import { convertColor } from './style.utils';
+import { convertColor } from '../widgets/utils/style.utils';
 
 describe('#convertColor', () => {
   test('should convert full hex color', () => {
