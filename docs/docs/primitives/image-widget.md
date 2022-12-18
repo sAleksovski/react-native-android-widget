@@ -4,7 +4,7 @@ sidebar_position: 3
 
 # ImageWidget
 
-Widget for displaying different types of images, including network images and static resources.
+Widget for displaying different types of images, including network images, `data:/image` images, and static resources.
 
 ## Usage
 

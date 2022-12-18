@@ -5,6 +5,7 @@ import {
   FlexWidget,
   IconWidget,
   ImageWidget,
+  ImageWidgetSource,
   OverlapWidget,
   TextWidget,
 } from 'react-native-android-widget';
@@ -13,7 +14,7 @@ interface Song {
   id: number;
   title: string;
   artist: string;
-  albumArt: number;
+  albumArt: ImageWidgetSource;
   mainColor: ColorProp;
   secondaryColor: ColorProp;
   textColor?: ColorProp;

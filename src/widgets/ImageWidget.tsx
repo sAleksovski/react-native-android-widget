@@ -11,10 +11,16 @@ import { convertCommonStyle } from './utils/style.utils';
 interface ImageWidgetInternalProps extends CommonInternalProps {
   imageWidth: number;
   imageHeight: number;
-  image: ImageResolvedAssetSource;
+  image: Pick<ImageResolvedAssetSource, 'uri'>;
 }
 
 type ImageWidgetStyle = CommonStyleProps;
+
+export type ImageWidgetSource =
+  | ImageRequireSource
+  | `http:${string}`
+  | `https:${string}`
+  | `data:image${string}`;
 
 export interface ImageWidgetProps extends ClickActionProps {
   style?: ImageWidgetStyle;
@@ -28,9 +34,10 @@ export interface ImageWidgetProps extends ClickActionProps {
    */
   imageHeight: number;
   /**
-   * Image loaded using `require('./path/to/image')`
+   * Image loaded using `require('./path/to/image')`,
+   * or a path to image starting with "http:", "https:", or "data:/image"
    */
-  image: ImageRequireSource;
+  image: ImageWidgetSource;
   /**
    * Image radius
    */
@@ -49,7 +56,10 @@ ImageWidget.convertProps = (
     ...convertClickAction(props),
     imageHeight: props.imageHeight,
     imageWidth: props.imageWidth,
-    image: Image.resolveAssetSource(props.image),
+    image:
+      typeof props.image === 'number'
+        ? Image.resolveAssetSource(props.image)
+        : { uri: props.image },
     ...(props.radius ? { radius: props.radius } : {}),
   };
 };

@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.util.Base64;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +36,10 @@ public class ResourceUtils {
         if (isResource(source)) {
             int resourceId = getResourceId(context, "drawable", source);
             return BitmapFactory.decodeResource(context.getResources(), resourceId);
+        } else if (source.startsWith("data:")) {
+            String base64String = source.split("base64,")[1];
+            byte[] decodedString = Base64.decode(base64String, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         } else {
             InputStream input = getInputStreamFromSource(source);
             return BitmapFactory.decodeStream(input);
