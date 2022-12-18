@@ -24,8 +24,8 @@ public class RNWidgetBackgroundTaskService extends HeadlessJsTaskService {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createChannel();
-            Notification notification = new NotificationCompat.Builder(getApplicationContext(), "demo")
-                .setContentTitle("Headless Work")
+            Notification notification = new NotificationCompat.Builder(getApplicationContext(), "widget")
+                .setContentTitle("Running Widget Action")
                 .setTicker("run")
                 .setSilent(true)
                 .setOngoing(true)
@@ -43,9 +43,9 @@ public class RNWidgetBackgroundTaskService extends HeadlessJsTaskService {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private void createChannel() {
-        String description = "test channel";
+        String description = "Widget channel";
         int importance = NotificationManager.IMPORTANCE_DEFAULT;
-        NotificationChannel channel = new NotificationChannel("demo", "test", importance);
+        NotificationChannel channel = new NotificationChannel("widget", "Widget", importance);
         channel.setDescription(description);
         NotificationManager notificationManager =
             (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
