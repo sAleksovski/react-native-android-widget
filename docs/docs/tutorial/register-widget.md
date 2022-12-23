@@ -4,7 +4,7 @@ sidebar_position: 4
 
 # Register widget
 
-In order to register our widget so that it can be selected from the launchers widget picker, we need to tell the android app some information about widget.
+In order to register our widget so that it can be selected from the launchers widget picker, we need to tell the android app some information about the widget.
 
 ## Add a widget provider class
 
@@ -19,7 +19,7 @@ public class Hello extends RNWidgetProvider {
 }
 ```
 
-The class name will be the **name** with which we will reference our widget.
+The class **name** will be used to reference our widget.
 
 ## Create widget preview image
 

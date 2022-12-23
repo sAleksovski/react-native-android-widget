@@ -8,5 +8,5 @@ export * from './widgets/IconWidget';
 export * from './widgets/ImageWidget';
 export * from './widgets/OverlapWidget';
 export * from './widgets/SvgWidget';
-export * from './widgets/TextWidet';
+export * from './widgets/TextWidget';
 export * from './widgets/utils/style.props';

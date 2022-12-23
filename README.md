@@ -1,6 +1,6 @@
 # react-native-android-widget
 
-React Native support for Android Widgets
+Build Android Widgets with React Native
 
 ## Installation
 

@@ -29,7 +29,7 @@ export default function Home() {
   return (
     <Layout
       title={siteConfig.title}
-      description="React Native support for Android Widgets"
+      description="Build Android Widgets with React Native"
     >
       <HomepageHeader />
       <main>

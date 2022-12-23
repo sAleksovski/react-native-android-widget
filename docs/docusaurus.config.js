@@ -7,7 +7,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'React Native Android Widget',
-  tagline: 'React Native support for Android Widgets',
+  tagline: 'Build Android Widgets with React Native',
   url: 'https://sAleksovski.github.io/',
   baseUrl: '/react-native-android-widget',
   onBrokenLinks: 'throw',
