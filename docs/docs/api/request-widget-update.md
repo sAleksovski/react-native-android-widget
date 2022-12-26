@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
 
 ### Demo
 
-Check the demo in the [Example App](https://github.com/sAleksovski/react-native-android-widget/releases)
+Check the full code in the [Counter Screen](https://github.com/sAleksovski/react-native-android-widget/blob/master/example/src/screens/CounterScreen.tsx)
 
 ## Types
 

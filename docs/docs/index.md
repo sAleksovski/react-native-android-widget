@@ -7,7 +7,7 @@ sidebar_label: Getting Started
 
 React Native Android Widget is an open source library for building android widgets using React Native - without touching the native side.
 
-Get started building by installing React Native Android Widget or following our [First Widget Tutorial](./tutorial/widget-design.md) to learn the main concepts.
+Get started building by installing React Native Android Widget or by following the [Tutorial](./tutorial/widget-design.md) to learn the main concepts.
 
 ## Getting Started
 
