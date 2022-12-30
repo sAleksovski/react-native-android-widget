@@ -7,7 +7,9 @@
     "preandroid": "echo \"Fixing react-native-screens build\" && rm -rf node_modules/react-native-screens/android/build",
     "android": "react-native run-android --active-arch-only",
     "android:turbo": "ORG_GRADLE_PROJECT_newArchEnabled=true yarn android",
-    "start": "react-native start"
+    "start": "react-native start",
+    "build:apk:clean": "cd android && ./gradlew clean assembleRelease",
+    "build:apk": "cd android && ./gradlew assembleRelease"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.17.11",

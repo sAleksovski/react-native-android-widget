@@ -80,6 +80,7 @@ import org.apache.tools.ant.taskdefs.condition.Os
 
 project.ext.react = [
     enableHermes: true,  // clean and rebuild if changing
+    entryFile: "index.ts",
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -217,6 +218,14 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            if (project.hasProperty('RN_WIDGET_STORE_FILE')) {
+                storeFile file(RN_WIDGET_STORE_FILE)
+                storePassword RN_WIDGET_STORE_PASSWORD
+                keyAlias RN_WIDGET_KEY_ALIAS
+                keyPassword RN_WIDGET_KEY_PASSWORD
+            }
+        }
     }
     buildTypes {
         debug {
@@ -225,7 +234,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
