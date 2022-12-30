@@ -20,10 +20,6 @@ public class FrameLayoutWidget extends BaseLayoutWidget<FrameLayout> {
 
     @Override
     public void applyProps() {
-        try {
-            addChildren();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        addChildren();
     }
 }

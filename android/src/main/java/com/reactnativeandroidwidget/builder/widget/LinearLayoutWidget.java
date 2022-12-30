@@ -1,7 +1,6 @@
 package com.reactnativeandroidwidget.builder.widget;
 
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -44,10 +43,6 @@ public class LinearLayoutWidget extends BaseLayoutWidget<LinearLayout> {
             view.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
         }
 
-        try {
-            addChildren();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        addChildren();
     }
 }

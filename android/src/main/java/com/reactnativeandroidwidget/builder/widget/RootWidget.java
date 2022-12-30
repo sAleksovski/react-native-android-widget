@@ -20,11 +20,7 @@ public class RootWidget extends BaseLayoutWidget<FrameLayout> {
 
     @Override
     protected void applyProps() {
-        try {
-            addChildren();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        addChildren();
 
         int specWidth = View.MeasureSpec.makeMeasureSpec(dpToPx(props.getInt("widgetWidth")), View.MeasureSpec.EXACTLY);
         int specHeight = View.MeasureSpec.makeMeasureSpec(dpToPx(props.getInt("widgetHeight")), View.MeasureSpec.EXACTLY);

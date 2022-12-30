@@ -25,19 +25,6 @@ public class RNWidgetProvider extends AppWidgetProvider {
         }
     }
 
-    /*
-     * When enabled on screen, let the BackgroundTaskBridge
-     * manipulate it from javascript
-     */
-//    @Override
-//    public void onEnabled(Context context) {
-//        int widgetId = getNewestWidgetId(context);
-//
-//        Intent backgroundTaskIntent = buildIntent(context, widgetId, "WIDGET_ADDED");
-//
-//        executeJs(context, backgroundTaskIntent, widgetId);
-//    }
-
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
