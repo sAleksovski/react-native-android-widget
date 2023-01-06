@@ -107,8 +107,6 @@ const config = {
         id: 'star-on-github', // Increment on change
         content:
           '⭐️ If you like React Native Android Widget, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/sAleksovski/react-native-android-widget">GitHub</a>',
-        backgroundColor: '#fafbfc',
-        textColor: '#091E42',
       },
     }),
 };

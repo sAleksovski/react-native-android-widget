@@ -39,7 +39,7 @@ When the android launcher shows the widget select popup, under the name of the w
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">My App Name</string>
-    <string name="widget_hello_description" translatable="false">This is our first widget</string>
+    <string name="widget_hello_description" translatable="false">This is my first widget</string>
 </resources>
 ```
 
@@ -51,14 +51,14 @@ Create a new xml file in the resources directory containing the details about th
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:minWidth="320dp"
-    android:minHeight="200dp"
+    android:minHeight="120dp"
 
     android:updatePeriodMillis="0"
 
     android:initialLayout="@layout/rn_widget"
 
     android:previewImage="@drawable/hello_preview"
-    android:description="@string/widget_hello_description"`
+    android:description="@string/widget_hello_description"
 
     android:resizeMode="none"
 

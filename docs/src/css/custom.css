@@ -19,13 +19,13 @@
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #0077b6;
-  --ifm-color-primary-dark: #006ba4;
-  --ifm-color-primary-darker: #00659b;
-  --ifm-color-primary-darkest: #00537f;
-  --ifm-color-primary-light: #0083c8;
-  --ifm-color-primary-lighter: #0089d1;
-  --ifm-color-primary-lightest: #009bed;
+  --ifm-color-primary: #3498db;
+  --ifm-color-primary-dark: #258bcf;
+  --ifm-color-primary-darker: #2383c4;
+  --ifm-color-primary-darkest: #1d6ca1;
+  --ifm-color-primary-light: #4ba4df;
+  --ifm-color-primary-lighter: #57aae1;
+  --ifm-color-primary-lightest: #79bbe7;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 
@@ -33,4 +33,22 @@
 #namespaces + ul,
 a[href='#namespaces'] {
   display: none;
+}
+
+div[class^='announcementBar_'] {
+  --site-primary-hue-saturation: 201 100%;
+  --site-announcement-bar-stripe-color1: hsl(
+    var(--site-primary-hue-saturation) 85%
+  );
+  --site-announcement-bar-stripe-color2: hsl(
+    var(--site-primary-hue-saturation) 95%
+  );
+  background: repeating-linear-gradient(
+    145deg,
+    var(--site-announcement-bar-stripe-color1),
+    var(--site-announcement-bar-stripe-color1) 20px,
+    var(--site-announcement-bar-stripe-color2) 10px,
+    var(--site-announcement-bar-stripe-color2) 40px
+  );
+  font-weight: 700;
 }
