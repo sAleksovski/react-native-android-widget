@@ -1,6 +1,6 @@
 {
   "name": "react-native-android-widget",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "Build Android Widgets with React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -30,6 +30,7 @@
     "lint": "eslint \"src/**/*.{js,ts,tsx}\"",
     "preprepare": "tsc app.plugin.ts --skipLibCheck",
     "prepare": "bob build",
+    "prerelease": "yarn prepare",
     "release": "release-it",
     "example": "yarn --cwd example",
     "clean": "del-cli android/build example/android/build example/android/app/build",
@@ -54,7 +55,7 @@
     "@babel/eslint-parser": "^7.18.2",
     "@commitlint/config-conventional": "^17.0.2",
     "@react-native-community/eslint-config": "^3.0.2",
-    "@release-it/conventional-changelog": "^5.0.0",
+    "@release-it/keep-a-changelog": "^3.1.0",
     "@types/jest": "^28.1.2",
     "@types/react": "~18.0.25",
     "@types/react-native": "0.70.5",
@@ -110,8 +111,10 @@
       "release": true
     },
     "plugins": {
-      "@release-it/conventional-changelog": {
-        "preset": "angular"
+      "@release-it/keep-a-changelog": {
+        "filename": "CHANGELOG.md",
+        "strictLatest": false,
+        "addUnreleased": true
       }
     }
   },
