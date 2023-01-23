@@ -20,6 +20,10 @@ yarn add react-native-android-widget
 
 For usage see the [documentation](https://saleksovski.github.io/react-native-android-widget/).
 
+## Demo
+
+You can also download the demo app from the [Releases](https://github.com/sAleksovski/react-native-android-widget/releases) page.
+
 ## Contributing
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.

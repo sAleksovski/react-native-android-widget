@@ -20,13 +20,24 @@ function HomepageHeader() {
         styles.heroBanner
       )}
     >
-      <div className="container">
-        <h1 className="hero__title">{siteConfig.title}</h1>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
-        <div className={styles.buttons}>
-          <Link className="button button--secondary button--lg" to="/docs">
-            Check out the Tutorial
-          </Link>
+      <div className={styles.headerWrapper}>
+        <div className={clsx('container', styles.container)}>
+          <h1 className="hero__title">{siteConfig.title}</h1>
+          <p className="hero__subtitle">{siteConfig.tagline}</p>
+          <div className={styles.buttons}>
+            <Link className="button button--secondary button--lg" to="/docs">
+              Check out the Tutorial
+            </Link>
+          </div>
+        </div>
+
+        <div className={styles.videoContainer}>
+          <video controls autoPlay muted loop height={540}>
+            <source
+              src="/react-native-android-widget/video.mp4"
+              type="video/mp4"
+            />
+          </video>
         </div>
       </div>
     </header>
