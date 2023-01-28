@@ -32,7 +32,7 @@ function HomepageHeader() {
         </div>
 
         <div className={styles.videoContainer}>
-          <video controls autoPlay muted loop height={540}>
+          <video controls autoPlay muted loop height={540} width={243}>
             <source
               src="/react-native-android-widget/video.mp4"
               type="video/mp4"
