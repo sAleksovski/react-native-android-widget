@@ -21,7 +21,10 @@ export function buildWidgetTree(jsxTree: JSX.Element): WidgetTree {
   const { children, ...otherProps } = jsxTree.props;
 
   const updatedChildren =
-    jsxTree.type.processChildren?.(otherProps, children ?? []) ??
+    jsxTree.type.processChildren?.(
+      otherProps,
+      children ? (Array.isArray(children) ? children : [children]) : []
+    ) ??
     children ??
     [];
 
