@@ -120,7 +120,7 @@ public class ResourceUtils {
 
     @Nullable
     private static String findAssetFont(AssetManager assetManager, @NonNull String fontName) throws IOException {
-        String[] fontFiles = assetManager.list("fonts/");
+        String[] fontFiles = assetManager.list("fonts");
 
         String assetFont = null;
         for (String file : fontFiles) {
