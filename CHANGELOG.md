@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2023-02-19
+
 ### Fixed
 
 - Fixed an issue for `FlexWidget` when using `justifyContent` with value `'space-around', 'space-between', 'space-evenly'` with only one child
