@@ -1,5 +1,6 @@
 export * from './api/register-widget-task-handler';
 export * from './api/request-widget-update';
+export * from './api/get-widget-info';
 export * from './api/types';
 export * from './api/WidgetPreview';
 export * from './config-plugin.type';
