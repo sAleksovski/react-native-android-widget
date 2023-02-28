@@ -43,7 +43,7 @@ export type WidgetTaskHandler = (
  *
  * @param handler {@link WidgetTaskHandler}
  */
-export function registerWidgetTaskHandler(handler: WidgetTaskHandler) {
+export function registerWidgetTaskHandler(handler: WidgetTaskHandler): void {
   async function taskProvider({
     widgetAction,
     clickAction,

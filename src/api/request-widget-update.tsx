@@ -12,6 +12,11 @@ export interface RequestWidgetUpdateProps {
    * It should return the JSX of the updated widget
    */
   renderWidget: (props: WidgetInfo) => Promise<JSX.Element> | JSX.Element;
+  /**
+   * Callback function that will be called if no widgets are added on the home screen
+   * It can be used to clean up background tasks that update the widget periodically
+   */
+  widgetNotFound?: () => void;
 }
 
 /**
@@ -23,8 +28,13 @@ export interface RequestWidgetUpdateProps {
 export async function requestWidgetUpdate({
   widgetName,
   renderWidget,
-}: RequestWidgetUpdateProps) {
+  widgetNotFound,
+}: RequestWidgetUpdateProps): Promise<void> {
   const widgetsInfo = await AndroidWidget.getWidgetInfo(widgetName);
+
+  if (widgetsInfo.length === 0) {
+    widgetNotFound?.();
+  }
 
   widgetsInfo.forEach(async (info: WidgetInfo) => {
     const widgetComponent = await renderWidget(info);

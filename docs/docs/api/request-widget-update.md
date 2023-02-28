@@ -16,11 +16,13 @@ If the user has added a `CounterWidget` to the home screen, then when the `Count
 
 If the user has added the `CounterWidget` multiple times, `renderWidget` will be called multiple times, once for each widget.
 
+If the user has not added the `CounterWidget` on the Android home screen, the optional callback `widgetNotFound` will be called.
+
 ### Example
 
 ```jsx title="CounterScreen.tsx"
 import * as React from 'react';
-import { Button, StyleSheet, View } from 'react-native';
+import { Button, StyleSheet, View, Text } from 'react-native';
 import { requestWidgetUpdate } from 'react-native-android-widget';
 
 import { CounterWidget } from './CounterWidget';
@@ -32,11 +34,15 @@ export function CounterScreen() {
     requestWidgetUpdate({
       widgetName: 'Counter',
       renderWidget: () => <CounterWidget count={count} />,
+      widgetNotFound: () => {
+        // Called if no widget is present on the home screen
+      }
     });
   }, [count]);
 
   return (
     <View style={styles.container}>
+      <Text>{count}</Text>
       <Button title="Increment" onPress={() => setCount(count + 1)} />
       <Button title="Decrement" onPress={() => setCount(count - 1)} />
     </View>

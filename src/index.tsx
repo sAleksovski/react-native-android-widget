@@ -1,3 +1,4 @@
+export * from './api/get-widget-info';
 export * from './api/register-widget-task-handler';
 export * from './api/request-widget-update';
 export * from './api/types';
