@@ -52,3 +52,10 @@ div[class^='announcementBar_'] {
   );
   font-weight: 700;
 }
+
+.header-buymeacoffee-link {
+  background-image: url('https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png');
+  height: 44px !important; /* 34px */
+  width: 156px !important; /* 121px */
+  background-size: contain;
+}

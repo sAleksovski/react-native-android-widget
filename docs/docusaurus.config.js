@@ -87,6 +87,11 @@ const config = {
             label: 'Public API',
           },
           {
+            position: 'right',
+            href: 'https://www.buymeacoffee.com/sAleksovski',
+            className: 'header-buymeacoffee-link',
+          },
+          {
             href: 'https://github.com/sAleksovski/react-native-android-widget',
             label: 'GitHub',
             position: 'right',

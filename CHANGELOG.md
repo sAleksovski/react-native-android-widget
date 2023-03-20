@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## Added
+
+- Upgrade to React Native 0.71.3
+- Upgrade to Expo 48
+
 ## [0.2.0] - 2023-02-28
 
 ### Added
