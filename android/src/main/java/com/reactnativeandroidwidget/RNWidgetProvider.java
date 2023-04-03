@@ -49,14 +49,14 @@ public class RNWidgetProvider extends AppWidgetProvider {
         String action = incomingIntent.hasExtra("widgetAction") ? incomingIntent.getStringExtra("widgetAction") : "WIDGET_CLICK";
         boolean openApp = incomingIntent.hasExtra("openApp") && incomingIntent.getBooleanExtra("openApp", false);
 
-//        if (openApp) {
-//            try {
-//                Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
-//                context.startActivity(launchIntent);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        } else {
+        if (openApp) {
+            try {
+                Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
+                context.startActivity(launchIntent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
             Intent backgroundTaskIntent = buildIntent(context, widgetId, action);
 
             if (incomingIntent.hasExtra("clickAction")) {
@@ -65,7 +65,7 @@ public class RNWidgetProvider extends AppWidgetProvider {
             }
 
             startBackgroundTask(context, backgroundTaskIntent);
-//        }
+        }
     }
 
     @Override

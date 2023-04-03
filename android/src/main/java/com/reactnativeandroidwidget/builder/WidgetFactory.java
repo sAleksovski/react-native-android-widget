@@ -68,7 +68,7 @@ public class WidgetFactory {
                     view,
                     props.getString("clickAction"),
                     props.getMap("clickActionData"),
-                    props.getBoolean("openApp")
+                    props.hasKey("openApp") && props.getBoolean("openApp")
                 )
             );
         }
