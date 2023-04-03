@@ -33,7 +33,7 @@ export function CounterWidget({ count = 0 }: CounterWidgetProps) {
       >
         <TextWidget style={{ fontSize: 48 }} text="-" />
       </FlexWidget>
-      <TextWidget style={{ fontSize: 48 }} text={`${count}`} />
+      <TextWidget openApp style={{ fontSize: 48 }} text={`${count}`} />
       <FlexWidget
         style={{
           height: 'wrap_content',

@@ -45,6 +45,7 @@ function ActionSelector({ isActive, iconName }: ActionSelectorProps) {
 function StepsWalked() {
   return (
     <FlexWidget
+      openApp
       style={{
         flexDirection: 'column',
         height: 'match_parent',
@@ -109,6 +110,7 @@ function StepsWalked() {
 function Activity() {
   return (
     <FlexWidget
+      openApp
       style={{
         height: 'match_parent',
         width: 'match_parent',
@@ -158,6 +160,7 @@ function Activity() {
 function StepsHistory() {
   return (
     <FlexWidget
+      openApp
       style={{
         height: 'match_parent',
         width: 'match_parent',

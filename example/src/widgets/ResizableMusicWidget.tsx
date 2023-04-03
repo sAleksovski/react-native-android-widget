@@ -72,7 +72,7 @@ function AlbumArt({
   overlayGradientOrientation,
 }: AlbumArtProps) {
   return (
-    <OverlapWidget style={{ height, width }}>
+    <OverlapWidget openApp style={{ height, width }}>
       <ImageWidget
         image={song.albumArt}
         imageWidth={width}
