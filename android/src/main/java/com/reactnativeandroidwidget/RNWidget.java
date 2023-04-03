@@ -127,6 +127,7 @@ public class RNWidget {
         intent.putExtra("widgetId", id);
         intent.putExtra("clickAction", clickableView.getClickAction());
         intent.putExtra("clickActionData", Arguments.toBundle(clickableView.getClickActionData()));
+        intent.putExtra("openApp", clickableView.getOpenApp());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
             appContext,
             (int) System.currentTimeMillis(),

@@ -60,13 +60,15 @@ public class WidgetFactory {
     static View buildWidget(ReactApplicationContext context, ReadableMap config) throws Exception {
         BaseWidget<? extends View> baseWidget = getBaseWidget(context, config);
         View view = baseWidget.getView();
+        ReadableMap props = config.getMap("props");
 
-        if (config.getMap("props").hasKey("clickAction")) {
+        if (props.hasKey("clickAction") || props.hasKey("openApp")) {
             clickableViews.add(
                 new ClickableView(
                     view,
-                    config.getMap("props").getString("clickAction"),
-                    config.getMap("props").getMap("clickActionData")
+                    props.getString("clickAction"),
+                    props.getMap("clickActionData"),
+                    props.getBoolean("openApp")
                 )
             );
         }
