@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.1] - 2023-04-03
+
 ## Fixed
 
 - Fixed an issue where clicking on a widget with nested `clickAction` was triggering the topmost one, instead of the one directly under the clicked area
