@@ -21,6 +21,7 @@ import com.reactnativeandroidwidget.builder.widget.TextWidget;
 import com.reactnativeandroidwidget.builder.widget.utils.ResourceUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,6 +33,7 @@ public class WidgetFactory {
 
         View view = buildWidget(context, getRootConfig(config, width, height));
 
+        Collections.reverse(clickableViews);
         WidgetWithViews widgetWithViews = new WidgetWithViews(view, clickableViews);
 
         clickableViews = new ArrayList<>();
