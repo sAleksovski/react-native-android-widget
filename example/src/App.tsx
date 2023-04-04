@@ -26,7 +26,6 @@ const Stack = createNativeStackNavigator<ExampleScreens>();
 export function App({ clickActionData }: Props) {
   const navRef = useNavigationContainerRef<ExampleScreens>();
   const [isReady, setIsReady] = useState(false);
-  console.log(clickActionData);
 
   useEffect(() => {
     if (isReady && clickActionData && navRef) {
