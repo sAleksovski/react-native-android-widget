@@ -1,5 +1,6 @@
 package com.androidwidgetexample;
 
+import android.os.Bundle;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
@@ -30,6 +31,23 @@ public class MainActivity extends ReactActivity {
             DefaultNewArchitectureEntryPoint.getFabricEnabled(), // fabricEnabled
             // If you opted-in for the New Architecture, we enable Concurrent React (i.e. React 18).
             DefaultNewArchitectureEntryPoint.getConcurrentReactEnabled() // concurrentRootEnabled
-        );
+        ) {
+            private Bundle mInitialProps = null;
+
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+                Bundle bundle = getIntent().getExtras();
+                if (bundle != null && bundle.containsKey("clickActionData")) {
+                    mInitialProps = new Bundle();
+                    mInitialProps.putBundle("clickActionData", bundle.getBundle("clickActionData"));
+                }
+                super.onCreate(null);
+            }
+
+            @Override
+            protected Bundle getLaunchOptions() {
+                return mInitialProps;
+            }
+        };
     }
 }

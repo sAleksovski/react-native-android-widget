@@ -46,6 +46,7 @@ function StepsWalked() {
   return (
     <FlexWidget
       openApp
+      clickActionData={{ screenName: 'FitnessWidgetPreviewScreen' }}
       style={{
         flexDirection: 'column',
         height: 'match_parent',

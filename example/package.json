@@ -23,6 +23,7 @@
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@babel/runtime": "^7.20.0",
+    "@tsconfig/react-native": "^2.0.3",
     "babel-plugin-module-resolver": "^4.1.0",
     "metro-react-native-babel-preset": "^0.73.7"
   }

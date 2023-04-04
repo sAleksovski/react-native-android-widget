@@ -9,6 +9,8 @@ interface CounterWidgetProps {
 export function CounterWidget({ count = 0 }: CounterWidgetProps) {
   return (
     <FlexWidget
+      openApp
+      clickActionData={{ screenName: 'CounterScreen' }}
       style={{
         justifyContent: 'center',
         alignItems: 'center',

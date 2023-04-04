@@ -1,6 +1,9 @@
-import { NavigationContainer } from '@react-navigation/native';
+import {
+  NavigationContainer,
+  useNavigationContainerRef,
+} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BorderScreen } from './screens/BorderScreen';
 import { CounterScreen } from './screens/CounterScreen';
 import { FlexScreen } from './screens/FlexScreen';
@@ -12,11 +15,27 @@ import { ResizableMusicWidgetPreviewScreen } from './screens/widget-preview/Resi
 import { RotatedWidgetPreviewScreen } from './screens/widget-preview/RotatedWidgetPreviewScreen';
 import { ShopifyWidgetPreviewScreen } from './screens/widget-preview/ShopifyWidgetPreviewScreen';
 
+type Props = {
+  clickActionData: {
+    screenName: keyof ExampleScreens;
+  };
+};
+
 const Stack = createNativeStackNavigator<ExampleScreens>();
 
-export function App() {
+export function App({ clickActionData }: Props) {
+  const navRef = useNavigationContainerRef<ExampleScreens>();
+  const [isReady, setIsReady] = useState(false);
+  console.log(clickActionData);
+
+  useEffect(() => {
+    if (isReady && clickActionData && navRef) {
+      navRef.navigate(clickActionData.screenName);
+    }
+  }, [clickActionData, isReady, navRef]);
+
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navRef} onReady={() => setIsReady(true)}>
       <Stack.Navigator>
         <Stack.Screen
           name="ListScreen"

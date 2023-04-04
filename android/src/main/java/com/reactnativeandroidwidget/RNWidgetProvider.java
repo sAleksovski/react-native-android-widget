@@ -52,6 +52,9 @@ public class RNWidgetProvider extends AppWidgetProvider {
         if (openApp) {
             try {
                 Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
+                if (incomingIntent.hasExtra("clickActionData")) {
+                    launchIntent.putExtra("clickActionData", incomingIntent.getBundleExtra("clickActionData"));
+                }
                 context.startActivity(launchIntent);
             } catch (Exception e) {
                 e.printStackTrace();

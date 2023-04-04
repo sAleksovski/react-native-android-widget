@@ -17,8 +17,8 @@ export function convertClickAction(
           openApp: props.openApp,
         }
       : {
+          clickActionData: props.clickActionData ?? {},
           openApp: props.openApp,
-        }
-      ),
+        }),
   };
 }

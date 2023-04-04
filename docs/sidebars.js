@@ -58,6 +58,10 @@ const sidebars = {
     },
     {
       type: 'doc',
+      id: 'get-clickactiondata-when-open-app',
+    },
+    {
+      type: 'doc',
       id: 'limitations',
     },
   ],
