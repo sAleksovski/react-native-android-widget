@@ -112,6 +112,7 @@ function Activity() {
   return (
     <FlexWidget
       openApp
+      clickActionData={{ screenName: 'FitnessWidgetPreviewScreen' }}
       style={{
         height: 'match_parent',
         width: 'match_parent',
@@ -162,6 +163,7 @@ function StepsHistory() {
   return (
     <FlexWidget
       openApp
+      clickActionData={{ screenName: 'FitnessWidgetPreviewScreen' }}
       style={{
         height: 'match_parent',
         width: 'match_parent',
