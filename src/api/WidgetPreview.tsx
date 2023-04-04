@@ -96,12 +96,26 @@ export function WidgetPreview({
           {preview.clickableAreas.map((area, index) => (
             <TouchableNativeFeedback
               key={index}
-              onPress={() =>
-                onClick({
-                  clickAction: area.clickAction,
-                  clickActionData: area.clickActionData,
-                })
-              }
+              onPress={() => {
+                switch (area.clickAction) {
+                  case 'OPEN_APP':
+                    console.log('This click will open the app');
+                    break;
+
+                  case 'OPEN_URI':
+                    console.log(
+                      `This click will open ${area.clickActionData?.uri}`
+                    );
+                    break;
+
+                  default:
+                    onClick({
+                      clickAction: area.clickAction,
+                      clickActionData: area.clickActionData,
+                    });
+                    break;
+                }
+              }}
             >
               <View
                 style={{

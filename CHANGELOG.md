@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## Added
+
+- Setting `clickAction="OPEN_APP"` on a widget primitive will open the app when clicked
+- Setting `clickAction="OPEN_URI" clickActionData={{ uri: 'https://google.com' }}` on a widget primitive will open google in web browser
+- Setting `clickAction="OPEN_URI" clickActionData={{ uri: 'myapp://deep-link' }}` on a widget primitive will open the deep link in `myapp` if deep linking is configured
+
 ## [0.3.1] - 2023-04-03
 
 ## Fixed

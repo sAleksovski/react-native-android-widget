@@ -1,12 +1,14 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
+import { linkingOptions } from './linking.config';
 import { BorderScreen } from './screens/BorderScreen';
 import { CounterScreen } from './screens/CounterScreen';
 import { FlexScreen } from './screens/FlexScreen';
 import { ExampleScreens, ListScreen } from './screens/ListScreen';
 import { SvgScreen } from './screens/SvgScreen';
 import { TextScreen } from './screens/TextScreen';
+import { ClickDemoWidgetPreviewScreen } from './screens/widget-preview/ClickDemoWidgetPreviewScreen';
 import { FitnessWidgetPreviewScreen } from './screens/widget-preview/FitnessWidgetPreviewScreen';
 import { ResizableMusicWidgetPreviewScreen } from './screens/widget-preview/ResizableMusicWidgetPreviewScreen';
 import { RotatedWidgetPreviewScreen } from './screens/widget-preview/RotatedWidgetPreviewScreen';
@@ -16,7 +18,7 @@ const Stack = createNativeStackNavigator<ExampleScreens>();
 
 export function App() {
   return (
-    <NavigationContainer>
+    <NavigationContainer linking={linkingOptions}>
       <Stack.Navigator>
         <Stack.Screen
           name="ListScreen"
@@ -67,6 +69,11 @@ export function App() {
           name="ShopifyWidgetPreviewScreen"
           component={ShopifyWidgetPreviewScreen}
           options={{ title: 'Shopify Widget Preview' }}
+        />
+        <Stack.Screen
+          name="ClickDemoWidgetPreviewScreen"
+          component={ClickDemoWidgetPreviewScreen}
+          options={{ title: 'Click Demo Widget Preview' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

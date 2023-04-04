@@ -10,4 +10,5 @@ export * from './widgets/ImageWidget';
 export * from './widgets/OverlapWidget';
 export * from './widgets/SvgWidget';
 export * from './widgets/TextWidget';
+export { ClickActionProps } from './widgets/utils/click-action';
 export * from './widgets/utils/style.props';

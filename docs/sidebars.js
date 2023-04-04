@@ -54,6 +54,10 @@ const sidebars = {
     },
     {
       type: 'doc',
+      id: 'handling-clicks',
+    },
+    {
+      type: 'doc',
       id: 'demo',
     },
     {

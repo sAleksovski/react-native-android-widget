@@ -22,6 +22,14 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "androidwidgetexample://” -->
+                <data android:scheme="androidwidgetexample" />
+            </intent-filter>
         </activity>
 
         <service
@@ -92,6 +100,19 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widgetprovider_counter" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.ClickDemo"
+            android:exported="false"
+            android:label="Click Demo">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.androidwidgetexample.WIDGET_CLICK" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widgetprovider_clickdemo" />
         </receiver>
     </application>
 </manifest>

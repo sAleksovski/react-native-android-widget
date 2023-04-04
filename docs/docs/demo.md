@@ -1,5 +1,5 @@
 ---
-sidebar_position: 5
+sidebar_position: 6
 sidebar_label: Demo
 ---
 
@@ -26,3 +26,7 @@ You can download the demo app with the example widgets from the [Releases Page](
 ## Shopify Widget Preview
 
 ![Shopify Widget Preview](../../example-expo/assets/widget-preview/shopify.png)
+
+## Click Demo Widget Preview
+
+![Click Demo Widget Preview](../../example-expo/assets/widget-preview/clickdemo.png)

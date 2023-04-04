@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 import type { WidgetTaskHandlerProps } from 'react-native-android-widget';
+import { ClickDemoWidget } from './widgets/ClickDemoWidget';
 import { CounterWidget } from './widgets/CounterWidget';
 import { FitnessWidget } from './widgets/FitnessWidget';
 import { ResizableMusicWidget } from './widgets/ResizableMusicWidget';
@@ -13,6 +14,7 @@ const nameToWidget = {
   Rotated: RotatedWidget,
   Shopify: ShopifyWidget,
   Counter: CounterWidget,
+  ClickDemo: ClickDemoWidget,
 };
 
 const COUNTER_STORAGE_KEY = 'CounterWidget:count';

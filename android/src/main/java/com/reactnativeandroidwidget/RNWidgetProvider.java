@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.RemoteViews;
@@ -48,14 +49,18 @@ public class RNWidgetProvider extends AppWidgetProvider {
         int widgetId = incomingIntent.getIntExtra("widgetId", -1);
         String action = incomingIntent.hasExtra("widgetAction") ? incomingIntent.getStringExtra("widgetAction") : "WIDGET_CLICK";
 
-        Intent backgroundTaskIntent = buildIntent(context, widgetId, action);
-
-        if (incomingIntent.hasExtra("clickAction")) {
-            backgroundTaskIntent.putExtra("clickAction", incomingIntent.getStringExtra("clickAction"));
-            backgroundTaskIntent.putExtra("clickActionData", incomingIntent.getBundleExtra("clickActionData"));
+        if (action.equals("WIDGET_CLICK") && incomingIntent.hasExtra("clickAction")) {
+            switch (incomingIntent.getStringExtra("clickAction")) {
+                case "OPEN_APP":
+                    openApp(context);
+                    return;
+                case "OPEN_URI":
+                    openUri(context, incomingIntent.getBundleExtra("clickActionData").getString("uri"));
+                    return;
+            }
         }
 
-        startBackgroundTask(context, backgroundTaskIntent);
+        emitAction(context, incomingIntent, widgetId, action);
     }
 
     @Override
@@ -65,6 +70,17 @@ public class RNWidgetProvider extends AppWidgetProvider {
         for (int widgetId : appWidgetIds) {
             removeWidgetSize(context, widgetId);
         }
+    }
+
+    private void emitAction(Context context, Intent incomingIntent, int widgetId, String action) {
+        Intent backgroundTaskIntent = buildIntent(context, widgetId, action);
+
+        if (incomingIntent.hasExtra("clickAction")) {
+            backgroundTaskIntent.putExtra("clickAction", incomingIntent.getStringExtra("clickAction"));
+            backgroundTaskIntent.putExtra("clickActionData", incomingIntent.getBundleExtra("clickActionData"));
+        }
+
+        startBackgroundTask(context, backgroundTaskIntent);
     }
 
     private Intent buildIntent(Context context, int widgetId, String action) {
@@ -172,5 +188,24 @@ public class RNWidgetProvider extends AppWidgetProvider {
         editor.remove(widgetId + "-height");
 
         editor.apply();
+    }
+
+    private void openApp(Context context) {
+        try {
+            Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
+            context.startActivity(launchIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void openUri(Context context, String uri) {
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

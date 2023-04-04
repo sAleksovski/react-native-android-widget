@@ -19,6 +19,7 @@ export type ExampleScreens = {
   ResizableMusicWidgetPreviewScreen: undefined;
   RotatedWidgetPreviewScreen: undefined;
   ShopifyWidgetPreviewScreen: undefined;
+  ClickDemoWidgetPreviewScreen: undefined;
   FlexScreen: undefined;
   BorderScreen: undefined;
   SvgScreen: undefined;
@@ -47,6 +48,10 @@ const items: Item[] = [
   {
     title: 'Shopify Widget Preview',
     screen: 'ShopifyWidgetPreviewScreen',
+  },
+  {
+    title: 'Click Demo Widget Preview',
+    screen: 'ClickDemoWidgetPreviewScreen',
   },
   {
     title: 'Counter Demo',

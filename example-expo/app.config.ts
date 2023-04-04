@@ -43,6 +43,13 @@ const widgetConfig: WithAndroidWidgetsParams = {
       minWidth: '300dp',
       previewImage: './assets/widget-preview/counter.png',
     },
+    {
+      name: 'ClickDemo',
+      label: 'Click Demo',
+      minHeight: '100dp',
+      minWidth: '300dp',
+      previewImage: './assets/widget-preview/clickdemo.png',
+    },
   ],
 };
 
@@ -66,6 +73,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     supportsTablet: true,
   },
+  scheme: 'androidwidgetexample',
   android: {
     adaptiveIcon: {
       foregroundImage: './assets/adaptive-icon.png',
