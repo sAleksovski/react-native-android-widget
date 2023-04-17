@@ -5,7 +5,7 @@ sidebar_label: Handling Clicks
 
 # Handling Clicks
 
-All widget [primitives](./primitives/flex-widget.md) can be clicked, and execute some code.
+All widget [primitives](./primitives/index) can be clicked, and execute some code.
 
 To add a click action to `FlexWidget`, we need to pass a `clickAction` prop, and an optional `clickActionData` prop. `clickActionData` can be used to add additional data that we need.
 
