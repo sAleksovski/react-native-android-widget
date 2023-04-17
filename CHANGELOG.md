@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## Fixed
+
+- Fix crash on iOS due to linking check
+
 ## [0.4.0] - 2023-04-05
 
 ## Added

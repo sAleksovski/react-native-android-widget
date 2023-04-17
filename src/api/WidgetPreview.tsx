@@ -3,7 +3,9 @@ import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Image,
+  Platform,
   StyleSheet,
+  Text,
   TouchableNativeFeedback,
   View,
 } from 'react-native';
@@ -46,6 +48,7 @@ export function WidgetPreview({
   showBorder,
   highlightClickableAreas,
 }: WidgetPreviewProps) {
+  const isAndroid = Platform.OS === 'android';
   const [preview, setPreview] = useState<WidgetPreviewData | null>();
   useEffect(() => {
     async function init() {
@@ -57,9 +60,32 @@ export function WidgetPreview({
 
       setPreview(data);
     }
-    init();
+    if (isAndroid) {
+      init();
+    }
     return () => setPreview(null);
-  }, [renderWidget, width, height]);
+  }, [isAndroid, renderWidget, width, height]);
+
+  if (!isAndroid) {
+    return (
+      <View
+        style={
+          showBorder
+            ? {
+                height: height + 2,
+                width: width + 2,
+                borderColor: '#0000ff40',
+                borderWidth: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }
+            : {}
+        }
+      >
+        <Text>WidgetPreview works only on Android</Text>
+      </View>
+    );
+  }
 
   return (
     <View

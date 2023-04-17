@@ -9,12 +9,23 @@ const LINKING_ERROR =
 // @ts-expect-error
 const isTurboModuleEnabled = global.__turboModuleProxy != null;
 
+const noopModule: Spec = {
+  drawWidget: () => null,
+  drawWidgetById: () => null,
+  createPreview: () =>
+    Promise.resolve({
+      base64Image: '',
+      clickableAreas: [],
+    }),
+  getWidgetInfo: () => Promise.resolve([]),
+};
+
 const AndroidWidgetModule =
   Platform.OS === 'android'
     ? isTurboModuleEnabled
       ? require('./NativeAndroidWidget').default
       : NativeModules.AndroidWidget
-    : null;
+    : noopModule;
 
 const dummyModuleProxy = new Proxy(
   {},
