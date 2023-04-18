@@ -70,6 +70,7 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      image: 'img/og-image.png',
       navbar: {
         title: 'React Native Android Widget',
         logo: {
