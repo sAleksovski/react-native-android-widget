@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
+  FlatList,
   Image,
   Platform,
   StyleSheet,
@@ -11,7 +12,12 @@ import {
 } from 'react-native';
 import { AndroidWidget } from '../AndroidWidget';
 import { buildWidgetTree } from './build-widget-tree';
-import type { OnClick, WidgetPreviewData } from './private.types';
+import type {
+  ClickableArea,
+  CollectionArea,
+  OnClick,
+  WidgetPreviewData,
+} from './private.types';
 
 export interface WidgetPreviewProps {
   /**
@@ -66,24 +72,32 @@ export function WidgetPreview({
     return () => setPreview(null);
   }, [isAndroid, renderWidget, width, height]);
 
+  function onPress(props: OnClick): void {
+    switch (props.clickAction) {
+      case 'OPEN_APP':
+        console.log('This click will open the app');
+        break;
+
+      case 'OPEN_URI':
+        console.log(`This click will open ${props.clickActionData?.uri}`);
+        break;
+
+      default:
+        onClick({
+          clickAction: props.clickAction,
+          clickActionData: props.clickActionData,
+        });
+        break;
+    }
+  }
+
   if (!isAndroid) {
     return (
-      <View
-        style={
-          showBorder
-            ? {
-                height: height + 2,
-                width: width + 2,
-                borderColor: '#0000ff40',
-                borderWidth: 1,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }
-            : {}
-        }
-      >
-        <Text>WidgetPreview works only on Android</Text>
-      </View>
+      <PlatformNotAndroid
+        showBorder={showBorder}
+        height={height}
+        width={width}
+      />
     );
   }
 
@@ -103,67 +117,88 @@ export function WidgetPreview({
       }
     >
       {preview ? (
-        <View
-          style={{
-            height,
-            width,
-            position: 'relative',
-          }}
-        >
+        <View style={{ height, width, position: 'relative' }}>
           <Image
-            source={{
-              uri: `data:image/png;base64,${preview.base64Image}`,
-            }}
-            style={{
-              height,
-              width,
-            }}
+            source={{ uri: `data:image/png;base64,${preview.base64Image}` }}
+            style={{ height, width }}
           />
           {preview.clickableAreas.map((area, index) => (
-            <TouchableNativeFeedback
+            <ClickableAreaButton
               key={index}
-              onPress={() => {
-                switch (area.clickAction) {
-                  case 'OPEN_APP':
-                    console.log('This click will open the app');
-                    break;
-
-                  case 'OPEN_URI':
-                    console.log(
-                      `This click will open ${area.clickActionData?.uri}`
-                    );
-                    break;
-
-                  default:
-                    onClick({
-                      clickAction: area.clickAction,
-                      clickActionData: area.clickActionData,
-                    });
-                    break;
-                }
-              }}
-            >
-              <View
-                style={{
-                  position: 'absolute',
-                  left: area.left,
-                  top: area.top,
-                  width: area.width,
-                  height: area.height,
-                  ...(highlightClickableAreas
-                    ? { borderWidth: 1, borderColor: 'red' }
-                    : {}),
-                }}
-              >
-                {highlightClickableAreas ? <ClickableAreaBorder /> : null}
-              </View>
-            </TouchableNativeFeedback>
+              area={area}
+              onClick={onPress}
+              highlightClickableAreas={highlightClickableAreas}
+            />
+          ))}
+          {preview.collectionAreas.map((area, index) => (
+            <CollectionAreaList
+              key={index}
+              area={area}
+              onClick={onPress}
+              highlightClickableAreas={highlightClickableAreas}
+            />
           ))}
         </View>
       ) : (
         <ActivityIndicator size="large" />
       )}
     </View>
+  );
+}
+
+function PlatformNotAndroid({
+  showBorder,
+  height,
+  width,
+}: Pick<WidgetPreviewProps, 'showBorder' | 'height' | 'width'>) {
+  return (
+    <View
+      style={
+        showBorder
+          ? {
+              height: height + 2,
+              width: width + 2,
+              borderColor: '#0000ff40',
+              borderWidth: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }
+          : {}
+      }
+    >
+      <Text>WidgetPreview works only on Android</Text>
+    </View>
+  );
+}
+
+interface ClickableAreaButtonProps {
+  area: ClickableArea;
+  onClick: (props: OnClick) => void;
+  highlightClickableAreas: boolean | undefined;
+}
+
+function ClickableAreaButton({
+  area,
+  onClick,
+  highlightClickableAreas,
+}: ClickableAreaButtonProps) {
+  return (
+    <TouchableNativeFeedback onPress={() => onClick(area)}>
+      <View
+        style={{
+          position: 'absolute',
+          left: area.left,
+          top: area.top,
+          width: area.width,
+          height: area.height,
+          ...(highlightClickableAreas
+            ? { borderWidth: 1, borderColor: 'red' }
+            : {}),
+        }}
+      >
+        {highlightClickableAreas ? <ClickableAreaBorder /> : null}
+      </View>
+    </TouchableNativeFeedback>
   );
 }
 
@@ -175,6 +210,55 @@ function ClickableAreaBorder() {
       <View style={styles.clickableHighlightBottomLeft} />
       <View style={styles.clickableHighlightBottomRight} />
     </>
+  );
+}
+
+interface CollectionAreaListProps {
+  area: CollectionArea;
+  onClick: (props: OnClick) => void;
+  highlightClickableAreas: boolean | undefined;
+}
+
+function CollectionAreaList({
+  area,
+  onClick,
+  highlightClickableAreas,
+}: CollectionAreaListProps) {
+  return (
+    <FlatList
+      style={{
+        position: 'absolute',
+        left: area.left,
+        top: area.top,
+        width: area.width,
+        height: area.height,
+      }}
+      data={area.items}
+      renderItem={({ item }) => (
+        <TouchableNativeFeedback onPress={() => onClick(item)}>
+          <View
+            style={{
+              height: item.height,
+              width: item.width,
+              ...(highlightClickableAreas
+                ? { borderWidth: 1, borderColor: 'red' }
+                : {}),
+            }}
+          >
+            {highlightClickableAreas ? <ClickableAreaBorder /> : null}
+            <Image
+              source={{
+                uri: `data:image/png;base64,${item.base64Image}`,
+              }}
+              style={{
+                height: item.height,
+                width: item.width,
+              }}
+            />
+          </View>
+        </TouchableNativeFeedback>
+      )}
+    />
   );
 }
 

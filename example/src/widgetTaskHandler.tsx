@@ -4,6 +4,7 @@ import type { WidgetTaskHandlerProps } from 'react-native-android-widget';
 import { ClickDemoWidget } from './widgets/ClickDemoWidget';
 import { CounterWidget } from './widgets/CounterWidget';
 import { FitnessWidget } from './widgets/FitnessWidget';
+import { ListDemoWidget } from './widgets/ListDemoWidget';
 import { ResizableMusicWidget } from './widgets/ResizableMusicWidget';
 import { RotatedWidget } from './widgets/RotatedWidget';
 import { ShopifyWidget } from './widgets/ShopifyWidget';
@@ -15,6 +16,7 @@ const nameToWidget = {
   Shopify: ShopifyWidget,
   Counter: CounterWidget,
   ClickDemo: ClickDemoWidget,
+  List: ListDemoWidget,
 };
 
 const COUNTER_STORAGE_KEY = 'CounterWidget:count';

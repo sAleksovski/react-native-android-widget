@@ -16,6 +16,7 @@ const noopModule: Spec = {
     Promise.resolve({
       base64Image: '',
       clickableAreas: [],
+      collectionAreas: [],
     }),
   getWidgetInfo: () => Promise.resolve([]),
 };

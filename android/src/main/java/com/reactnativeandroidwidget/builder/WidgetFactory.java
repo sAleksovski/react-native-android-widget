@@ -15,6 +15,7 @@ import com.reactnativeandroidwidget.builder.widget.FrameLayoutWidget;
 import com.reactnativeandroidwidget.builder.widget.IconWidget;
 import com.reactnativeandroidwidget.builder.widget.ImageWidget;
 import com.reactnativeandroidwidget.builder.widget.LinearLayoutWidget;
+import com.reactnativeandroidwidget.builder.widget.ListWidget;
 import com.reactnativeandroidwidget.builder.widget.RootWidget;
 import com.reactnativeandroidwidget.builder.widget.SvgWidget;
 import com.reactnativeandroidwidget.builder.widget.TextWidget;
@@ -26,24 +27,31 @@ import java.util.List;
 import java.util.Objects;
 
 public class WidgetFactory {
-    private static List<ClickableView> clickableViews = new ArrayList<>();
+    private final List<ClickableView> clickableViews;
+    private final List<CollectionView> collectionViews;
+
+    private WidgetFactory() {
+        this.clickableViews = new ArrayList<>();
+        this.collectionViews = new ArrayList<>();
+    }
 
     public static WidgetWithViews buildWidgetFromRoot(ReactApplicationContext context, ReadableMap config, int width, int height) throws Exception {
-        clickableViews = new ArrayList<>();
+        WidgetFactory widgetFactory = new WidgetFactory();
 
-        View view = buildWidget(context, getRootConfig(config, width, height));
+        View view = widgetFactory.buildWidget(context, widgetFactory.getRootConfig(config, width, height));
 
-        Collections.reverse(clickableViews);
-        WidgetWithViews widgetWithViews = new WidgetWithViews(view, clickableViews);
+        for (int i = 0; i < widgetFactory.collectionViews.size(); i++) {
+            widgetFactory.collectionViews.get(i).buildChildren(context);
+        }
 
-        clickableViews = new ArrayList<>();
         ResourceUtils.clear();
 
-        return widgetWithViews;
+        Collections.reverse(widgetFactory.clickableViews);
+        return new WidgetWithViews(view, widgetFactory.clickableViews, widgetFactory.collectionViews);
     }
 
     @NonNull
-    private static WritableMap getRootConfig(ReadableMap config, int width, int height) {
+    private WritableMap getRootConfig(ReadableMap config, int width, int height) {
         WritableMap rootConfig = Arguments.createMap();
 
         WritableMap rootProps = Arguments.createMap();
@@ -59,9 +67,18 @@ public class WidgetFactory {
         return rootConfig;
     }
 
-    static View buildWidget(ReactApplicationContext context, ReadableMap config) throws Exception {
+    private View buildWidget(ReactApplicationContext context, ReadableMap config) throws Exception {
         BaseWidget<? extends View> baseWidget = getBaseWidget(context, config);
         View view = baseWidget.getView();
+
+        if (baseWidget.isCollection()) {
+            collectionViews.add(
+                new CollectionView(
+                    view,
+                    config.getArray("children")
+                )
+            );
+        }
 
         if (config.getMap("props").hasKey("clickAction")) {
             clickableViews.add(
@@ -77,7 +94,7 @@ public class WidgetFactory {
     }
 
     @NonNull
-    private static BaseWidget<? extends View> getBaseWidget(ReactApplicationContext context, ReadableMap config) throws Exception {
+    private BaseWidget<? extends View> getBaseWidget(ReactApplicationContext context, ReadableMap config) throws Exception {
         switch (Objects.requireNonNull(config.getString("type"))) {
             case "TextWidget":
                 return new TextWidget(context, config.getMap("props"));
@@ -91,6 +108,8 @@ public class WidgetFactory {
                 return new LinearLayoutWidget(context, config.getMap("props"), buildChildren(context, config.getArray("children")));
             case "FrameLayoutWidget":
                 return new FrameLayoutWidget(context, config.getMap("props"), buildChildren(context, config.getArray("children")));
+            case "ListWidget":
+                return new ListWidget(context, config.getMap("props"));
             case "RootWidget":
                 return new RootWidget(context, config.getMap("props"), buildChildren(context, config.getArray("children")));
         }
@@ -98,7 +117,7 @@ public class WidgetFactory {
         throw new Exception("Invalid widget " + config.getString("type"));
     }
 
-    private static List<View> buildChildren(ReactApplicationContext appContext, ReadableArray children) throws Exception {
+    private List<View> buildChildren(ReactApplicationContext appContext, ReadableArray children) throws Exception {
         List<View> childWidgets = new ArrayList<>();
 
         for (int i = 0; i < children.size(); i++) {

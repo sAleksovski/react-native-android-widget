@@ -20,6 +20,8 @@ export type ExampleScreens = {
   RotatedWidgetPreviewScreen: undefined;
   ShopifyWidgetPreviewScreen: undefined;
   ClickDemoWidgetPreviewScreen: undefined;
+  ListDemoWidgetPreviewScreen: undefined;
+  ListDemoWidgetPreviewDeepLinkScreen: { id: number } | undefined;
   FlexScreen: undefined;
   BorderScreen: undefined;
   SvgScreen: undefined;
@@ -52,6 +54,10 @@ const items: Item[] = [
   {
     title: 'Click Demo Widget Preview',
     screen: 'ClickDemoWidgetPreviewScreen',
+  },
+  {
+    title: 'List Widget Preview',
+    screen: 'ListDemoWidgetPreviewScreen',
   },
   {
     title: 'Counter Demo',

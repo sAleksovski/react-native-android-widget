@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.net.Uri;
+import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,16 +20,22 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.reactnativeandroidwidget.builder.ClickableView;
+import com.reactnativeandroidwidget.builder.CollectionView;
+import com.reactnativeandroidwidget.builder.CollectionViewItem;
 import com.reactnativeandroidwidget.builder.WidgetFactory;
 import com.reactnativeandroidwidget.builder.WidgetWithViews;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RNWidget {
     private final ReactApplicationContext appContext;
     private final ReadableMap config;
     private final String widgetName;
+
+    private static final int[] listWrappers = {R.id.rn_widget_list_0_wrapper, R.id.rn_widget_list_1_wrapper};
+    private static final int[] lists = {R.id.rn_widget_list_0, R.id.rn_widget_list_1};
 
     public RNWidget(ReactApplicationContext context, ReadableMap config, String widgetName) {
         this.appContext = context;
@@ -62,6 +70,7 @@ public class RNWidget {
         remoteWidgetView.setImageViewBitmap(R.id.rn_widget_image, bitmap);
 
         addClickableAreas(widgetId, remoteWidgetView, widgetWithViews);
+        addCollectionViews(widgetId, remoteWidgetView, widgetWithViews);
 
         AppWidgetManager.getInstance(appContext)
             .updateAppWidget(widgetId, remoteWidgetView);
@@ -76,6 +85,7 @@ public class RNWidget {
         WritableMap preview = Arguments.createMap();
         preview.putString("base64Image", convertBitmapToBase64(bitmap));
         preview.putArray("clickableAreas", createClickableAreasPreview(widgetWithViews));
+        preview.putArray("collectionAreas", createCollectionAreasPreview(widgetWithViews));
 
         return preview;
     }
@@ -137,6 +147,89 @@ public class RNWidget {
         widgetView.setOnClickPendingIntent(button, pendingIntent);
     }
 
+    private void addCollectionViews(int widgetId, RemoteViews remoteWidgetView, WidgetWithViews widgetWithViews) {
+        remoteWidgetView.removeAllViews(R.id.rn_widget_collection_container);
+        ViewGroup rootView = (ViewGroup) widgetWithViews.getRootView();
+        List<CollectionView> collectionViews = widgetWithViews.getCollectionViews();
+
+        for (int i = 0; i < Math.min(collectionViews.size(), RNWidgetCollectionService.MAX_COLLECTION_WIDGETS); i++) {
+            CollectionView collectionView = collectionViews.get(i);
+            addCollectionView(remoteWidgetView, rootView, collectionView, widgetId, i);
+        }
+    }
+
+    private void addCollectionView(RemoteViews remoteWidgetView, ViewGroup rootView, CollectionView collectionView, int widgetId, int collectionId) {
+        RNWidgetCollectionService.storeCollection(appContext, widgetId, collectionId, collectionView.getRenderedViews());
+
+        View collectionWidget = collectionView.getView();
+        Rect offsetViewBounds = new Rect();
+        collectionWidget.getDrawingRect(offsetViewBounds);
+        rootView.offsetDescendantRectToMyCoords(collectionWidget, offsetViewBounds);
+
+        RemoteViews collectionRemoteView = new RemoteViews(appContext.getPackageName(), R.layout.rn_widget_list);
+
+        collectionRemoteView.setViewPadding(
+            R.id.rn_widget_list_positioner,
+            offsetViewBounds.left,
+            offsetViewBounds.top,
+            RNWidgetUtil.dpToPx(appContext, RNWidgetUtil.getWidgetWidth(appContext, widgetId)) - offsetViewBounds.right,
+            RNWidgetUtil.dpToPx(appContext, RNWidgetUtil.getWidgetHeight(appContext, widgetId)) - offsetViewBounds.bottom
+        );
+
+        for (int i = 0; i < listWrappers.length; i++) {
+            if (i != collectionId) {
+                collectionRemoteView.removeAllViews(listWrappers[i]);
+            }
+        }
+
+        PendingIntent collectionPendingIntentTemplate = createCollectionPendingIntentTemplate(widgetId);
+        Intent remoteAdapterIntent = createCollectionRemoteAdapterIntent(widgetId, collectionId, collectionView.getRenderedViews());
+
+        collectionRemoteView.setPendingIntentTemplate(lists[collectionId], collectionPendingIntentTemplate);
+
+        remoteWidgetView.addView(R.id.rn_widget_collection_container, collectionRemoteView);
+        remoteWidgetView.setRemoteAdapter(lists[collectionId], remoteAdapterIntent);
+    }
+
+    private Intent createCollectionRemoteAdapterIntent(int widgetId, int collectionId, List<CollectionViewItem> collectionItems) {
+        Intent intent = new Intent(appContext, RNWidgetCollectionService.class);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
+        intent.putExtra("collectionId", collectionId);
+        intent.putExtra("collectionSize", collectionItems.size());
+        // Needed for creating a new ListRemoteViewsFactory when re-rendering widget
+        intent.putExtra("random", Math.random());
+        intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
+
+        ArrayList<Bundle> collectionItemsBundle = new ArrayList<>();
+        for (CollectionViewItem collectionViewItem : collectionItems) {
+            Bundle bundle = new Bundle();
+            bundle.putString("clickAction", collectionViewItem.getClickAction());
+            bundle.putBundle("clickActionData", Arguments.toBundle(collectionViewItem.getClickActionData()));
+            collectionItemsBundle.add(bundle);
+        }
+        intent.putParcelableArrayListExtra("collectionItems", collectionItemsBundle);
+
+        return intent;
+    }
+
+    private PendingIntent createCollectionPendingIntentTemplate(int widgetId) {
+        // This section makes it possible for items to have individualized
+        // behavior. It does this by setting up a pending intent template.
+        // Individuals items of a collection can't set up their own pending
+        // intents. Instead, the collection as a whole sets up a pending
+        // intent template, and the individual items set a fillInIntent
+        // to create unique behavior on an item-by-item basis.
+        Intent widgetListItemClickIntent = new Intent(appContext, RNWidgetCollectionService.class);
+        // Set the action for the intent.
+        // When the user touches a particular view, it has the effect of
+        // broadcasting WIDGET_LIST_ITEM_CLICK.
+        widgetListItemClickIntent.setComponent(new ComponentName(appContext, RNWidgetUtil.getWidgetProviderClassName(appContext, widgetName)));
+        widgetListItemClickIntent.setAction(appContext.getPackageName() + ".WIDGET_LIST_ITEM_CLICK");
+        widgetListItemClickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
+        return PendingIntent.getBroadcast(appContext, 0, widgetListItemClickIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+    }
+
     private String convertBitmapToBase64(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
@@ -172,5 +265,50 @@ public class RNWidget {
         clickableViewMap.putMap("clickActionData", Arguments.makeNativeMap(clickableView.getClickActionData().toHashMap()));
 
         return clickableViewMap;
+    }
+
+    private WritableArray createCollectionAreasPreview(WidgetWithViews widgetWithViews) {
+        WritableArray collectionAreas = Arguments.createArray();
+        ViewGroup rootView = (ViewGroup) widgetWithViews.getRootView();
+
+        for (CollectionView collectionView : widgetWithViews.getCollectionViews()) {
+            WritableMap collectionViewMap = createCollectionAreaPreview(rootView, collectionView);
+            collectionAreas.pushMap(collectionViewMap);
+        }
+
+        return collectionAreas;
+    }
+
+    private WritableMap createCollectionAreaPreview(ViewGroup rootView, CollectionView collectionView) {
+        View clickableWidget = collectionView.getView();
+        Rect offsetViewBounds = new Rect();
+        clickableWidget.getDrawingRect(offsetViewBounds);
+        rootView.offsetDescendantRectToMyCoords(clickableWidget, offsetViewBounds);
+
+        WritableMap collectionViewMap = Arguments.createMap();
+        collectionViewMap.putDouble("left", RNWidgetUtil.pxToDp(appContext, offsetViewBounds.left));
+        collectionViewMap.putDouble("top", RNWidgetUtil.pxToDp(appContext, offsetViewBounds.top));
+        collectionViewMap.putDouble("width", RNWidgetUtil.pxToDp(appContext, offsetViewBounds.width()));
+        collectionViewMap.putDouble("height", RNWidgetUtil.pxToDp(appContext, offsetViewBounds.height()));
+
+        WritableArray collectionItems = Arguments.createArray();
+        for (CollectionViewItem collectionItemView : collectionView.getRenderedViews()) {
+            WritableMap collectionItemMap = createCollectionItemPreview(collectionItemView);
+            collectionItems.pushMap(collectionItemMap);
+        }
+        collectionViewMap.putArray("items", collectionItems);
+
+        return collectionViewMap;
+    }
+
+    private WritableMap createCollectionItemPreview(CollectionViewItem collectionItemView) {
+        WritableMap collectionItemMap = Arguments.createMap();
+        Bitmap bitmap = collectionItemView.getBitmap();
+        collectionItemMap.putString("base64Image", convertBitmapToBase64(bitmap));
+        collectionItemMap.putDouble("height", RNWidgetUtil.pxToDp(appContext, bitmap.getHeight()));
+        collectionItemMap.putDouble("width", RNWidgetUtil.pxToDp(appContext, bitmap.getWidth()));
+        collectionItemMap.putString("clickAction", collectionItemView.getClickAction());
+        collectionItemMap.putMap("clickActionData", Arguments.makeNativeMap(collectionItemView.getClickActionData().toHashMap()));
+        return collectionItemMap;
     }
 }

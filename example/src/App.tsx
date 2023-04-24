@@ -10,6 +10,8 @@ import { SvgScreen } from './screens/SvgScreen';
 import { TextScreen } from './screens/TextScreen';
 import { ClickDemoWidgetPreviewScreen } from './screens/widget-preview/ClickDemoWidgetPreviewScreen';
 import { FitnessWidgetPreviewScreen } from './screens/widget-preview/FitnessWidgetPreviewScreen';
+import { ListDemoWidgetPreviewDeepLinkScreen } from './screens/widget-preview/ListDemoWidgetPreviewDeepLinkScreen';
+import { ListDemoWidgetPreviewScreen } from './screens/widget-preview/ListDemoWidgetPreviewScreen';
 import { ResizableMusicWidgetPreviewScreen } from './screens/widget-preview/ResizableMusicWidgetPreviewScreen';
 import { RotatedWidgetPreviewScreen } from './screens/widget-preview/RotatedWidgetPreviewScreen';
 import { ShopifyWidgetPreviewScreen } from './screens/widget-preview/ShopifyWidgetPreviewScreen';
@@ -74,6 +76,16 @@ export function App() {
           name="ClickDemoWidgetPreviewScreen"
           component={ClickDemoWidgetPreviewScreen}
           options={{ title: 'Click Demo Widget Preview' }}
+        />
+        <Stack.Screen
+          name="ListDemoWidgetPreviewScreen"
+          component={ListDemoWidgetPreviewScreen}
+          options={{ title: 'List Widget Preview' }}
+        />
+        <Stack.Screen
+          name="ListDemoWidgetPreviewDeepLinkScreen"
+          component={ListDemoWidgetPreviewDeepLinkScreen}
+          options={{ title: 'List Widget Deep Link' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

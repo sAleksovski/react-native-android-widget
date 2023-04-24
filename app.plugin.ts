@@ -58,6 +58,7 @@ export default function withAndroidWidgets(
         androidManifestConfig.modResults
       );
       withBackgroundTaskService(mainApplication);
+      withCollectionService(mainApplication);
 
       projectPaths.platformProjectRoot =
         androidManifestConfig.modRequest.platformProjectRoot;
@@ -96,6 +97,27 @@ function withBackgroundTaskService(
       'android:name':
         'com.reactnativeandroidwidget.RNWidgetBackgroundTaskService',
       'android:enabled': 'true',
+    },
+  });
+}
+
+function withCollectionService(
+  mainApplication: AndroidConfig.Manifest.ManifestApplication
+): void {
+  mainApplication.service = mainApplication.service ?? [];
+
+  const alreadyAdded = mainApplication.service.some(
+    (service) =>
+      service.$['android:name'] ===
+      'com.reactnativeandroidwidget.RNWidgetCollectionService'
+  );
+
+  if (alreadyAdded) return;
+
+  mainApplication.service?.push({
+    $: {
+      'android:name': 'com.reactnativeandroidwidget.RNWidgetCollectionService',
+      'android:permission': 'android.permission.BIND_REMOTEVIEWS',
     },
   });
 }

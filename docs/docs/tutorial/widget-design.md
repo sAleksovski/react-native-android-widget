@@ -8,6 +8,7 @@ This library provides a few primitives that we can use to create widgets.
 
 - [FlexWidget](../primitives/flex-widget.md)
 - [OverlapWidget](../primitives//overlap-widget.md)
+- [ListWidget](../primitives/list-widget.md)
 - [TextWidget](../primitives/text-widget.md)
 - [ImageWidget](../primitives/image-widget.md)
 - [IconWidget](../primitives//icon-widget.md)

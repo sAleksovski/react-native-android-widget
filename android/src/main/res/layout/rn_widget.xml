@@ -14,4 +14,9 @@
         android:id="@+id/rn_widget_clickable_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:id="@+id/rn_widget_collection_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </FrameLayout>

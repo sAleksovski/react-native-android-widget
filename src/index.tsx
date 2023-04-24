@@ -7,6 +7,7 @@ export * from './config-plugin.type';
 export * from './widgets/FlexWidget';
 export * from './widgets/IconWidget';
 export * from './widgets/ImageWidget';
+export * from './widgets/ListWidget';
 export * from './widgets/OverlapWidget';
 export * from './widgets/SvgWidget';
 export * from './widgets/TextWidget';

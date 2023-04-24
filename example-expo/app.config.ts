@@ -50,6 +50,14 @@ const widgetConfig: WithAndroidWidgetsParams = {
       minWidth: '300dp',
       previewImage: './assets/widget-preview/clickdemo.png',
     },
+    {
+      name: 'List',
+      label: 'List Widget Demo',
+      description: 'See your emails on the home screen',
+      minHeight: '120dp',
+      minWidth: '300dp',
+      previewImage: './assets/widget-preview/list.png',
+    },
   ],
 };
 

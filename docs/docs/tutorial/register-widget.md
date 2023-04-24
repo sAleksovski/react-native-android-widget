@@ -70,9 +70,7 @@ Create a new xml file in the resources directory containing the details about th
 - `android:previewImage` should reference the preview image we added previously
 - `android:description` can be added or not, depending on if we added a description in the previous step
 
-## Add widget in AndroidManifest.xml
-
-Then we need to register the new widget in `AndroidManifest.xml`
+## Add permissions in AndroidManifest.xml
 
 First, for the library to function we need to add `FOREGROUND_SERVICE` and `WAKE_LOCK` permissions to our app. In the permissions add
 
@@ -80,6 +78,10 @@ First, for the library to function we need to add `FOREGROUND_SERVICE` and `WAKE
 <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 <uses-permission android:name="android.permission.WAKE_LOCK" />
 ```
+
+These permissions will be shared between all widgets, so they need to be added only once.
+
+## Add services in AndroidManifest.xml
 
 Under the application section in the manifest, add a new `RNWidgetBackgroundTaskService` service. This service will be shared between all widgets, so it needs to be added only once.
 
@@ -105,6 +107,37 @@ Under the application section in the manifest, add a new `RNWidgetBackgroundTask
 </manifest>
 ```
 
+In order to use the [ListWidget](../primitives/list-widget.md) we need to add a `RNWidgetCollectionService` service.
+
+Under the application section in the manifest, add a new `RNWidgetCollectionService` service. This service will be shared between all widgets, so it needs to be added only once.
+
+```xml title="android/app/src/main/AndroidManifest.xml"
+<manifest ...>
+  ...
+  <uses-permission ... />
+  ...
+  <application
+      android:name=".MainApplication"
+      ...>
+
+      <activity
+          android:name=".MainActivity"
+          ...>
+      </activity>
+
+      <service
+          android:name="com.reactnativeandroidwidget.RNWidgetBackgroundTaskService"
+          ... />
+
+      <service
+          android:name="com.reactnativeandroidwidget.RNWidgetCollectionService"
+          android:permission="android.permission.BIND_REMOTEVIEWS" />
+  </application>
+</manifest>
+```
+
+## Add widget receiver in AndroidManifest.xml
+
 Finally, we need to add a receiver for our widget, that will receive system events (like widget added, widget resized...)
 
 In `AndroidManifest.xml`, add a receiver for the widget
@@ -125,6 +158,10 @@ In `AndroidManifest.xml`, add a receiver for the widget
 
       <service
           android:name="com.reactnativeandroidwidget.RNWidgetBackgroundTaskService"
+          ... />
+
+      <service
+          android:name="com.reactnativeandroidwidget.RNWidgetCollectionService"
           ... />
 
       <receiver

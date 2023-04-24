@@ -69,6 +69,7 @@ public class RNWidgetProvider extends AppWidgetProvider {
 
         for (int widgetId : appWidgetIds) {
             removeWidgetSize(context, widgetId);
+            RNWidgetCollectionService.deleteWidgetImages(context, widgetId);
         }
     }
 

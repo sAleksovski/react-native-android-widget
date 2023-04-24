@@ -44,6 +44,10 @@ public abstract class BaseWidget<T extends View> {
         return view;
     }
 
+    public boolean isCollection() {
+        return false;
+    }
+
     protected abstract T createView();
 
     protected abstract void applyProps();
