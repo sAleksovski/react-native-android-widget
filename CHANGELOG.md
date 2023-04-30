@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.1] - 2023-04-30
+
 ## Fixed
 
 - Fixed crash when adding widget next to Array.map
