@@ -30,12 +30,15 @@ function buildWidgetTreeInner(jsxTree: JSX.Element): WidgetTree {
 
   const { children, ...otherProps } = jsxTree.props;
 
-  const updatedChildren =
-    jsxTree.type.processChildren?.(
-      otherProps,
-      children ? (Array.isArray(children) ? children : [children]) : []
-    ) ??
-    children ??
+  const childrenArray = children
+    ? Array.isArray(children)
+      ? children
+      : [children]
+    : [];
+
+  const updatedChildren: any[] =
+    jsxTree.type.processChildren?.(otherProps, childrenArray) ??
+    childrenArray ??
     [];
 
   return {
@@ -43,11 +46,9 @@ function buildWidgetTreeInner(jsxTree: JSX.Element): WidgetTree {
     props: jsxTree.type.convertProps(otherProps),
     ...(updatedChildren
       ? {
-          children: (Array.isArray(updatedChildren)
-            ? updatedChildren
-            : [updatedChildren]
-          )
+          children: updatedChildren
             .filter((x) => !!x)
+            .flat(1)
             .map((x) => buildWidgetTree(x))
             .flat(1),
         }

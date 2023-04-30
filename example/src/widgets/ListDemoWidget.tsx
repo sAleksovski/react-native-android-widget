@@ -16,95 +16,89 @@ function CollectionData() {
         backgroundColor: '#1F3529',
       }}
     >
-      {Array.from({ length: 16 }).map((_, i) =>
-        i === 15 ? (
-          <FlexWidget
-            key={i}
-            style={{
-              width: 'match_parent',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexDirection: 'row',
-              paddingTop: 16,
-              paddingBottom: 24,
-            }}
-            clickAction="OPEN_URI"
-            clickActionData={{
-              uri: 'androidwidgetexample://list/list-demo',
-            }}
-          >
-            <TextWidget
-              text="View more"
-              style={{ fontSize: 14, color: '#fff' }}
-            />
-          </FlexWidget>
-        ) : (
+      {Array.from({ length: 15 }).map((_, i) => (
+        <FlexWidget
+          style={{
+            width: 'match_parent',
+            alignItems: 'center',
+            flexDirection: 'row',
+          }}
+          key={i}
+          clickAction="OPEN_URI"
+          clickActionData={{
+            uri: `androidwidgetexample://list/list-demo/${i + 1}`,
+          }}
+        >
           <FlexWidget
             style={{
               width: 'match_parent',
+              backgroundColor: '#4D6357',
               alignItems: 'center',
               flexDirection: 'row',
-            }}
-            key={i}
-            clickAction="OPEN_URI"
-            clickActionData={{
-              uri: `androidwidgetexample://list/list-demo/${i + 1}`,
+              justifyContent: 'space-between',
+              paddingVertical: 4,
+              paddingHorizontal: 8,
+              marginVertical: 4,
+              borderRadius: 16,
             }}
           >
             <FlexWidget
               style={{
-                width: 'match_parent',
-                backgroundColor: '#4D6357',
-                alignItems: 'center',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                paddingVertical: 4,
-                paddingHorizontal: 8,
-                marginVertical: 4,
-                borderRadius: 16,
+                flexDirection: 'column',
               }}
             >
-              <FlexWidget
+              <TextWidget
+                text="Stefan Aleksovski"
                 style={{
-                  flexDirection: 'column',
+                  fontSize: 16,
+                  color: '#ffffff',
+                  fontWeight: '500',
+                  fontFamily: 'Roboto',
                 }}
-              >
-                <TextWidget
-                  text="Stefan Aleksovski"
-                  style={{
-                    fontSize: 16,
-                    color: '#ffffff',
-                    fontWeight: '500',
-                    fontFamily: 'Roboto',
-                  }}
-                />
-                <TextWidget
-                  text={`React Native Android Widget Release 0.${i + 1}`}
-                  style={{
-                    fontSize: 12,
-                    color: '#ffffff',
-                    fontFamily: 'Roboto',
-                  }}
-                />
-                <TextWidget
-                  text="See what's new"
-                  style={{
-                    fontSize: 12,
-                    color: '#ffffff',
-                    fontFamily: 'Roboto',
-                  }}
-                />
-              </FlexWidget>
-              <IconWidget
-                icon="archive"
-                size={24}
-                font="material_outlined"
-                style={{ color: '#fff' }}
+              />
+              <TextWidget
+                text={`React Native Android Widget Release 0.${i + 1}`}
+                style={{
+                  fontSize: 12,
+                  color: '#ffffff',
+                  fontFamily: 'Roboto',
+                }}
+              />
+              <TextWidget
+                text="See what's new"
+                style={{
+                  fontSize: 12,
+                  color: '#ffffff',
+                  fontFamily: 'Roboto',
+                }}
               />
             </FlexWidget>
+            <IconWidget
+              icon="archive"
+              size={24}
+              font="material_outlined"
+              style={{ color: '#fff' }}
+            />
           </FlexWidget>
-        )
-      )}
+        </FlexWidget>
+      ))}
+
+      <FlexWidget
+        style={{
+          width: 'match_parent',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexDirection: 'row',
+          paddingTop: 16,
+          paddingBottom: 24,
+        }}
+        clickAction="OPEN_URI"
+        clickActionData={{
+          uri: 'androidwidgetexample://list/list-demo',
+        }}
+      >
+        <TextWidget text="View more" style={{ fontSize: 14, color: '#fff' }} />
+      </FlexWidget>
     </ListWidget>
   );
 }
