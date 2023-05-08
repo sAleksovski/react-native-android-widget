@@ -13,6 +13,7 @@ const config = {
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.png',
+  trailingSlash: false,
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -71,6 +72,20 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       image: 'img/og-image.png',
+      metadata: [
+        {
+          name: 'keywords',
+          content: [
+            'react native widget',
+            'react native widgets',
+            'react native android widget',
+            'expo widget',
+            'expo widgets',
+            'react native expo widget',
+            'react-native-android-widget',
+          ].join(','),
+        },
+      ],
       navbar: {
         title: 'React Native Android Widget',
         logo: {
