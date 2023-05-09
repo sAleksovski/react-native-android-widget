@@ -45,12 +45,8 @@ function HomepageHeader() {
 }
 
 export default function Home() {
-  const { siteConfig } = useDocusaurusContext();
   return (
-    <Layout
-      title={siteConfig.title}
-      description="Build Android Widgets with React Native"
-    >
+    <Layout description="Build Android Widgets with React Native">
       <HomepageHeader />
       <main>
         <HomepageFeatures />

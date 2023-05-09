@@ -1,6 +1,7 @@
 ---
 sidebar_position: 1
 sidebar_label: Getting Started
+title: Getting Started
 ---
 
 # React Native Android Widget
