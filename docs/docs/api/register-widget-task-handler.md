@@ -50,6 +50,17 @@ export async function widgetTaskHandler(props: WidgetTaskHandlerProps) {
 
 We use `nameToWidget` to map from the **name** to the component defining the widget (useful if we have multiple widgets). There are other ways to achieve this.
 
+This file is also where you can execute regular JS code, include asynchronous operations, such as fetching data from API:
+```js title="widget-task-handler.ts"
+// ...
+case 'WIDGET_CLICK':
+  if (props.clickAction === 'refresh') {
+    const data = await fetch('https://example.com/api').then((response) => response.json());
+    props.renderWidget(<Widget title={data.title} />);
+  }
+  break;
+```
+
 ## Register widget task handler
 
 In the main `index.js` (or `index.ts`, `index.tsx`) file for our app, when we register the main component, register the widget task handler.
