@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.2] - 2023-05-23
+
 ## Fixed
 
 - Fixed crash when items in `ListWidget` do not have `clickAction` and `clickActionData`
