@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## Fixed
+
+- Fixed crash when items in `ListWidget` do not have `clickAction` and `clickActionData`
+- Set default `height` and `width` on `ListWidget` to `match_parent`
+- Don't call widget handler when clicking on a list item without `clickAction`
+
 ## [0.5.1] - 2023-04-30
 
 ## Fixed

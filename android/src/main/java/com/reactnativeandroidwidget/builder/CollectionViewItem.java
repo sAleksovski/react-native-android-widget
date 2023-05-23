@@ -2,6 +2,7 @@ package com.reactnativeandroidwidget.builder;
 
 import android.graphics.Bitmap;
 
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReadableMap;
 
 public class CollectionViewItem {
@@ -12,13 +13,15 @@ public class CollectionViewItem {
     public CollectionViewItem(Bitmap bitmap, String clickAction, ReadableMap clickActionData) {
         this.bitmap = bitmap;
         this.clickAction = clickAction;
-        this.clickActionData = clickActionData;
+        if (clickActionData == null) {
+            this.clickActionData = Arguments.createMap();
+        } else {
+            this.clickActionData = clickActionData;
+        }
     }
 
     public CollectionViewItem(Bitmap bitmap) {
-        this.bitmap = bitmap;
-        this.clickAction = null;
-        this.clickActionData = null;
+        this(bitmap, null, null);
     }
 
     public Bitmap getBitmap() {

@@ -121,16 +121,18 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
         // Set a fill-intent which will be used to fill-in the pending intent template
         // which is set on the collection view in RNWidget.
-        Bundle extras = new Bundle();
-        extras.putInt("widgetId", mAppWidgetId);
         if (bundle.getString("clickAction", null) != null) {
+            Bundle extras = new Bundle();
+            extras.putInt("widgetId", mAppWidgetId);
+
             extras.putString("clickAction", bundle.getString("clickAction"));
             extras.putBundle("clickActionData", bundle.getBundle("clickActionData"));
+
+            Intent fillInIntent = new Intent();
+            fillInIntent.putExtras(extras);
+            listItemView.setOnClickFillInIntent(R.id.rn_widget_list_item, fillInIntent);
         }
 
-        Intent fillInIntent = new Intent();
-        fillInIntent.putExtras(extras);
-        listItemView.setOnClickFillInIntent(R.id.rn_widget_list_item, fillInIntent);
 
         return listItemView;
     }

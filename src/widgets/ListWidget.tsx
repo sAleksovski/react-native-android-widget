@@ -27,5 +27,7 @@ ListWidget.__name__ = 'ListWidget';
 ListWidget.convertProps = (props: ListWidgetProps): ListWidgetInternalProps => {
   return {
     ...convertCommonStyle(props.style ?? {}),
+    height: props.style?.height ?? 'match_parent',
+    width: props.style?.width ?? 'match_parent',
   };
 };
