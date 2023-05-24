@@ -43,6 +43,18 @@ const config = {
         },
       },
     ],
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        createRedirects(existingPath) {
+          if (!existingPath.endsWith('/')) {
+            return `${existingPath}/`;
+          }
+
+          return undefined; // Return a falsy value: no redirect created
+        },
+      },
+    ],
   ],
 
   presets: [
