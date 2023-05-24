@@ -56,15 +56,23 @@ export function WidgetPreview({
 }: WidgetPreviewProps) {
   const isAndroid = Platform.OS === 'android';
   const [preview, setPreview] = useState<WidgetPreviewData | null>();
+  const [error, setError] = useState(null);
+
   useEffect(() => {
     async function init() {
-      const data = await AndroidWidget.createPreview(
-        buildWidgetTree(renderWidget({ width, height })),
-        width,
-        height
-      );
+      try {
+        const data = await AndroidWidget.createPreview(
+          buildWidgetTree(renderWidget({ width, height })),
+          width,
+          height
+        );
 
-      setPreview(data);
+        setPreview(data);
+        setError(null);
+      } catch (e: any) {
+        console.error(e);
+        setError(e?.message ?? 'Error rendering widget');
+      }
     }
     if (isAndroid) {
       init();
@@ -101,48 +109,127 @@ export function WidgetPreview({
     );
   }
 
+  if (error) {
+    return <ErrorState showBorder={showBorder} height={height} width={width} />;
+  }
+
   return (
-    <View
-      style={
-        showBorder
-          ? {
-              height: height + 2,
-              width: width + 2,
-              borderColor: '#0000ff40',
-              borderWidth: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }
-          : {}
-      }
-    >
+    <PreviewContainer height={height} width={width} showBorder={showBorder}>
       {preview ? (
-        <View style={{ height, width, position: 'relative' }}>
-          <Image
-            source={{ uri: `data:image/png;base64,${preview.base64Image}` }}
-            style={{ height, width }}
-          />
-          {preview.clickableAreas.map((area, index) => (
-            <ClickableAreaButton
-              key={index}
-              area={area}
-              onClick={onPress}
-              highlightClickableAreas={highlightClickableAreas}
-            />
-          ))}
-          {preview.collectionAreas.map((area, index) => (
-            <CollectionAreaList
-              key={index}
-              area={area}
-              onClick={onPress}
-              highlightClickableAreas={highlightClickableAreas}
-            />
-          ))}
-        </View>
+        <Preview
+          height={height}
+          width={width}
+          preview={preview}
+          onClick={onPress}
+          highlightClickableAreas={highlightClickableAreas}
+        />
       ) : (
         <ActivityIndicator size="large" />
       )}
+    </PreviewContainer>
+  );
+}
+
+function PreviewContainer({
+  showBorder,
+  height,
+  width,
+  children,
+}: Pick<WidgetPreviewProps, 'showBorder' | 'height' | 'width'> & {
+  children: React.ReactNode;
+}) {
+  return (
+    <View
+      style={{
+        height: height + 2,
+        width: width + 2,
+        borderColor: '#0000ff40',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: showBorder ? 1 : 0,
+      }}
+    >
+      {children}
     </View>
+  );
+}
+
+function Preview({
+  height,
+  width,
+  preview,
+  onClick,
+  highlightClickableAreas,
+}: Pick<WidgetPreviewProps, 'height' | 'width' | 'highlightClickableAreas'> & {
+  preview: WidgetPreviewData;
+  onClick: (props: OnClick) => void;
+}) {
+  return (
+    <View style={{ height, width, position: 'relative' }}>
+      <Image
+        source={{ uri: `data:image/png;base64,${preview.base64Image}` }}
+        style={{ height, width }}
+      />
+      {preview.clickableAreas.map((area, index) => (
+        <ClickableAreaButton
+          key={index}
+          area={area}
+          onClick={onClick}
+          highlightClickableAreas={highlightClickableAreas}
+        />
+      ))}
+      {preview.collectionAreas.map((area, index) => (
+        <CollectionAreaList
+          key={index}
+          area={area}
+          onClick={onClick}
+          highlightClickableAreas={highlightClickableAreas}
+        />
+      ))}
+    </View>
+  );
+}
+
+function Icon({
+  color,
+  height,
+  width,
+}: Pick<WidgetPreviewProps, 'height' | 'width'> & { color: string }) {
+  const size = Math.floor(Math.min(height, width) / 3);
+  return (
+    <View
+      style={{
+        width: size,
+        height: size,
+        borderRadius: size / 2,
+        backgroundColor: color,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 16,
+      }}
+    >
+      <Text
+        style={{
+          fontSize: size / 2,
+          color: '#fff',
+        }}
+      >
+        !
+      </Text>
+    </View>
+  );
+}
+
+function ErrorState({
+  showBorder,
+  height,
+  width,
+}: Pick<WidgetPreviewProps, 'showBorder' | 'height' | 'width'>) {
+  return (
+    <PreviewContainer height={height} width={width} showBorder={showBorder}>
+      <Icon height={height} width={width} color="#d32f2f" />
+      <Text>Error rendering widget, see logs</Text>
+    </PreviewContainer>
   );
 }
 
@@ -152,22 +239,10 @@ function PlatformNotAndroid({
   width,
 }: Pick<WidgetPreviewProps, 'showBorder' | 'height' | 'width'>) {
   return (
-    <View
-      style={
-        showBorder
-          ? {
-              height: height + 2,
-              width: width + 2,
-              borderColor: '#0000ff40',
-              borderWidth: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }
-          : {}
-      }
-    >
+    <PreviewContainer height={height} width={width} showBorder={showBorder}>
+      <Icon height={height} width={width} color="#ff9966" />
       <Text>WidgetPreview works only on Android</Text>
-    </View>
+    </PreviewContainer>
   );
 }
 
@@ -191,9 +266,8 @@ function ClickableAreaButton({
           top: area.top,
           width: area.width,
           height: area.height,
-          ...(highlightClickableAreas
-            ? { borderWidth: 1, borderColor: 'red' }
-            : {}),
+          borderColor: 'red',
+          borderWidth: highlightClickableAreas ? 1 : 0,
         }}
       >
         {highlightClickableAreas ? <ClickableAreaBorder /> : null}
@@ -240,9 +314,8 @@ function CollectionAreaList({
             style={{
               height: item.height,
               width: item.width,
-              ...(highlightClickableAreas
-                ? { borderWidth: 1, borderColor: 'red' }
-                : {}),
+              borderColor: 'red',
+              borderWidth: highlightClickableAreas ? 1 : 0,
             }}
           >
             {highlightClickableAreas ? <ClickableAreaBorder /> : null}

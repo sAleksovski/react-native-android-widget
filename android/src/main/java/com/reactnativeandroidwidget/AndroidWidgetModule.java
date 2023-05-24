@@ -42,13 +42,13 @@ public class AndroidWidgetModule extends com.reactnativeandroidwidget.AndroidWid
 
     @ReactMethod
     public void createPreview(ReadableMap config, double width, double height, Promise promise) {
-        WritableMap preview = null;
         try {
-            preview = new RNWidget(getReactApplicationContext(), config).createPreview((int) width, (int) height);
+            WritableMap preview = new RNWidget(getReactApplicationContext(), config).createPreview((int) width, (int) height);
+            promise.resolve(preview);
         } catch (Exception e) {
             e.printStackTrace();
+            promise.reject(e);
         }
-        promise.resolve(preview);
     }
 
     @ReactMethod

@@ -6,14 +6,10 @@ import android.graphics.Rect;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import androidx.annotation.NonNull;
-
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
-import com.facebook.react.bridge.WritableArray;
-import com.facebook.react.bridge.WritableMap;
 import com.reactnativeandroidwidget.RNWidgetUtil;
 
 import java.util.ArrayList;
@@ -68,11 +64,15 @@ public class CollectionView {
         }
     }
 
-    private void measureCollectionView() {
+    private void measureCollectionView() throws Exception {
         Rect rect = new Rect();
         view.getDrawingRect(rect);
         widthInPx = rect.width();
         heightInPx = rect.height();
+
+        if (widthInPx == 0 || heightInPx == 0) {
+            throw new Exception("ListWidget width and height must be > 0");
+        }
     }
 
     private Bitmap getBitmap(View childView) {
