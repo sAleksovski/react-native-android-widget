@@ -1,6 +1,6 @@
 {
   "name": "react-native-android-widget",
-  "version": "0.5.3",
+  "version": "0.6.0",
   "description": "Build Android Widgets with React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
