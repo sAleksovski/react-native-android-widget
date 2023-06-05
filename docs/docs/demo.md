@@ -7,14 +7,6 @@ sidebar_label: Demo
 
 You can download the demo app with the example widgets from the [Releases Page](https://github.com/sAleksovski/react-native-android-widget/releases)
 
-## Click Demo Widget Preview
-
-![Click Demo Widget Preview](../../example-expo/assets/widget-preview/clickdemo.png)
-
-## Counter Widget Preview
-
-![Counter Widget Preview](../../example-expo/assets/widget-preview/counter.png)
-
 ## Fitness Widget Preview
 
 ![Fitness Widget Preview](../../example-expo/assets/widget-preview/fitness.png)
@@ -35,4 +27,14 @@ You can download the demo app with the example widgets from the [Releases Page](
 
 ![Shopify Widget Preview](../../example-expo/assets/widget-preview/shopify.png)
 
+## Click Demo Widget Preview
 
+![Click Demo Widget Preview](../../example-expo/assets/widget-preview/clickdemo.png)
+
+## Counter Widget Preview
+
+![Counter Widget Preview](../../example-expo/assets/widget-preview/counter.png)
+
+## Debug Events Widget Preview
+
+![Debug Events Widget Preview](../../example-expo/assets/widget-preview/debugevents.png)

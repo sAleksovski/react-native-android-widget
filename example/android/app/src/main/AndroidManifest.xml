@@ -1,8 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".MainApplication"
@@ -31,11 +29,6 @@
                 <data android:scheme="androidwidgetexample" />
             </intent-filter>
         </activity>
-
-        <service
-            android:name="com.reactnativeandroidwidget.RNWidgetBackgroundTaskService"
-            android:enabled="true"
-            android:label="RNWidgetBackgroundTaskService" />
 
         <service
             android:name="com.reactnativeandroidwidget.RNWidgetCollectionService"
@@ -130,6 +123,19 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widgetprovider_list" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.DebugEvents"
+            android:exported="false"
+            android:label="Debug Events">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.androidwidgetexample.WIDGET_CLICK" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widgetprovider_debugevents" />
         </receiver>
     </application>
 </manifest>

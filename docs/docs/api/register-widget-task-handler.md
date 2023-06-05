@@ -30,8 +30,16 @@ export async function widgetTaskHandler(props: WidgetTaskHandlerProps) {
       props.renderWidget(<Widget />);
       break;
 
+    case 'WIDGET_UPDATE':
+      props.renderWidget(<Widget />);
+      break;
+
     case 'WIDGET_RESIZED':
       props.renderWidget(<Widget />);
+      break;
+
+    case 'WIDGET_DELETED':
+      // Handle widget deleted (remove widget data if you stored it somewhere)
       break;
 
     case 'WIDGET_CLICK':
@@ -51,6 +59,7 @@ export async function widgetTaskHandler(props: WidgetTaskHandlerProps) {
 We use `nameToWidget` to map from the **name** to the component defining the widget (useful if we have multiple widgets). There are other ways to achieve this.
 
 This file is also where you can execute regular JS code, include asynchronous operations, such as fetching data from API:
+
 ```js title="widget-task-handler.ts"
 // ...
 case 'WIDGET_CLICK':
@@ -112,4 +121,3 @@ registerWidgetTaskHandler(widgetTaskHandler);
 Check the types in the [Public API](/docs/public-api#registerwidgettaskhandler) documentation
 
 The widget task handler will be called with some properties, described with [WidgetTaskHandlerProps](/docs/public-api/interfaces/WidgetTaskHandlerProps)
-

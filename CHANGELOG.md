@@ -7,15 +7,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Schedule widget updates with `updatePeriodMillis`
+- Widget task handler called with `WIDGET_UPDATE` widgetAction on scheduled update
+- Widget task handler called with `WIDGET_DELETED` when the widget is removed from the home screen
+- Widget taks handler called with `WIDGET_RESIZED` on resize, without needing to click on it again
+
+### Fixed
+
+- Removed "Click to update widget" text and requirement to click on a widget before update
+- Adding/resizing works now without requiring a widget click
+
+### Removed
+
+- Requirement for `android.permission.FOREGROUND_SERVICE`
+- Removed `RNWidgetBackgroundTaskService`. For bare React Native it should be removed from AndroidManifest. Expo build are handled with the app plugin
+
 ## [0.5.3] - 2023-05-24
 
-## Fixed
+### Fixed
 
 - Log native error in WidgetPreview
 
 ## [0.5.2] - 2023-05-23
 
-## Fixed
+### Fixed
 
 - Fixed crash when items in `ListWidget` do not have `clickAction` and `clickActionData`
 - Set default `height` and `width` on `ListWidget` to `match_parent`
@@ -23,25 +40,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.5.1] - 2023-04-30
 
-## Fixed
+### Fixed
 
 - Fixed crash when adding widget next to Array.map
 
 ## [0.5.0] - 2023-04-24
 
-## Added
+### Added
 
 - Added `ListWidget` that can show a scrollable list of items
 
 ## [0.4.1] - 2023-04-17
 
-## Fixed
+### Fixed
 
 - Fix crash on iOS due to linking check
 
 ## [0.4.0] - 2023-04-05
 
-## Added
+### Added
 
 - Setting `clickAction="OPEN_APP"` on a widget primitive will open the app when clicked
 - Setting `clickAction="OPEN_URI" clickActionData={{ uri: 'https://google.com' }}` on a widget primitive will open google in web browser
@@ -49,13 +66,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.3.1] - 2023-04-03
 
-## Fixed
+### Fixed
 
 - Fixed an issue where clicking on a widget with nested `clickAction` was triggering the topmost one, instead of the one directly under the clicked area
 
 ## [0.3.0] - 2023-03-20
 
-## Added
+### Added
 
 - Upgrade to React Native 0.71.3
 - Upgrade to Expo 48

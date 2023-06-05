@@ -15,4 +15,3 @@ Anything **unclear** or **buggy** in this tutorial? [Please report it!](https://
 - Check the widget [examples](https://github.com/sAleksovski/react-native-android-widget/tree/master/example/src/widgets)
 - See the API docs for the widget [primitives](../primitives/index)
 - Learn how to [update a widget](../api/request-widget-update.md) once it is added to the home screen
-- Learn about the [limitations](../limitations.md)

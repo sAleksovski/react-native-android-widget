@@ -144,6 +144,9 @@ const config = {
         content:
           '⭐️ If you like React Native Android Widget, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/sAleksovski/react-native-android-widget">GitHub</a>',
       },
+      colorMode: {
+        respectPrefersColorScheme: true,
+      },
     }),
 };
 

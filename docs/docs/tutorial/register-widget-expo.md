@@ -16,9 +16,7 @@ When the android launcher shows the widget select popup, we can show a screensho
 
 Take a screenshot of the widget, and place it inside `assets/widget-preview/hello.png`
 
-```png title="assets/widget-preview/hello.png"
-
-```
+<pre>assets/widget-preview/hello.png</pre>
 
 ![Hello Widget Preview](/img/hello_preview.png)
 
@@ -47,6 +45,12 @@ const widgetConfig: WithAndroidWidgetsParams = {
       minHeight: '120dp',
       description: 'This is my first widget', // Description shown in the widget picker
       previewImage: './assets/widget-preview/hello.png', // Path to widget preview image
+
+      // How often, in milliseconds, that this AppWidget wants to be updated.
+      // The task handler will be called with widgetAction = 'UPDATE_WIDGET'.
+      // Default is 0 (no automatic updates)
+      // Minimum is 1800000 (30 minutes == 30 * 60 * 1000).
+      updatePeriodMillis: 1800000,
     },
   ],
 };

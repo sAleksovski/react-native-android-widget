@@ -5,12 +5,37 @@ sidebar_label: Update Widget
 
 # Update Widget
 
+There are two ways to update a widget once it is added on the home screen.
+
+## updatePeriodMillis
+
+Schedule updates using `android:updatePeriodMillis` (or `updatePeriodMillis` with Expo)
+
+When using this option, the `widgetTaskHandler` function will be called with `widgetAction = 'WIDGET_UPDATE'`, and you can use it to update the widget.
+
+```js title="widget-task-handler.ts"
+export async function widgetTaskHandler(props: WidgetTaskHandlerProps) {
+
+  switch (props.widgetAction) {
+    ...
+
+    case 'WIDGET_UPDATE':
+      props.renderWidget(<Widget />);
+      break;
+
+    ...
+  }
+}
+```
+
+:::info Note
+Updates requested with updatePeriodMillis will not be delivered more than once every 30 minutes.
+:::
+
+More details about `updatePeriodMillis` on the [official documentation](https://developer.android.com/reference/android/appwidget/AppWidgetProviderInfo.html#updatePeriodMillis).
+
+## requestWidgetUpdate
+
+You can call [`requestWidgetUpdate`](./api/request-widget-update.md) any time when your app is open, as a reuslt of some user action, and request a widget update.
+
 Scheduling a widget update using `android:updatePeriodMillis` is out of scope for this library.
-
-There are a couple of community libraries that can be used to schedule a background task, within which you can use [`requestWidgetUpdate`](./api/request-widget-update.md) to update a widget.
-
-Example:
-
-- [`expo-background-fetch`](https://docs.expo.dev/versions/latest/sdk/background-fetch/)
-- [`react-native-background-actions`](https://github.com/Rapsssito/react-native-background-actions)
-- [`HeadlessJS`](https://reactnative.dev/docs/headless-js-android)

@@ -66,46 +66,11 @@ Create a new xml file in the resources directory containing the details about th
 </appwidget-provider>
 ```
 
-- `android:updatePeriodMillis` must be 0
+- `android:updatePeriodMillis` How often, in milliseconds, that this AppWidget wants to be updated. The task handler will be called with `widgetAction = 'UPDATE_WIDGET'`. See the official docs [here](https://developer.android.com/reference/android/appwidget/AppWidgetProviderInfo.html#updatePeriodMillis)
 - `android:previewImage` should reference the preview image we added previously
 - `android:description` can be added or not, depending on if we added a description in the previous step
 
-## Add permissions in AndroidManifest.xml
-
-First, for the library to function we need to add `FOREGROUND_SERVICE` and `WAKE_LOCK` permissions to our app. In the permissions add
-
-```xml title="android/app/src/main/AndroidManifest.xml"
-<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-<uses-permission android:name="android.permission.WAKE_LOCK" />
-```
-
-These permissions will be shared between all widgets, so they need to be added only once.
-
 ## Add services in AndroidManifest.xml
-
-Under the application section in the manifest, add a new `RNWidgetBackgroundTaskService` service. This service will be shared between all widgets, so it needs to be added only once.
-
-```xml title="android/app/src/main/AndroidManifest.xml"
-<manifest ...>
-  ...
-  <uses-permission ... />
-  ...
-  <application
-      android:name=".MainApplication"
-      ...>
-
-      <activity
-          android:name=".MainActivity"
-          ...>
-      </activity>
-
-      <service
-          android:name="com.reactnativeandroidwidget.RNWidgetBackgroundTaskService"
-          android:enabled="true"
-          android:label="RNWidgetBackgroundTaskService" />
-  </application>
-</manifest>
-```
 
 In order to use the [ListWidget](../primitives/list-widget.md) we need to add a `RNWidgetCollectionService` service.
 
@@ -114,8 +79,6 @@ Under the application section in the manifest, add a new `RNWidgetCollectionServ
 ```xml title="android/app/src/main/AndroidManifest.xml"
 <manifest ...>
   ...
-  <uses-permission ... />
-  ...
   <application
       android:name=".MainApplication"
       ...>
@@ -124,10 +87,6 @@ Under the application section in the manifest, add a new `RNWidgetCollectionServ
           android:name=".MainActivity"
           ...>
       </activity>
-
-      <service
-          android:name="com.reactnativeandroidwidget.RNWidgetBackgroundTaskService"
-          ... />
 
       <service
           android:name="com.reactnativeandroidwidget.RNWidgetCollectionService"
@@ -145,8 +104,6 @@ In `AndroidManifest.xml`, add a receiver for the widget
 ```xml title="android/app/src/main/AndroidManifest.xml"
 <manifest ...>
   ...
-  <uses-permission ... />
-  ...
   <application
       android:name=".MainApplication"
       ...>
@@ -155,10 +112,6 @@ In `AndroidManifest.xml`, add a receiver for the widget
           android:name=".MainActivity"
           ...>
       </activity>
-
-      <service
-          android:name="com.reactnativeandroidwidget.RNWidgetBackgroundTaskService"
-          ... />
 
       <service
           android:name="com.reactnativeandroidwidget.RNWidgetCollectionService"

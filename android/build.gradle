@@ -77,6 +77,8 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
   // From node_modules
+  implementation 'androidx.concurrent:concurrent-futures:1.1.0'
+  implementation 'androidx.work:work-runtime:2.8.1'
   implementation 'com.caverock:androidsvg-aar:1.4'
 }
 

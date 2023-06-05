@@ -30,7 +30,15 @@ export async function widgetTaskHandler(props: WidgetTaskHandlerProps) {
       props.renderWidget(<Widget />);
       break;
 
+    case 'WIDGET_UPDATE':
+      // Not needed for now
+      break;
+
     case 'WIDGET_RESIZED':
+      // Not needed for now
+      break;
+
+    case 'WIDGET_DELETED':
       // Not needed for now
       break;
 

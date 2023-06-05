@@ -222,9 +222,9 @@ public class RNWidget {
         Intent widgetListItemClickIntent = new Intent(appContext, RNWidgetCollectionService.class);
         // Set the action for the intent.
         // When the user touches a particular view, it has the effect of
-        // broadcasting WIDGET_LIST_ITEM_CLICK.
+        // broadcasting WIDGET_CLICK.
         widgetListItemClickIntent.setComponent(new ComponentName(appContext, RNWidgetUtil.getWidgetProviderClassName(appContext, widgetName)));
-        widgetListItemClickIntent.setAction(appContext.getPackageName() + ".WIDGET_LIST_ITEM_CLICK");
+        widgetListItemClickIntent.setAction(appContext.getPackageName() + ".WIDGET_CLICK");
         widgetListItemClickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
         return PendingIntent.getBroadcast(appContext, 0, widgetListItemClickIntent,
             PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);

@@ -3,10 +3,15 @@ import { AndroidWidget } from '../AndroidWidget';
 import { buildWidgetTree } from './build-widget-tree';
 import type { WidgetInfo } from './types';
 
-const HEADLESS_TASK_KEY = 'RNWidgetBackgroundTaskService';
+const HEADLESS_TASK_KEY = 'RNWidgetBackgroundTask';
 
 interface NativeTaskInfo extends WidgetInfo {
-  widgetAction: 'WIDGET_ADDED' | 'WIDGET_RESIZED' | 'WIDGET_CLICK';
+  widgetAction:
+    | 'WIDGET_ADDED'
+    | 'WIDGET_UPDATE'
+    | 'WIDGET_RESIZED'
+    | 'WIDGET_DELETED'
+    | 'WIDGET_CLICK';
   clickAction?: string;
   clickActionData?: Record<string, unknown>;
 }
@@ -19,7 +24,12 @@ export interface WidgetTaskHandlerProps {
   /**
    * What kind of action is being handled
    */
-  widgetAction: 'WIDGET_ADDED' | 'WIDGET_RESIZED' | 'WIDGET_CLICK';
+  widgetAction:
+    | 'WIDGET_ADDED'
+    | 'WIDGET_UPDATE'
+    | 'WIDGET_RESIZED'
+    | 'WIDGET_DELETED'
+    | 'WIDGET_CLICK';
   /**
    * Click action if widgetAction was WIDGET_CLICK
    */
@@ -51,6 +61,7 @@ export function registerWidgetTaskHandler(handler: WidgetTaskHandler): void {
     ...widgetInfo
   }: NativeTaskInfo) {
     function renderWidget(widgetComponent: JSX.Element) {
+      if (widgetAction === 'WIDGET_DELETED') return;
       AndroidWidget.drawWidgetById(
         buildWidgetTree(widgetComponent),
         widgetInfo.widgetName,
@@ -62,7 +73,9 @@ export function registerWidgetTaskHandler(handler: WidgetTaskHandler): void {
       widgetInfo,
       widgetAction,
       clickAction,
-      clickActionData,
+      clickActionData: clickActionData
+        ? JSON.parse(clickActionData as unknown as string)
+        : {},
       renderWidget,
     });
   }

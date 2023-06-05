@@ -14,8 +14,17 @@ const { getMainApplicationOrThrow } = AndroidConfig.Manifest;
 export type ResourcePath = `./${string}` | `../${string}`;
 
 export interface Widget {
+  /**
+   * Name of the widget which will be used to reference it in code
+   */
   name: string;
+  /**
+   * Label that will be shown in widget picker
+   */
   label?: string;
+  /**
+   * Description that will be shown in widget picker
+   */
   description?: string;
   minWidth: `${number}dp`;
   minHeight: `${number}dp`;
@@ -23,6 +32,14 @@ export interface Widget {
   maxResizeHeight?: `${number}dp`;
   previewImage?: ResourcePath;
   resizeMode?: 'none' | 'horizontal' | 'vertical' | 'horizontal|vertical';
+  /**
+   * How often the widget should be updated, in milliseconds.
+   *
+   * Default is 0 (no automatic updates)
+   *
+   * Minimum is 1.800.000 (30 minutes == 30 * 60 * 1000).
+   */
+  updatePeriodMillis?: number;
 }
 
 export interface WithAndroidWidgetsParams {
@@ -39,11 +56,6 @@ export default function withAndroidWidgets(
   config: ExpoConfig,
   params: WithAndroidWidgetsParams
 ) {
-  config = AndroidConfig.Permissions.withPermissions(config, [
-    'android.permission.WAKE_LOCK',
-    'android.permission.FOREGROUND_SERVICE',
-  ]);
-
   let projectPaths: ProjectPaths = {
     platformProjectRoot: '',
     projectRoot: '',
@@ -57,7 +69,6 @@ export default function withAndroidWidgets(
       const mainApplication = getMainApplicationOrThrow(
         androidManifestConfig.modResults
       );
-      withBackgroundTaskService(mainApplication);
       withCollectionService(mainApplication);
 
       projectPaths.platformProjectRoot =
@@ -77,28 +88,6 @@ export default function withAndroidWidgets(
   config = withWidgets(config, projectPaths, params.widgets);
 
   return config;
-}
-
-function withBackgroundTaskService(
-  mainApplication: AndroidConfig.Manifest.ManifestApplication
-): void {
-  mainApplication.service = mainApplication.service ?? [];
-
-  const alreadyAdded = mainApplication.service.some(
-    (service) =>
-      service.$['android:name'] ===
-      'com.reactnativeandroidwidget.RNWidgetBackgroundTaskService'
-  );
-
-  if (alreadyAdded) return;
-
-  mainApplication.service?.push({
-    $: {
-      'android:name':
-        'com.reactnativeandroidwidget.RNWidgetBackgroundTaskService',
-      'android:enabled': 'true',
-    },
-  });
 }
 
 function withCollectionService(
@@ -315,7 +304,11 @@ ${
     : ''
 }
 
-    android:updatePeriodMillis="0"
+    android:updatePeriodMillis="${
+      widget.updatePeriodMillis
+        ? Math.max(30 * 60 * 1000, widget.updatePeriodMillis)
+        : 0
+    }"
     android:widgetCategory="home_screen">
 </appwidget-provider>
 `;

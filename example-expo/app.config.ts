@@ -58,6 +58,14 @@ const widgetConfig: WithAndroidWidgetsParams = {
       minWidth: '300dp',
       previewImage: './assets/widget-preview/list.png',
     },
+    {
+      name: 'DebugEvents',
+      label: 'Debug Events',
+      description: 'Debug Widget Events',
+      minHeight: '100dp',
+      minWidth: '300dp',
+      previewImage: './assets/widget-preview/debugevents.png',
+    },
   ],
 };
 

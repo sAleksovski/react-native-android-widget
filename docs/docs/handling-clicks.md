@@ -30,7 +30,15 @@ export async function widgetTaskHandler(props: WidgetTaskHandlerProps) {
       // ...;
       break;
 
+    case 'WIDGET_UPDATE':
+      // ...;
+      break;
+
     case 'WIDGET_RESIZED':
+      // ...;
+      break;
+
+    case 'WIDGET_DELETED':
       // ...;
       break;
 
