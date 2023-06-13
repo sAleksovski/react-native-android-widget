@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Crop widget when reported and actual size are different on some launchers, instead of scaling
+  because click targets are missaligned when scaling
+
 ## [0.6.0] - 2023-06-05
 
 ### Added

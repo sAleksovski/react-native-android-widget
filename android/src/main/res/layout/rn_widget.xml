@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
-        android:scaleType="fitStart" />
+        android:scaleType="matrix" />
 
     <FrameLayout
         android:id="@+id/rn_widget_clickable_container"

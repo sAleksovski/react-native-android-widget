@@ -39,7 +39,7 @@ const widgetConfig: WithAndroidWidgetsParams = {
     },
     {
       name: 'Counter',
-      minHeight: '120dp',
+      minHeight: '100dp',
       minWidth: '300dp',
       previewImage: './assets/widget-preview/counter.png',
     },

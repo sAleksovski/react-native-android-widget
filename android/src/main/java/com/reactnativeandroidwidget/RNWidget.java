@@ -122,9 +122,12 @@ public class RNWidget {
             R.id.rn_widget_clickable_positioner,
             offsetViewBounds.left,
             offsetViewBounds.top,
-            RNWidgetUtil.dpToPx(appContext, RNWidgetUtil.getWidgetWidth(appContext, widgetId)) - offsetViewBounds.right,
-            RNWidgetUtil.dpToPx(appContext, RNWidgetUtil.getWidgetHeight(appContext, widgetId)) - offsetViewBounds.bottom
+            0,
+            0
         );
+
+        clickableRemoteView.setInt(R.id.rn_widget_clickable_area, "setMinimumHeight", offsetViewBounds.height());
+        clickableRemoteView.setInt(R.id.rn_widget_clickable_area, "setMinimumWidth", offsetViewBounds.width());
 
         registerClickTask(widgetId, clickableView, clickableRemoteView, R.id.rn_widget_clickable_area);
 
