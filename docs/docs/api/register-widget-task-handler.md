@@ -10,7 +10,7 @@ sidebar_position: 2
 
 First, create a task handler function, containing:
 
-```js title="widget-task-handler.ts"
+```js title="widget-task-handler.tsx"
 import React from 'react';
 import type { WidgetTaskHandlerProps } from 'react-native-android-widget';
 import { HelloWidget } from './HelloWidget';
@@ -60,7 +60,7 @@ We use `nameToWidget` to map from the **name** to the component defining the wid
 
 This file is also where you can execute regular JS code, include asynchronous operations, such as fetching data from API:
 
-```js title="widget-task-handler.ts"
+```js title="widget-task-handler.tsx"
 // ...
 case 'WIDGET_CLICK':
   if (props.clickAction === 'refresh') {

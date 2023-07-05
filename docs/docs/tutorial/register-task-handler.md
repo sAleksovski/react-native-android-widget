@@ -10,7 +10,7 @@ We designed and previewed our widget. Now we need to register a _task handler_ t
 
 First, create a task handler function, containing:
 
-```js title="widget-task-handler.ts"
+```js title="widget-task-handler.tsx"
 import React from 'react';
 import type { WidgetTaskHandlerProps } from 'react-native-android-widget';
 import { HelloWidget } from './HelloWidget';

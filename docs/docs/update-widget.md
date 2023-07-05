@@ -13,7 +13,7 @@ Schedule updates using `android:updatePeriodMillis` (or `updatePeriodMillis` wit
 
 When using this option, the `widgetTaskHandler` function will be called with `widgetAction = 'WIDGET_UPDATE'`, and you can use it to update the widget.
 
-```js title="widget-task-handler.ts"
+```js title="widget-task-handler.tsx"
 export async function widgetTaskHandler(props: WidgetTaskHandlerProps) {
 
   switch (props.widgetAction) {
