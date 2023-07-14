@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix crash on Android <12 when using click action
+
 ## [0.6.1] - 2023-06-13
 
 ### Fixed
