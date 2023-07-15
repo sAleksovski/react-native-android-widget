@@ -1,5 +1,7 @@
 import { convertColor } from '../widgets/utils/style.utils';
 
+import { describe, expect, test } from '@jest/globals';
+
 describe('#convertColor', () => {
   test('should convert full hex color', () => {
     expect(convertColor('#ff0000')).toEqual('#ff0000');

@@ -28,6 +28,8 @@ def getExtOrIntegerDefault(name) {
 }
 
 android {
+  namespace "com.reactnativeandroidwidget"
+
   compileSdkVersion getExtOrIntegerDefault('compileSdkVersion')
 
   defaultConfig {

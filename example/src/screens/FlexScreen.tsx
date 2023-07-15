@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import {
-  FlexWidgetStyle,
   FlexWidget,
   WidgetPreview,
+  type FlexWidgetStyle,
 } from 'react-native-android-widget';
 
 const FLEX_DIRECTION: ('row' | 'column')[] = ['row', 'column'];

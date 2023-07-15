@@ -1,9 +1,12 @@
 import {
   Image,
-  ImageRequireSource,
-  ImageResolvedAssetSource,
+  type ImageRequireSource,
+  type ImageResolvedAssetSource,
 } from 'react-native';
-import { ClickActionProps, convertClickAction } from './utils/click-action';
+import {
+  type ClickActionProps,
+  convertClickAction,
+} from './utils/click-action';
 import type { CommonInternalProps } from './utils/common-internal.props';
 import type { CommonStyleProps } from './utils/style.props';
 import { convertCommonStyle } from './utils/style.utils';

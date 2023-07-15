@@ -1,13 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {
-  ColorProp,
   FlexWidget,
   IconWidget,
   ImageWidget,
-  ImageWidgetSource,
   OverlapWidget,
   TextWidget,
+  type ColorProp,
+  type ImageWidgetSource,
 } from 'react-native-android-widget';
 
 interface Song {

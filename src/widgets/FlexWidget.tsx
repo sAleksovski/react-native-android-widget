@@ -1,4 +1,7 @@
-import { ClickActionProps, convertClickAction } from './utils/click-action';
+import {
+  type ClickActionProps,
+  convertClickAction,
+} from './utils/click-action';
 import type { CommonInternalProps } from './utils/common-internal.props';
 import type { ColorProp, CommonStyleProps } from './utils/style.props';
 import { convertColor, convertCommonStyle } from './utils/style.utils';

@@ -1,11 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {
-  FlexWidgetStyle,
   FlexWidget,
   IconWidget,
   SvgWidget,
   TextWidget,
+  type FlexWidgetStyle,
 } from 'react-native-android-widget';
 
 export function ShopifyWidget() {

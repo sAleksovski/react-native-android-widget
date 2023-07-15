@@ -5,7 +5,7 @@ import { linkingOptions } from './linking.config';
 import { BorderScreen } from './screens/BorderScreen';
 import { CounterScreen } from './screens/CounterScreen';
 import { FlexScreen } from './screens/FlexScreen';
-import { ExampleScreens, ListScreen } from './screens/ListScreen';
+import { ListScreen, type ExampleScreens } from './screens/ListScreen';
 import { SvgScreen } from './screens/SvgScreen';
 import { TextScreen } from './screens/TextScreen';
 import { ClickDemoWidgetPreviewScreen } from './screens/widget-preview/ClickDemoWidgetPreviewScreen';

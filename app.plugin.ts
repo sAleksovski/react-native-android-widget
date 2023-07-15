@@ -1,10 +1,10 @@
 import type { ExpoConfig } from 'expo/config';
 import {
   AndroidConfig,
-  ExportedConfigWithProps,
   withAndroidManifest,
   withDangerousMod,
   withStringsXml,
+  type ExportedConfigWithProps,
 } from 'expo/config-plugins';
 import * as fs from 'fs';
 import * as path from 'path';
