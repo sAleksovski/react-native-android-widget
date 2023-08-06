@@ -66,6 +66,10 @@ const sidebars = {
       type: 'doc',
       id: 'demo',
     },
+    {
+      type: 'doc',
+      id: 'limitations',
+    },
   ],
 
   api: [

@@ -59,3 +59,16 @@ div[class^='announcementBar_'] {
   width: 156px !important; /* 121px */
   background-size: contain;
 }
+
+.image-caption {
+  text-align: center;
+}
+
+.image-caption p {
+  margin-bottom: 0;
+}
+
+.image-caption > figcaption {
+  font-style: italic;
+  color: #828282;
+}
