@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 import type { WidgetTaskHandlerProps } from 'react-native-android-widget';
 import { ClickDemoWidget } from './widgets/ClickDemoWidget';
+import { ConfigurableWidget } from './widgets/ConfigurableWidget';
 import { CounterWidget } from './widgets/CounterWidget';
 import {
   DEBUG_EVENTS_STORAGE_KEY,
@@ -22,9 +23,11 @@ const nameToWidget = {
   ClickDemo: ClickDemoWidget,
   List: ListDemoWidget,
   DebugEvents: DebugEventsWidget,
+  Configurable: ConfigurableWidget,
 };
 
 const COUNTER_STORAGE_KEY = 'CounterWidget:count';
+const CONFIGURABLE_WIDGET_STORAGE_KEY = 'ConfigurableWidget:config';
 
 export async function widgetTaskHandler(props: WidgetTaskHandlerProps) {
   console.log(props);
@@ -43,6 +46,49 @@ export async function widgetTaskHandler(props: WidgetTaskHandlerProps) {
       events = [];
     }
     props.renderWidget(<DebugEventsWidget events={events} />);
+    return;
+  }
+
+  if (widgetInfo.widgetName === 'Configurable') {
+    const configStr = await AsyncStorage.getItem(
+      CONFIGURABLE_WIDGET_STORAGE_KEY
+    );
+
+    const config = JSON.parse(configStr ?? '{}');
+
+    const widgetConfig = config[widgetInfo.widgetId] ?? {
+      value: 1,
+      increment: 1,
+    };
+
+    switch (props.widgetAction) {
+      case 'WIDGET_RESIZED':
+      case 'WIDGET_ADDED':
+      case 'WIDGET_UPDATE':
+        props.renderWidget(<ConfigurableWidget value={widgetConfig.value} />);
+        break;
+
+      case 'WIDGET_DELETED':
+        delete config[widgetInfo.widgetId];
+        AsyncStorage.setItem(
+          CONFIGURABLE_WIDGET_STORAGE_KEY,
+          JSON.stringify(config)
+        );
+        break;
+
+      case 'WIDGET_CLICK':
+        widgetConfig.value =
+          widgetConfig.value +
+          widgetConfig.incrementBy *
+            (props.clickAction === 'INCREMENT' ? 1 : -1);
+        props.renderWidget(<ConfigurableWidget value={widgetConfig.value} />);
+        config[widgetInfo.widgetId] = widgetConfig;
+        AsyncStorage.setItem(
+          CONFIGURABLE_WIDGET_STORAGE_KEY,
+          JSON.stringify(config)
+        );
+        break;
+    }
     return;
   }
 

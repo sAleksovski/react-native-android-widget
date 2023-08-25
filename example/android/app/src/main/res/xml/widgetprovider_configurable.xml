@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="300dp"
+    android:minHeight="100dp"
+
+    android:updatePeriodMillis="0"
+
+    android:initialLayout="@layout/rn_widget"
+
+    android:previewImage="@drawable/counter_preview"
+
+    android:resizeMode="none"
+
+    android:configure="com.androidwidgetexample.WidgetConfigurationActivity"
+    android:widgetFeatures="reconfigurable"
+
+    android:widgetCategory="home_screen">
+</appwidget-provider>

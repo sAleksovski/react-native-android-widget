@@ -66,6 +66,14 @@ const widgetConfig: WithAndroidWidgetsParams = {
       minWidth: '300dp',
       previewImage: './assets/widget-preview/debugevents.png',
     },
+    {
+      name: 'Configurable',
+      label: 'Configurable Widget',
+      minHeight: '100dp',
+      minWidth: '300dp',
+      previewImage: './assets/widget-preview/counter.png',
+      widgetFeatures: 'reconfigurable',
+    },
   ],
 };
 

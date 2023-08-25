@@ -1,5 +1,9 @@
 package com.reactnativeandroidwidget;
 
+import android.app.Activity;
+import android.appwidget.AppWidgetManager;
+import android.content.Intent;
+
 import androidx.annotation.NonNull;
 
 import com.facebook.react.bridge.Promise;
@@ -55,5 +59,14 @@ public class AndroidWidgetModule extends com.reactnativeandroidwidget.AndroidWid
     public void getWidgetInfo(String widgetName, Promise promise) {
         WritableArray widgetInfo = RNWidgetUtil.getWidgetInfo(getReactApplicationContext(), widgetName);
         promise.resolve(widgetInfo);
+    }
+
+    @ReactMethod
+    public void finishWidgetConfiguration(double appWidgetId, String result) {
+        Activity activity = getReactApplicationContext().getCurrentActivity();
+        Intent intent = new Intent();
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, (int) appWidgetId);
+        activity.setResult("ok".equals(result) ? Activity.RESULT_OK : Activity.RESULT_CANCELED, intent);
+        activity.finish();
     }
 }

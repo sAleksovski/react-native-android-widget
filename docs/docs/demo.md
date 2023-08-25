@@ -35,6 +35,10 @@ You can download the demo app with the example widgets from the [Releases Page](
 
 ![Counter Widget Preview](../../example-expo/assets/widget-preview/counter.png)
 
+## Configurable Widget Preview
+
+![Configurable Widget Preview](../../example-expo/assets/widget-preview/counter.png)
+
 ## Debug Events Widget Preview
 
 ![Debug Events Widget Preview](../../example-expo/assets/widget-preview/debugevents.png)

@@ -19,6 +19,7 @@ const noopModule: Spec = {
       collectionAreas: [],
     }),
   getWidgetInfo: () => Promise.resolve([]),
+  finishWidgetConfiguration: () => null,
 };
 
 const AndroidWidgetModule =

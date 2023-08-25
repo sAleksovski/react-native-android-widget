@@ -33,6 +33,16 @@ export interface Widget {
   previewImage?: ResourcePath;
   resizeMode?: 'none' | 'horizontal' | 'vertical' | 'horizontal|vertical';
   /**
+   * Whether the widget can be configured.
+   * 'configurable' means that the widget is configurable, and a
+   * configuration activity will be open when the widget is added on home screen.
+   * 'reconfigurable|configuration_optional' will make the widget configurable,
+   * but will not open the configuration activity when added on home screen,
+   * and the configuration can be changed by holding the widget and selecting configure.
+   * The widget will not be configurable if `widgetFeatures` is not provided
+   */
+  widgetFeatures?: 'reconfigurable' | 'reconfigurable|configuration_optional';
+  /**
    * How often the widget should be updated, in milliseconds.
    *
    * Default is 0 (no automatic updates)
@@ -75,6 +85,8 @@ export default function withAndroidWidgets(
         androidManifestConfig.modRequest.platformProjectRoot;
       projectPaths.projectRoot = androidManifestConfig.modRequest.projectRoot;
 
+      withConfigurableActivity(mainApplication, params);
+
       params.widgets.forEach((widget) => {
         withWidgetReceiver(androidManifestConfig, mainApplication, widget);
       });
@@ -86,6 +98,7 @@ export default function withAndroidWidgets(
   config = withWidgetDescriptions(config, params.widgets);
   config = withFonts(config, projectPaths, params.fonts ?? []);
   config = withWidgets(config, projectPaths, params.widgets);
+  config = withConfigurableActivityClass(config, projectPaths, params.widgets);
 
   return config;
 }
@@ -109,6 +122,86 @@ function withCollectionService(
       'android:permission': 'android.permission.BIND_REMOTEVIEWS',
     },
   });
+}
+
+function withConfigurableActivity(
+  mainApplication: AndroidConfig.Manifest.ManifestApplication,
+  params: WithAndroidWidgetsParams
+) {
+  const hasConfigurableWidget = params.widgets.some(
+    (widget) => !!widget.widgetFeatures
+  );
+
+  if (hasConfigurableWidget) {
+    mainApplication.activity = mainApplication.activity ?? [];
+
+    const alreadyAdded = mainApplication.activity.some(
+      (activity) =>
+        activity.$['android:name'] === '.WidgetConfigurationActivity'
+    );
+
+    if (alreadyAdded) return;
+
+    mainApplication.activity?.push({
+      '$': {
+        'android:name': '.WidgetConfigurationActivity',
+        'android:exported': 'true',
+      },
+      'intent-filter': [
+        {
+          action: [
+            {
+              $: {
+                'android:name': 'android.appwidget.action.APPWIDGET_CONFIGURE',
+              },
+            },
+          ],
+        },
+      ],
+    });
+  }
+}
+
+function withConfigurableActivityClass(
+  config: ExpoConfig,
+  projectPaths: ProjectPaths,
+  widgets: Widget[]
+) {
+  const hasConfigurableWidget = widgets.some(
+    (widget) => !!widget.widgetFeatures
+  );
+
+  if (hasConfigurableWidget) {
+    withDangerousMod(config, [
+      'android',
+      (dangerousConfig) => {
+        const appPackage = path.join(
+          projectPaths.platformProjectRoot,
+          'android/app/src/main/java/' +
+            config.android?.package?.split('.').join('/')
+        );
+
+        const javaFilePath = path.join(
+          appPackage,
+          `/WidgetConfigurationActivity.java`
+        );
+
+        const data = `package ${config.android?.package};
+
+import com.reactnativeandroidwidget.RNWidgetConfigurationActivity;
+
+public class WidgetConfigurationActivity extends RNWidgetConfigurationActivity {
+}
+`;
+
+        fs.writeFileSync(javaFilePath, data);
+
+        return dangerousConfig;
+      },
+    ]);
+  }
+
+  return config;
 }
 
 function withWidgetReceiver(
@@ -229,7 +322,7 @@ function withWidget(
     'android',
     (dangerousConfig) => {
       withWidgetProviderClass(dangerousConfig, projectPaths, widget);
-      withWidgetProviderXml(projectPaths, widget);
+      withWidgetProviderXml(dangerousConfig, projectPaths, widget);
       withWidgetPreview(projectPaths, widget);
       return dangerousConfig;
     },
@@ -263,7 +356,11 @@ public class ${widget.name} extends RNWidgetProvider {
   fs.writeFileSync(javaFilePath, data);
 }
 
-function withWidgetProviderXml(projectPaths: ProjectPaths, widget: Widget) {
+function withWidgetProviderXml(
+  config: ExpoConfig,
+  projectPaths: ProjectPaths,
+  widget: Widget
+) {
   const xmlFolderPath = path.join(
     projectPaths.platformProjectRoot,
     'android/app/src/main/res/xml'
@@ -301,6 +398,13 @@ ${
 ${
   widget.previewImage
     ? `    android:previewImage="@drawable/${widget.name.toLowerCase()}_preview"`
+    : ''
+}
+
+${
+  widget.widgetFeatures
+    ? `    android:configure="${config.android?.package}.WidgetConfigurationActivity"
+    android:widgetFeatures="${widget.widgetFeatures}"`
     : ''
 }
 

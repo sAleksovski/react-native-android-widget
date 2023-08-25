@@ -20,6 +20,16 @@ export interface Widget {
   previewImage?: ResourcePath;
   resizeMode?: 'none' | 'horizontal' | 'vertical' | 'horizontal|vertical';
   /**
+   * Whether the widget can be configured.
+   * 'configurable' means that the widget is configurable, and a
+   * configuration activity will be open when the widget is added on home screen.
+   * 'reconfigurable|configuration_optional' will make the widget configurable,
+   * but will not open the configuration activity when added on home screen,
+   * and the configuration can be changed by holding the widget and selecting configure.
+   * The widget will not be configurable if `widgetFeatures` is not provided
+   */
+  widgetFeatures?: 'reconfigurable' | 'reconfigurable|configuration_optional';
+  /**
    * How often the widget should be updated, in milliseconds.
    *
    * Default is 0 (no automatic updates)

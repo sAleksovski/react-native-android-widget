@@ -12,6 +12,7 @@ export interface Spec extends TurboModule {
     height: number
   ): Promise<WidgetPreviewData>;
   getWidgetInfo(widgetName: string): Promise<WidgetInfo[]>;
+  finishWidgetConfiguration(widgetId: number, result: 'ok' | 'cancel'): void;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>('AndroidWidget');

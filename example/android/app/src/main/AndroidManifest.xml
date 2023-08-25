@@ -30,6 +30,13 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".WidgetConfigurationActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
+
         <service
             android:name="com.reactnativeandroidwidget.RNWidgetCollectionService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
@@ -136,6 +143,19 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widgetprovider_debugevents" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.Configurable"
+            android:exported="false"
+            android:label="Configurable">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.androidwidgetexample.WIDGET_CLICK" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widgetprovider_configurable" />
         </receiver>
     </application>
 </manifest>

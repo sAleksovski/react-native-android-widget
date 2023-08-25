@@ -1,8 +1,11 @@
 import { registerRootComponent } from 'expo';
-import { registerWidgetTaskHandler } from 'react-native-android-widget';
+import {
+  registerWidgetConfigurationScreen,
+  registerWidgetTaskHandler,
+} from 'react-native-android-widget';
 
 // @ts-ignore
-import { widgetTaskHandler } from '@example';
+import { widgetTaskHandler, WidgetConfigurationScreen } from '@example';
 import { App } from './App';
 
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);
@@ -10,3 +13,4 @@ import { App } from './App';
 // the environment is set up appropriately
 registerRootComponent(App);
 registerWidgetTaskHandler(widgetTaskHandler);
+registerWidgetConfigurationScreen(WidgetConfigurationScreen);

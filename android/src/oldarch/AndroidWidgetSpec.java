@@ -19,4 +19,6 @@ abstract class AndroidWidgetSpec extends ReactContextBaseJavaModule {
     public abstract void createPreview(ReadableMap config, double width, double height, Promise promise);
 
     public abstract void getWidgetInfo(String widgetName, Promise promise);
+
+    public abstract void finishWidgetConfiguration(double widgetId, String result);
 }
