@@ -42,17 +42,18 @@ public class RNWidgetConfigurationActivity extends ReactActivity {
      */
     @Override
     protected ReactActivityDelegate createReactActivityDelegate() {
-        return new ReactActivityDelegate(this, getMainComponentName()) {
+        return new DefaultReactActivityDelegate(
+            this,
+            getMainComponentName(),
+            DefaultNewArchitectureEntryPoint.getFabricEnabled(),
+            // TODO: Remove when React Native 73 is released
+            DefaultNewArchitectureEntryPoint.getConcurrentReactEnabled()) {
+
             @Override
             protected Bundle getLaunchOptions() {
                 Bundle initialProps = new Bundle();
                 initialProps.putBundle("widgetInfo", getWidgetInfo());
                 return initialProps;
-            }
-
-            @Override
-            protected boolean isFabricEnabled() {
-                return DefaultNewArchitectureEntryPoint.getFabricEnabled();
             }
         };
     }
