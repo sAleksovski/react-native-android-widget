@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix compatibility with React Native < 71
+
 ## [0.8.1] - 2023-09-16
 
 ### Fixed
