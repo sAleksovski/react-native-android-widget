@@ -36,6 +36,4 @@ More details about `updatePeriodMillis` on the [official documentation](https://
 
 ## requestWidgetUpdate
 
-You can call [`requestWidgetUpdate`](./api/request-widget-update.md) any time when your app is open, as a reuslt of some user action, and request a widget update.
-
-Scheduling a widget update using `android:updatePeriodMillis` is out of scope for this library.
+You can call [`requestWidgetUpdate`](./api/request-widget-update.md) any time when your app is open as a result of some user action, and request a widget update.

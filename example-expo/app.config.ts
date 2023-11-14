@@ -65,6 +65,7 @@ const widgetConfig: WithAndroidWidgetsParams = {
       minHeight: '100dp',
       minWidth: '300dp',
       previewImage: './assets/widget-preview/debugevents.png',
+      updatePeriodMillis: 30 * 60 * 1000,
     },
     {
       name: 'Configurable',
