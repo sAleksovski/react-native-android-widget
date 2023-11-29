@@ -13,6 +13,7 @@ import { convertColor, convertCommonStyle } from './utils/style.utils';
 interface TextWidgetInternalProps extends CommonInternalProps {
   text: string;
   fontSize: number;
+  allowFontScaling: boolean;
   fontFamily?: string;
   fontStyle?: 'normal' | 'italic';
   fontWeight?:
@@ -84,10 +85,17 @@ export interface TextWidgetProps extends ClickActionProps {
    * How to truncate the text if it cannot fit
    */
   truncate?: 'START' | 'MIDDLE' | 'END';
+
   /**
    * Maximum number of lines to if text overflows in next line
    */
   maxLines?: number;
+
+  /**
+   * Specifies whether fonts should scale to respect Text Size accessibility settings.
+   * @default true
+   */
+  allowFontScaling?: boolean;
 }
 
 export function TextWidget(_: TextWidgetProps) {
@@ -99,6 +107,7 @@ TextWidget.convertProps = (props: TextWidgetProps): TextWidgetInternalProps => {
     ...convertClickAction(props),
     text: props.text,
     fontSize: props.style?.fontSize ?? 12,
+    allowFontScaling: props.allowFontScaling ?? true,
     ...(props.style?.fontFamily ? { fontFamily: props.style.fontFamily } : {}),
     ...(props.style?.fontStyle ? { fontStyle: props.style.fontStyle } : {}),
     ...(props.style?.fontWeight ? { fontWeight: props.style.fontWeight } : {}),

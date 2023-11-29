@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added `allowFontScaling` prop to `TextWidget` to specify whether fonts should scale to respect Text Size accessibility settings
+
 ## [0.8.2] - 2023-10-10
 
 ### Fixed

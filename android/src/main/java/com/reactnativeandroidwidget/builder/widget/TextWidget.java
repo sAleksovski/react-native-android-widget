@@ -1,5 +1,6 @@
 package com.reactnativeandroidwidget.builder.widget;
 
+import static android.util.TypedValue.COMPLEX_UNIT_DIP;
 import static android.util.TypedValue.COMPLEX_UNIT_SP;
 
 import android.graphics.Color;
@@ -28,14 +29,14 @@ public class TextWidget extends BaseWidget<TextView> {
     @Override
     public void applyProps() {
         view.setText(getString("text", ""));
-        view.setTextSize(COMPLEX_UNIT_SP, getFontSize());
+        view.setTextSize(getFontSizeUnit(), getFontSize());
         view.setTextColor(Color.parseColor(getString("color", "#000000")));
 
         if (props.hasKey("adjustsFontSizeToFit") && props.getBoolean("adjustsFontSizeToFit")) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                view.setAutoSizeTextTypeUniformWithConfiguration(1, Math.round(getFontSize()), 1, COMPLEX_UNIT_SP);
+                view.setAutoSizeTextTypeUniformWithConfiguration(1, Math.round(getFontSize()), 1, getFontSizeUnit());
             } else {
-                TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(view, 1, Math.round(getFontSize()), 1, COMPLEX_UNIT_SP);
+                TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(view, 1, Math.round(getFontSize()), 1, getFontSizeUnit());
             }
         }
 
@@ -120,5 +121,12 @@ public class TextWidget extends BaseWidget<TextView> {
             fontSize = (float) props.getDouble("fontSize");
         }
         return fontSize;
+    }
+
+    private int getFontSizeUnit() {
+        if (props.hasKey("allowFontScaling") && Boolean.FALSE.equals(props.getBoolean("allowFontScaling"))) {
+            return COMPLEX_UNIT_DIP;
+        }
+        return COMPLEX_UNIT_SP;
     }
 }
