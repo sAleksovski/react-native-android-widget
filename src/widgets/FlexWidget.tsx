@@ -22,6 +22,7 @@ interface FlexWidgetInternalProps extends CommonInternalProps {
     size: number;
     color: string;
   };
+  overflow?: 'hidden';
 }
 
 interface FlexStyleProps {
@@ -37,6 +38,7 @@ interface FlexStyleProps {
     | 'space-evenly';
   flexGap?: number;
   flexGapColor?: ColorProp;
+  overflow?: 'hidden';
 }
 
 export interface FlexWidgetStyle extends FlexStyleProps, CommonStyleProps {}
@@ -63,6 +65,7 @@ FlexWidget.convertProps = (props: FlexWidgetProps): FlexWidgetInternalProps => {
           },
         }
       : {}),
+    ...(props?.style?.overflow ? { overflow: props.style.overflow } : {}),
   };
 };
 FlexWidget.processChildren = (

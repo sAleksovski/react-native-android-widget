@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added `overflow` prop to `FlexWidget` and `OverlapWidget` that can be used to clip the view if it has border radius
+
 ## [0.9.0] - 2023-11-29
 
 ### Added
