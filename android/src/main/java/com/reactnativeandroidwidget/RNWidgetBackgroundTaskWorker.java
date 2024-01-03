@@ -31,7 +31,7 @@ public class RNWidgetBackgroundTaskWorker extends HeadlessJsTaskWorker {
         return new HeadlessJsTaskConfig(
             "RNWidgetBackgroundTask",
             Arguments.makeNativeMap(arguments),
-            5000,
+            30 * 1000,
             true
         );
     }

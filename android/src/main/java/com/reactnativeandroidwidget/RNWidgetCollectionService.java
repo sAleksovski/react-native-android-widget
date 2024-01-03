@@ -1,6 +1,8 @@
 package com.reactnativeandroidwidget;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -17,6 +19,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,6 +96,7 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     private final Context mContext;
     private final int mAppWidgetId;
+    private final String widgetName;
 
     public ListRemoteViewsFactory(Context context, Intent intent) {
         mContext = context;
@@ -100,6 +104,7 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         mCount = intent.getIntExtra("collectionSize", 0);
         mCollectionId = intent.getIntExtra("collectionId", 0);
         mCollectionItems = intent.getParcelableArrayListExtra("collectionItems");
+        widgetName = intent.getStringExtra("widgetName");
     }
 
     public void onCreate() {
@@ -115,7 +120,8 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     public RemoteViews getViewAt(int position) {
         RemoteViews listItemView = new RemoteViews(mContext.getPackageName(), R.layout.rn_widget_list_item);
-        listItemView.setImageViewBitmap(R.id.rn_widget_list_item, getBitmapAt(position));
+        Bitmap bitmapAt = getBitmapAt(position);
+        listItemView.setImageViewBitmap(R.id.rn_widget_list_item, bitmapAt);
 
         Bundle bundle = mCollectionItems.get(position);
 
@@ -133,8 +139,47 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             listItemView.setOnClickFillInIntent(R.id.rn_widget_list_item, fillInIntent);
         }
 
+        ArrayList<Bundle> clickableAreas = bundle.getParcelableArrayList("clickableAreas");
+
+        for (Bundle clickableArea : clickableAreas) {
+            addClickableArea(listItemView, clickableArea, bitmapAt.getWidth());
+        }
 
         return listItemView;
+    }
+
+    private void addClickableArea(RemoteViews widgetView, Bundle clickableArea, int imageWidth) {
+        RemoteViews clickableRemoteView = new RemoteViews(mContext.getPackageName(), R.layout.rn_widget_clickable);
+
+        clickableRemoteView.setViewPadding(
+            R.id.rn_widget_clickable_positioner,
+            clickableArea.getInt("left"),
+            clickableArea.getInt("top"),
+            imageWidth - clickableArea.getInt("right"),
+            0
+        );
+
+        clickableRemoteView.setInt(R.id.rn_widget_clickable_area, "setMinimumHeight", clickableArea.getInt("height"));
+
+        PendingIntent pendingIntent = createPendingIntent(clickableArea);
+        clickableRemoteView.setOnClickPendingIntent(R.id.rn_widget_clickable_area, pendingIntent);
+
+        widgetView.addView(R.id.rn_widget_list_item_clickable_container, clickableRemoteView);
+    }
+
+    private PendingIntent createPendingIntent(Bundle clickableArea) {
+        Intent intent = new Intent(mContext.getPackageName() + ".WIDGET_CLICK");
+        intent.setComponent(new ComponentName(mContext, RNWidgetUtil.getWidgetProviderClassName(mContext, widgetName)));
+        intent.putExtra("widgetId", mAppWidgetId);
+        intent.putExtra("clickAction", clickableArea.getString("clickAction"));
+        intent.putExtra("clickActionData", clickableArea.getBundle("clickActionData"));
+        return PendingIntent.getBroadcast(
+            mContext,
+            (int) System.currentTimeMillis(),
+            intent,
+            PendingIntent.FLAG_CANCEL_CURRENT
+                | PendingIntent.FLAG_MUTABLE
+        );
     }
 
     public RemoteViews getLoadingView() {

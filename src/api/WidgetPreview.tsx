@@ -316,6 +316,7 @@ function CollectionAreaList({
               width: item.width,
               borderColor: 'red',
               borderWidth: highlightClickableAreas ? 1 : 0,
+              position: 'relative',
             }}
           >
             {highlightClickableAreas ? <ClickableAreaBorder /> : null}
@@ -328,6 +329,14 @@ function CollectionAreaList({
                 width: item.width,
               }}
             />
+            {item.clickableAreas.map((cA, index) => (
+              <ClickableAreaButton
+                key={index}
+                area={cA}
+                onClick={onClick}
+                highlightClickableAreas={highlightClickableAreas}
+              />
+            ))}
           </View>
         </TouchableNativeFeedback>
       )}

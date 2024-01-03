@@ -10,9 +10,11 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.WritableMap;
 import com.reactnativeandroidwidget.RNWidgetUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class CollectionView {
@@ -42,24 +44,35 @@ public class CollectionView {
         for (int i = 0; i < children.size(); i++) {
             ReadableMap childConfig = children.getMap(i);
             ReadableMap configClone = Arguments.makeNativeMap(childConfig.toHashMap());
-            FrameLayout rootView = (FrameLayout) WidgetFactory.buildWidgetFromRoot(
+
+            WritableMap rootConfig = Arguments.makeNativeMap(childConfig.toHashMap());
+            HashMap<String, Object> propsMap = rootConfig.getMap("props").toHashMap();
+            propsMap.remove("clickAction");
+            propsMap.remove("clickActionData");
+            rootConfig.putMap("props", Arguments.makeNativeMap(propsMap));
+
+            WidgetWithViews widgetWithViews = WidgetFactory.buildWidgetFromRoot(
                 appContext,
-                childConfig,
+                rootConfig,
                 (int) RNWidgetUtil.pxToDp(appContext, widthInPx),
                 (int) RNWidgetUtil.pxToDp(appContext, heightInPx)
-            ).getRootView();
+            );
+            FrameLayout rootView = (FrameLayout) widgetWithViews.getRootView();
+            List<ClickableView> clickableViews = widgetWithViews.getClickableViews();
             Bitmap bitmap = getBitmap(rootView.getChildAt(0));
 
             if (configClone.getMap("props").hasKey("clickAction")) {
                 renderedViews.add(
                     new CollectionViewItem(
+                        rootView,
                         bitmap,
+                        clickableViews,
                         configClone.getMap("props").getString("clickAction"),
                         configClone.getMap("props").getMap("clickActionData")
                     )
                 );
             } else {
-                renderedViews.add(new CollectionViewItem(bitmap));
+                renderedViews.add(new CollectionViewItem(rootView, bitmap, clickableViews));
             }
         }
     }

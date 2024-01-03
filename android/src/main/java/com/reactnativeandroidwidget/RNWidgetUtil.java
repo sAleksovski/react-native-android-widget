@@ -87,7 +87,7 @@ public class RNWidgetUtil {
         return AppWidgetManager.getInstance(context).getAppWidgetIds(name);
     }
 
-    public static String getWidgetProviderClassName(ReactApplicationContext context, String widgetName) {
+    public static String getWidgetProviderClassName(Context context, String widgetName) {
         List<AppWidgetProviderInfo> installedProviders = AppWidgetManager.getInstance(context).getInstalledProviders();
 
         for (AppWidgetProviderInfo providerInfo : installedProviders) {

@@ -14,6 +14,7 @@ export interface CollectionItem extends OnClick {
   base64Image: string;
   height: number;
   width: number;
+  clickableAreas: ClickableArea[];
 }
 
 export interface CollectionArea {

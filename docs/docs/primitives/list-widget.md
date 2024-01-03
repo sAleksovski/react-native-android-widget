@@ -6,9 +6,6 @@ sidebar_position: 3
 
 Widget container that shows a scrollable list that can contain multiple items.
 
-Only the first-level children of the `ListWidget` can be ["clicked"](../handling-clicks.md).
-We can still set `clickAction` on the sub-widgets, but they will not respond to clicks.
-
 :::danger List item height
 
 Each list item must have a height of equal or less than the height of the `ListWidget`.

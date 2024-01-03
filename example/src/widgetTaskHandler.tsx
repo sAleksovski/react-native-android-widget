@@ -149,6 +149,12 @@ export async function widgetTaskHandler(props: WidgetTaskHandlerProps) {
           />
         );
       }
+
+      if (widgetInfo.widgetName === 'List' && props.clickAction === 'ARCHIVE') {
+        props.renderWidget(
+          <Widget archivedIndex={props.clickActionData?.listItemId} />
+        );
+      }
       break;
 
     default:

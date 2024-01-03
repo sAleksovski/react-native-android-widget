@@ -185,7 +185,7 @@ public class RNWidget {
         }
 
         PendingIntent collectionPendingIntentTemplate = createCollectionPendingIntentTemplate(widgetId);
-        Intent remoteAdapterIntent = createCollectionRemoteAdapterIntent(widgetId, collectionId, collectionView.getRenderedViews());
+        Intent remoteAdapterIntent = createCollectionRemoteAdapterIntent(widgetId, collectionId, collectionView);
 
         collectionRemoteView.setPendingIntentTemplate(lists[collectionId], collectionPendingIntentTemplate);
 
@@ -193,9 +193,11 @@ public class RNWidget {
         remoteWidgetView.setRemoteAdapter(lists[collectionId], remoteAdapterIntent);
     }
 
-    private Intent createCollectionRemoteAdapterIntent(int widgetId, int collectionId, List<CollectionViewItem> collectionItems) {
+    private Intent createCollectionRemoteAdapterIntent(int widgetId, int collectionId, CollectionView collectionView) {
+        List<CollectionViewItem> collectionItems = collectionView.getRenderedViews();
         Intent intent = new Intent(appContext, RNWidgetCollectionService.class);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
+        intent.putExtra("widgetName", widgetName);
         intent.putExtra("collectionId", collectionId);
         intent.putExtra("collectionSize", collectionItems.size());
         // Needed for creating a new ListRemoteViewsFactory when re-rendering widget
@@ -208,6 +210,27 @@ public class RNWidget {
             bundle.putString("clickAction", collectionViewItem.getClickAction());
             bundle.putBundle("clickActionData", Arguments.toBundle(collectionViewItem.getClickActionData()));
             collectionItemsBundle.add(bundle);
+
+            ArrayList<Bundle> clickableAreas = new ArrayList<>();
+            for (ClickableView clickableView : collectionViewItem.getClickableViews()) {
+                Rect offsetViewBounds = new Rect();
+                clickableView.getView().getDrawingRect(offsetViewBounds);
+                collectionViewItem.getView().offsetDescendantRectToMyCoords(clickableView.getView(), offsetViewBounds);
+
+                Bundle collectionViewMap = new Bundle();
+                collectionViewMap.putInt("left", offsetViewBounds.left);
+                collectionViewMap.putInt("top", offsetViewBounds.top);
+                collectionViewMap.putInt("right", offsetViewBounds.right);
+                collectionViewMap.putInt("bottom", offsetViewBounds.bottom);
+                collectionViewMap.putInt("height", offsetViewBounds.height());
+                collectionViewMap.putInt("width", offsetViewBounds.width());
+                collectionViewMap.putString("clickAction", clickableView.getClickAction());
+                collectionViewMap.putBundle("clickActionData", Arguments.toBundle(clickableView.getClickActionData()));
+
+                clickableAreas.add(collectionViewMap);
+            }
+
+            bundle.putParcelableArrayList("clickableAreas", clickableAreas);
         }
         intent.putParcelableArrayListExtra("collectionItems", collectionItemsBundle);
 
@@ -311,6 +334,29 @@ public class RNWidget {
         collectionItemMap.putDouble("width", RNWidgetUtil.pxToDp(appContext, bitmap.getWidth()));
         collectionItemMap.putString("clickAction", collectionItemView.getClickAction());
         collectionItemMap.putMap("clickActionData", Arguments.makeNativeMap(collectionItemView.getClickActionData().toHashMap()));
+        collectionItemMap.putArray("clickableAreas", createCollectionItemClickableAreas(collectionItemView));
         return collectionItemMap;
+    }
+
+    private WritableArray createCollectionItemClickableAreas(CollectionViewItem collectionItemView) {
+        WritableArray clickableAreas = Arguments.createArray();
+
+        for (ClickableView clickableView : collectionItemView.getClickableViews()) {
+            Rect offsetViewBounds = new Rect();
+            clickableView.getView().getDrawingRect(offsetViewBounds);
+            collectionItemView.getView().offsetDescendantRectToMyCoords(clickableView.getView(), offsetViewBounds);
+
+            WritableMap collectionViewMap = Arguments.createMap();
+            collectionViewMap.putDouble("left", RNWidgetUtil.pxToDp(appContext, offsetViewBounds.left));
+            collectionViewMap.putDouble("top", RNWidgetUtil.pxToDp(appContext, offsetViewBounds.top));
+            collectionViewMap.putDouble("width", RNWidgetUtil.pxToDp(appContext, offsetViewBounds.width()));
+            collectionViewMap.putDouble("height", RNWidgetUtil.pxToDp(appContext, offsetViewBounds.height()));
+            collectionViewMap.putString("clickAction", clickableView.getClickAction());
+            collectionViewMap.putMap("clickActionData", Arguments.makeNativeMap(clickableView.getClickActionData().toHashMap()));
+
+            clickableAreas.pushMap(collectionViewMap);
+        }
+
+        return clickableAreas;
     }
 }

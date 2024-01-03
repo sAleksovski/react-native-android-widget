@@ -15,13 +15,22 @@ import type { ExampleScreens } from '../ListScreen';
 export function ListDemoWidgetPreviewScreen({
   navigation,
 }: NativeStackScreenProps<ExampleScreens, 'ListDemoWidgetPreviewScreen'>) {
+  const [archivedIndex, setArhivedIndex] = React.useState(1);
+
   return (
     <View style={styles.container}>
       <View style={styles.previewContainer}>
         <WidgetPreview
-          renderWidget={() => <ListDemoWidget />}
+          renderWidget={() => <ListDemoWidget archivedIndex={archivedIndex} />}
           height={209}
           width={320}
+          onClick={(props) => {
+            if (props.clickAction === 'ARCHIVE') {
+              setArhivedIndex(
+                (props.clickActionData?.listItemId as number) ?? -1
+              );
+            }
+          }}
         />
       </View>
 

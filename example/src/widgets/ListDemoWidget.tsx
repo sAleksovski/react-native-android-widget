@@ -7,7 +7,7 @@ import {
   TextWidget,
 } from 'react-native-android-widget';
 
-function CollectionData() {
+function CollectionData({ archivedIndex }: ListDemoWidgetProps) {
   return (
     <ListWidget
       style={{
@@ -74,10 +74,12 @@ function CollectionData() {
               />
             </FlexWidget>
             <IconWidget
-              icon="archive"
+              icon={archivedIndex === i ? 'unarchive' : 'archive'}
               size={24}
-              font="material_outlined"
+              font={archivedIndex === i ? 'material' : 'material_outlined'}
               style={{ color: '#fff' }}
+              clickAction="ARCHIVE"
+              clickActionData={{ listItemId: i }}
             />
           </FlexWidget>
         </FlexWidget>
@@ -103,7 +105,11 @@ function CollectionData() {
   );
 }
 
-export function ListDemoWidget() {
+interface ListDemoWidgetProps {
+  archivedIndex?: number;
+}
+
+export function ListDemoWidget({ archivedIndex = 1 }: ListDemoWidgetProps) {
   return (
     <FlexWidget
       style={{
@@ -136,6 +142,7 @@ export function ListDemoWidget() {
         <IconWidget
           icon="edit"
           size={20}
+          clickAction="COMPOSE"
           font="material_outlined"
           style={{
             color: '#000',
@@ -146,7 +153,7 @@ export function ListDemoWidget() {
         />
       </FlexWidget>
 
-      <CollectionData />
+      <CollectionData archivedIndex={archivedIndex} />
     </FlexWidget>
   );
 }
