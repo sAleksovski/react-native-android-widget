@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Allow clickable views inside list items on Samsung devices
+
 ## [0.11.0] - 2024-01-03
 
 ### Added

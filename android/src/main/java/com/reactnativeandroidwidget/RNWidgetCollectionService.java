@@ -128,14 +128,7 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         // Set a fill-intent which will be used to fill-in the pending intent template
         // which is set on the collection view in RNWidget.
         if (bundle.getString("clickAction", null) != null) {
-            Bundle extras = new Bundle();
-            extras.putInt("widgetId", mAppWidgetId);
-
-            extras.putString("clickAction", bundle.getString("clickAction"));
-            extras.putBundle("clickActionData", bundle.getBundle("clickActionData"));
-
-            Intent fillInIntent = new Intent();
-            fillInIntent.putExtras(extras);
+            Intent fillInIntent = createFillInIntent(bundle);
             listItemView.setOnClickFillInIntent(R.id.rn_widget_list_item, fillInIntent);
         }
 
@@ -164,7 +157,22 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         PendingIntent pendingIntent = createPendingIntent(clickableArea);
         clickableRemoteView.setOnClickPendingIntent(R.id.rn_widget_clickable_area, pendingIntent);
 
+        Intent fillInIntent = createFillInIntent(clickableArea);
+        clickableRemoteView.setOnClickFillInIntent(R.id.rn_widget_clickable_area, fillInIntent);
+
         widgetView.addView(R.id.rn_widget_list_item_clickable_container, clickableRemoteView);
+    }
+
+    private Intent createFillInIntent(Bundle bundle) {
+        Bundle extras = new Bundle();
+        extras.putInt("widgetId", mAppWidgetId);
+
+        extras.putString("clickAction", bundle.getString("clickAction"));
+        extras.putBundle("clickActionData", bundle.getBundle("clickActionData"));
+
+        Intent fillInIntent = new Intent();
+        fillInIntent.putExtras(extras);
+        return fillInIntent;
     }
 
     private PendingIntent createPendingIntent(Bundle clickableArea) {
