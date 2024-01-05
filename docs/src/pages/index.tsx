@@ -3,7 +3,6 @@ import { useColorMode } from '@docusaurus/theme-common';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
 import Layout from '@theme/Layout';
-import clsx from 'clsx';
 import React from 'react';
 
 import styles from './index.module.css';
@@ -14,14 +13,12 @@ function HomepageHeader() {
 
   return (
     <header
-      className={clsx(
-        'hero',
-        colorMode === 'dark' ? 'hero--dark' : 'hero--primary',
-        styles.heroBanner
-      )}
+      className={`hero ${
+        colorMode === 'dark' ? 'hero--dark' : 'hero--primary'
+      } ${styles.heroBanner}`}
     >
       <div className={styles.headerWrapper}>
-        <div className={clsx('container', styles.container)}>
+        <div className={`container ${styles.container}`}>
           <h1 className="hero__title">{siteConfig.title}</h1>
           <p className="hero__subtitle">{siteConfig.tagline}</p>
           <div className={styles.buttons}>

@@ -29,9 +29,9 @@ export type WidgetConfigurationScreen = (
 ) => JSX.Element;
 
 /**
- * Register a task handler that will handle widget actions
+ * Register a screen that will handle widget configuration
  *
- * @param handler {@link WidgetTaskHandler}
+ * @param WidgetConfigurationScreenComponent {@link WidgetConfigurationScreen}
  */
 export function registerWidgetConfigurationScreen(
   WidgetConfigurationScreenComponent: WidgetConfigurationScreen
