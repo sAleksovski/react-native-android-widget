@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix layout when scrolling items with different size in `ListWidget`
+
 ## [0.11.1] - 2024-01-04
 
 ### Fixed

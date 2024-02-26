@@ -120,6 +120,7 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     public RemoteViews getViewAt(int position) {
         RemoteViews listItemView = new RemoteViews(mContext.getPackageName(), R.layout.rn_widget_list_item);
+        listItemView.removeAllViews(R.id.rn_widget_list_item_clickable_container);
         Bitmap bitmapAt = getBitmapAt(position);
         listItemView.setImageViewBitmap(R.id.rn_widget_list_item, bitmapAt);
 
