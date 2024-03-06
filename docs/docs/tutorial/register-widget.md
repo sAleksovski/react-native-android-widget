@@ -8,7 +8,14 @@ In order to register our widget so that it can be selected from the launchers wi
 
 ## Add a widget provider class
 
-Create a new package `widget` in the native android app. Inside it create a class `Hello.java`
+Create a new package `widget` in the native android app.
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+Inside it create a class `Hello.java`
 
 ```java title="android/app/src/main/java/com/yourapppackage/widget/Hello.java"
 package com.yourapppackage.widget;
@@ -18,6 +25,22 @@ import com.reactnativeandroidwidget.RNWidgetProvider;
 public class Hello extends RNWidgetProvider {
 }
 ```
+
+  </TabItem>
+  <TabItem value="Kotlin" label="Kotlin">
+Inside it create a class `Hello.kt`
+
+```kotlin title="android/app/src/main/java/com/yourapppackage/widget/Hello.kt"
+package com.yourapppackage.widget
+
+import com.reactnativeandroidwidget.RNWidgetProvider
+
+class Hello : RNWidgetProvider() {
+}
+```
+
+  </TabItem>
+</Tabs>
 
 The class **name** will be used to reference our widget.
 

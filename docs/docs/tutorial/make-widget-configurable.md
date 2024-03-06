@@ -14,6 +14,12 @@ If the configuration is cancelled when adding the widget, `WIDGET_DELETED` will 
 
 ## Add a widget configuration activity class
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs>
+  <TabItem value="Java" label="Java" default>
+
 ```java title="android/app/src/main/java/com/yourapppackage/WidgetConfigurationActivity.java"
 package com.yourapppackage;
 
@@ -22,6 +28,21 @@ import com.reactnativeandroidwidget.RNWidgetConfigurationActivity;
 public class WidgetConfigurationActivity extends RNWidgetConfigurationActivity {
 }
 ```
+
+  </TabItem>
+  <TabItem value="Kotlin" label="Kotlin">
+
+```kotlin title="android/app/src/main/java/com/yourapppackage/WidgetConfigurationActivity.kt"
+package com.yourapppackage
+
+import com.reactnativeandroidwidget.RNWidgetConfigurationActivity
+
+class WidgetConfigurationActivity : RNWidgetConfigurationActivity() {
+}
+```
+
+  </TabItem>
+</Tabs>
 
 ## Update the widget provider xml file for the widget
 
