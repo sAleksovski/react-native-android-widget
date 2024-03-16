@@ -18,7 +18,8 @@ export interface SvgWidgetProps extends ClickActionProps {
   style?: SvgWidgetStyle;
 
   /**
-   * SVG file loaded with `require('./path/to/svg/file')` or a SVG string
+   * SVG file loaded with `require('./path/to/svg/file')`,
+   * SVG string, or a path to svg starting with "http:" or "https:"
    */
   svg: string | ImageRequireSource;
 }
@@ -36,7 +37,12 @@ SvgWidget.convertProps = (props: SvgWidgetProps): SvgWidgetInternalProps => {
   return {
     ...convertCommonStyle(props.style ?? {}),
     ...convertClickAction(props),
-    ...(typeof props.svg === 'string' ? { svgString: svg } : {}),
+    ...(typeof props.svg === 'string' && !props.svg.startsWith('http')
+      ? { svgString: svg }
+      : {}),
+    ...(typeof props.svg === 'string' && props.svg.startsWith('http')
+      ? { svgUrl: svg }
+      : {}),
     ...(typeof props.svg !== 'string' ? { svgUrl: svg } : {}),
   };
 };

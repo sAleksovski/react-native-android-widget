@@ -5,7 +5,7 @@ sidebar_position: 7
 # SvgWidget
 
 Widget for displaying SVG.
-It supports importing an SVG file, or using an SVG string;
+It supports importing an SVG file, using an SVG string, or a path to network svg file;
 
 ## Usage
 
@@ -30,6 +30,12 @@ export function MyWidget() {
       <SvgWidget
         // highlight-next-line
         svg={svgString}
+        style={{ height: 72, width: 72 }}
+      />
+
+      <SvgWidget
+        // highlight-next-line
+        svg="https://upload.wikimedia.org/wikipedia/commons/4/4f/SVG_Logo.svg"
         style={{ height: 72, width: 72 }}
       />
     </FlexWidget>

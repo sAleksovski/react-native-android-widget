@@ -109,6 +109,27 @@ export function SvgScreen() {
         height={150}
         width={320}
       />
+
+      <Text>Svg from URL</Text>
+      <WidgetPreview
+        renderWidget={() => (
+          <FlexWidget
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: 'match_parent',
+              width: 'match_parent',
+            }}
+          >
+            <SvgWidget
+              svg="https://upload.wikimedia.org/wikipedia/commons/4/4f/SVG_Logo.svg"
+              style={{ height: 72, width: 72 }}
+            />
+          </FlexWidget>
+        )}
+        height={150}
+        width={320}
+      />
     </ScrollView>
   );
 }
