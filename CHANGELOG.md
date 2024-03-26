@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `requestWidgetUpdateById` function to update single widget
+
 ## [0.12.0] - 2024-03-16
 
 ### Added
