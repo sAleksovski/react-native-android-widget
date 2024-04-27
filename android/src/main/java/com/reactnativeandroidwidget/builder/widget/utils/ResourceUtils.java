@@ -40,6 +40,8 @@ public class ResourceUtils {
             String base64String = source.split("base64,")[1];
             byte[] decodedString = Base64.decode(base64String, Base64.DEFAULT);
             return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        } else if (source.startsWith("file://")) {
+            return BitmapFactory.decodeFile(source.replaceFirst("file://", ""));
         } else {
             InputStream input = getInputStreamFromSource(source);
             return BitmapFactory.decodeStream(input);

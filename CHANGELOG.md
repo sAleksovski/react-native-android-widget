@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Handle cached image file import in expo
+
 ## [0.13.0] - 2024-03-26
 
 ### Added
