@@ -15,6 +15,8 @@ export interface Widget {
   description?: string;
   minWidth: `${number}dp`;
   minHeight: `${number}dp`;
+  targetCellWidth?: number;
+  targetCellHeight?: number;
   maxResizeWidth?: `${number}dp`;
   maxResizeHeight?: `${number}dp`;
   previewImage?: ResourcePath;
