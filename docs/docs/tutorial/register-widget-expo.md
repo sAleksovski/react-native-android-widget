@@ -43,6 +43,11 @@ const widgetConfig: WithAndroidWidgetsParams = {
       label: 'My Hello Widget', // Label shown in the widget picker
       minWidth: '320dp',
       minHeight: '120dp',
+      // This means the widget's default size is 5x2 cells, as specified by the targetCellWidth and targetCellHeight attributes.
+      // Or 320×120dp, as specified by minWidth and minHeight for devices running Android 11 or lower.
+      // If defined, targetCellWidth,targetCellHeight attributes are used instead of minWidth or minHeight.
+      targetCellWidth: 5,
+      targetCellHeight: 2,
       description: 'This is my first widget', // Description shown in the widget picker
       previewImage: './assets/widget-preview/hello.png', // Path to widget preview image
 
