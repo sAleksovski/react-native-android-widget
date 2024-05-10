@@ -54,6 +54,9 @@ In the widget provider we created, add `configure` and `widgetFeatures` properti
     android:minWidth="320dp"
     android:minHeight="120dp"
 
+    android:targetCellWidth="5"
+    android:targetCellHeight="2"
+
     android:updatePeriodMillis="0"
 
     android:initialLayout="@layout/rn_widget"
@@ -124,6 +127,8 @@ const widgetConfig: WithAndroidWidgetsParams = {
       label: 'My Hello Widget',
       minWidth: '320dp',
       minHeight: '120dp',
+      targetCellWidth: 5,
+      targetCellHeight: 2,
       description: 'This is my first widget',
       previewImage: './assets/widget-preview/hello.png',
       updatePeriodMillis: 1800000,

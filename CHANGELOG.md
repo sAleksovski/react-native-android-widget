@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `targetCellWidth` and `targetCellHeight` options in config plugin
+
 ## [0.13.1] - 2024-04-27
 
 ### Fixed
