@@ -9,6 +9,12 @@ All widget [primitives](./primitives/index) can be clicked, and execute some cod
 
 To add a click action to `FlexWidget`, we need to pass a `clickAction` prop, and an optional `clickActionData` prop. `clickActionData` can be used to add additional data that we need.
 
+:::warning
+
+`clickAction` only works on Android 7 and up
+
+:::
+
 ```tsx
 import { FlexWidget } from 'react-native-android-widget';
 

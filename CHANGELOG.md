@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix crash on Android 6 when `clickAction` is present in the widget
+- `clickAction` now works only from Android 7 and up
+
 ## [0.13.1] - 2024-04-27
 
 ### Fixed

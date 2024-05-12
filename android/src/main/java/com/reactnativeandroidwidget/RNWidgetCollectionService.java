@@ -8,9 +8,12 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
+
+import androidx.annotation.RequiresApi;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.reactnativeandroidwidget.builder.CollectionViewItem;
@@ -135,13 +138,16 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
         ArrayList<Bundle> clickableAreas = bundle.getParcelableArrayList("clickableAreas");
 
-        for (Bundle clickableArea : clickableAreas) {
-            addClickableArea(listItemView, clickableArea, bitmapAt.getWidth());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            for (Bundle clickableArea : clickableAreas) {
+                addClickableArea(listItemView, clickableArea, bitmapAt.getWidth());
+            }
         }
 
         return listItemView;
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private void addClickableArea(RemoteViews widgetView, Bundle clickableArea, int imageWidth) {
         RemoteViews clickableRemoteView = new RemoteViews(mContext.getPackageName(), R.layout.rn_widget_clickable);
 

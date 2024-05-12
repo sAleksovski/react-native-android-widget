@@ -8,11 +8,14 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RemoteViews;
+
+import androidx.annotation.RequiresApi;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -69,7 +72,9 @@ public class RNWidget {
         Bitmap bitmap = drawViewToBitmap(widgetWithViews.getRootView());
         remoteWidgetView.setImageViewBitmap(R.id.rn_widget_image, bitmap);
 
-        addClickableAreas(widgetId, remoteWidgetView, widgetWithViews);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            addClickableAreas(widgetId, remoteWidgetView, widgetWithViews);
+        }
         addCollectionViews(widgetId, remoteWidgetView, widgetWithViews);
 
         AppWidgetManager.getInstance(appContext)
@@ -101,6 +106,7 @@ public class RNWidget {
         return bitmap;
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private void addClickableAreas(int widgetId, RemoteViews remoteWidgetView, WidgetWithViews widgetWithViews) {
         remoteWidgetView.removeAllViews(R.id.rn_widget_clickable_container);
         ViewGroup rootView = (ViewGroup) widgetWithViews.getRootView();
@@ -111,6 +117,7 @@ public class RNWidget {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private void addClickableArea(RemoteViews widgetView, ViewGroup rootWidget, ClickableView clickableView, int widgetId) {
         View clickableWidget = clickableView.getView();
         Rect offsetViewBounds = new Rect();
