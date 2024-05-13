@@ -384,7 +384,7 @@ ${
 }
 ${
   widget.targetCellHeight
-    ? `    android:targetCellWidth="${widget.targetCellHeight}"`
+    ? `    android:targetCellHeight="${widget.targetCellHeight}"`
     : ''
 }
 ${
