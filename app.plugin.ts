@@ -28,6 +28,8 @@ export interface Widget {
   description?: string;
   minWidth: `${number}dp`;
   minHeight: `${number}dp`;
+  targetCellWidth?: number;
+  targetCellHeight?: number;
   maxResizeWidth?: `${number}dp`;
   maxResizeHeight?: `${number}dp`;
   previewImage?: ResourcePath;
@@ -375,6 +377,16 @@ function withWidgetProviderXml(
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:minWidth="${widget.minWidth}"
     android:minHeight="${widget.minHeight}"
+${
+  widget.targetCellWidth
+    ? `    android:targetCellWidth="${widget.targetCellWidth}"`
+    : ''
+}
+${
+  widget.targetCellHeight
+    ? `    android:targetCellHeight="${widget.targetCellHeight}"`
+    : ''
+}
 ${
   widget.maxResizeWidth
     ? `    android:maxResizeWidth="${widget.maxResizeWidth}"`
