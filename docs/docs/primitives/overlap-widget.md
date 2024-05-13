@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # OverlapWidget
 
-Widget container that lays out child widgets on on top of the other.
+Widget container that lays out child widgets one on top of the other.
 
 The child widgets can be positioned using margins.
 
