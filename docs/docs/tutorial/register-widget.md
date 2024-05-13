@@ -76,6 +76,9 @@ Create a new xml file in the resources directory containing the details about th
     android:minWidth="320dp"
     android:minHeight="120dp"
 
+    android:targetCellWidth="5"
+    android:targetCellHeight="2"
+
     android:updatePeriodMillis="0"
 
     android:initialLayout="@layout/rn_widget"
