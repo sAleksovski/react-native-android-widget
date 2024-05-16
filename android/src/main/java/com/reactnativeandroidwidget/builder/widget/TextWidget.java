@@ -4,6 +4,7 @@ import static android.util.TypedValue.COMPLEX_UNIT_DIP;
 import static android.util.TypedValue.COMPLEX_UNIT_SP;
 
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.text.TextUtils;
@@ -60,6 +61,11 @@ public class TextWidget extends BaseWidget<TextView> {
 
         if (props.hasKey("maxLines")) {
             view.setMaxLines(props.getInt("maxLines"));
+        }
+
+        if (props.hasKey("textDecorationLine")) {
+            String textDecorationLine = props.getString("textDecorationLine");
+            setDecorationLine(textDecorationLine);
         }
 
         setFont();
@@ -128,5 +134,23 @@ public class TextWidget extends BaseWidget<TextView> {
             return COMPLEX_UNIT_DIP;
         }
         return COMPLEX_UNIT_SP;
+    }
+
+     private void setDecorationLine(String decoration) {
+        switch (decoration) {
+            case "underline":
+                view.setPaintFlags(view.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                break;
+            case "line-through":
+                view.setPaintFlags(view.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                break;
+            case "underline line-through":
+                view.setPaintFlags(view.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG | Paint.STRIKE_THRU_TEXT_FLAG);
+                break;
+            case "none":
+            default:
+                view.setPaintFlags(view.getPaintFlags() & ~Paint.UNDERLINE_TEXT_FLAG & ~Paint.STRIKE_THRU_TEXT_FLAG);
+                break;
+        }
     }
 }
