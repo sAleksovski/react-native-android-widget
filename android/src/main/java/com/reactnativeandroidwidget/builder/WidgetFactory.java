@@ -23,6 +23,7 @@ import com.reactnativeandroidwidget.builder.widget.utils.ResourceUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -38,7 +39,7 @@ public class WidgetFactory {
     public static WidgetWithViews buildWidgetFromRoot(ReactApplicationContext context, ReadableMap config, int width, int height) throws Exception {
         WidgetFactory widgetFactory = new WidgetFactory();
 
-        View view = widgetFactory.buildWidget(context, widgetFactory.getRootConfig(config, width, height));
+        View view = widgetFactory.buildWidget(context, widgetFactory.getRootConfig(config, width, height), "0");
 
         for (int i = 0; i < widgetFactory.collectionViews.size(); i++) {
             widgetFactory.collectionViews.get(i).buildChildren(context);
@@ -46,7 +47,7 @@ public class WidgetFactory {
 
         ResourceUtils.clear();
 
-        Collections.reverse(widgetFactory.clickableViews);
+        widgetFactory.clickableViews.sort(Comparator.comparing(ClickableView::getId));
         return new WidgetWithViews(view, widgetFactory.clickableViews, widgetFactory.collectionViews);
     }
 
@@ -67,8 +68,8 @@ public class WidgetFactory {
         return rootConfig;
     }
 
-    private View buildWidget(ReactApplicationContext context, ReadableMap config) throws Exception {
-        BaseWidget<? extends View> baseWidget = getBaseWidget(context, config);
+    private View buildWidget(ReactApplicationContext context, ReadableMap config, String id) throws Exception {
+        BaseWidget<? extends View> baseWidget = getBaseWidget(context, config, id);
         View view = baseWidget.getView();
 
         if (baseWidget.isCollection()) {
@@ -83,6 +84,7 @@ public class WidgetFactory {
         if (config.getMap("props").hasKey("clickAction")) {
             clickableViews.add(
                 new ClickableView(
+                    id,
                     view,
                     config.getMap("props").getString("clickAction"),
                     config.getMap("props").getMap("clickActionData")
@@ -94,7 +96,7 @@ public class WidgetFactory {
     }
 
     @NonNull
-    private BaseWidget<? extends View> getBaseWidget(ReactApplicationContext context, ReadableMap config) throws Exception {
+    private BaseWidget<? extends View> getBaseWidget(ReactApplicationContext context, ReadableMap config, String id) throws Exception {
         switch (Objects.requireNonNull(config.getString("type"))) {
             case "TextWidget":
                 return new TextWidget(context, config.getMap("props"));
@@ -105,24 +107,24 @@ public class WidgetFactory {
             case "SvgWidget":
                 return new SvgWidget(context, config.getMap("props"));
             case "LinearLayoutWidget":
-                return new LinearLayoutWidget(context, config.getMap("props"), buildChildren(context, config.getArray("children")));
+                return new LinearLayoutWidget(context, config.getMap("props"), buildChildren(context, config.getArray("children"), id));
             case "FrameLayoutWidget":
-                return new FrameLayoutWidget(context, config.getMap("props"), buildChildren(context, config.getArray("children")));
+                return new FrameLayoutWidget(context, config.getMap("props"), buildChildren(context, config.getArray("children"), id));
             case "ListWidget":
                 return new ListWidget(context, config.getMap("props"));
             case "RootWidget":
-                return new RootWidget(context, config.getMap("props"), buildChildren(context, config.getArray("children")));
+                return new RootWidget(context, config.getMap("props"), buildChildren(context, config.getArray("children"), id));
         }
 
         throw new Exception("Invalid widget " + config.getString("type"));
     }
 
-    private List<View> buildChildren(ReactApplicationContext appContext, ReadableArray children) throws Exception {
+    private List<View> buildChildren(ReactApplicationContext appContext, ReadableArray children, String id) throws Exception {
         List<View> childWidgets = new ArrayList<>();
 
         for (int i = 0; i < children.size(); i++) {
             ReadableMap childConfig = children.getMap(i);
-            View childView = buildWidget(appContext, childConfig);
+            View childView = buildWidget(appContext, childConfig, id + "-" + i);
             childWidgets.add(childView);
         }
 
