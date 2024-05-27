@@ -71,7 +71,6 @@ export interface TextWidgetStyle extends CommonStyleProps {
   textShadowColor?: ColorProp;
   textShadowRadius?: number;
   textShadowOffset?: { height: number; width: number };
-  textDecorationLine?: 'none' | 'line-through' | 'underline' | 'underline line-through';
 }
 
 export interface TextWidgetProps extends ClickActionProps {
@@ -120,7 +119,6 @@ TextWidget.convertProps = (props: TextWidgetProps): TextWidgetInternalProps => {
       ? { adjustsFontSizeToFit: props.style.adjustsFontSizeToFit }
       : {}),
     ...(props.style?.color ? { color: convertColor(props.style.color) } : {}),
-    ...(props.style?.textDecorationLine ? {textDecorationLine: props.style.textDecorationLine} : {}),
     ...buildTextShadow(props.style ?? {}),
     ...(props.truncate ? { truncate: props.truncate } : {}),
     ...(props.maxLines ? { maxLines: props.maxLines } : {}),
