@@ -5,14 +5,20 @@ import android.view.View;
 import com.facebook.react.bridge.ReadableMap;
 
 public class ClickableView {
+    private final String id;
     private final View view;
     private final String clickAction;
     private final ReadableMap clickActionData;
 
-    public ClickableView(View view, String clickAction, ReadableMap clickActionData) {
+    public ClickableView(String id, View view, String clickAction, ReadableMap clickActionData) {
+        this.id = id;
         this.view = view;
         this.clickAction = clickAction;
         this.clickActionData = clickActionData;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public View getView() {
