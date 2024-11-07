@@ -65,8 +65,8 @@
     "expo": "^49.0.0",
     "jest": "^28.1.1",
     "prettier": "^2.8.8",
-    "react": "18.2.0",
-    "react-native": "0.73.5",
+    "react": "18.3.1",
+    "react-native": "0.75.4",
     "react-native-builder-bob": "^0.20.0",
     "release-it": "^15.0.0",
     "ts-node": "^10.9.1",
@@ -157,5 +157,6 @@
         }
       ]
     ]
-  }
+  },
+  "packageManager": "yarn@3.6.4"
 }
