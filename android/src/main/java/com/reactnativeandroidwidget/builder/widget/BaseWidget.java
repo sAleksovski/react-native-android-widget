@@ -9,14 +9,19 @@ import android.widget.LinearLayout;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.common.annotations.UnstableReactNativeAPI;
+import com.facebook.react.uimanager.LengthPercentage;
+import com.facebook.react.uimanager.LengthPercentageType;
 import com.facebook.react.uimanager.Spacing;
-import com.facebook.react.views.view.ReactViewBackgroundDrawable;
+import com.facebook.react.uimanager.drawable.CSSBackgroundDrawable;
+import com.facebook.react.uimanager.style.BorderRadiusProp;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@UnstableReactNativeAPI
 public abstract class BaseWidget<T extends View> {
     protected final ReactApplicationContext appContext;
     protected final ReadableMap props;
@@ -24,7 +29,7 @@ public abstract class BaseWidget<T extends View> {
 
     protected T view;
 
-    private ReactViewBackgroundDrawable mReactViewBackground;
+    private CSSBackgroundDrawable mReactViewBackground;
 
     public BaseWidget(ReactApplicationContext context, ReadableMap props, List<View> children) {
         this.appContext = context;
@@ -128,23 +133,19 @@ public abstract class BaseWidget<T extends View> {
             ReadableMap borderColor = props.getMap("borderColor");
             getReactViewBackground().setBorderColor(
                 Spacing.LEFT,
-                Color.parseColor(borderColor.getString("left")),
-                Color.alpha(Color.parseColor(borderColor.getString("left")))
+                Color.parseColor(borderColor.getString("left"))
             );
             getReactViewBackground().setBorderColor(
                 Spacing.RIGHT,
-                Color.parseColor(borderColor.getString("right")),
-                Color.alpha(Color.parseColor(borderColor.getString("right")))
+                Color.parseColor(borderColor.getString("right"))
             );
             getReactViewBackground().setBorderColor(
                 Spacing.TOP,
-                Color.parseColor(borderColor.getString("top")),
-                Color.alpha(Color.parseColor(borderColor.getString("top")))
+                Color.parseColor(borderColor.getString("top"))
             );
             getReactViewBackground().setBorderColor(
                 Spacing.BOTTOM,
-                Color.parseColor(borderColor.getString("bottom")),
-                Color.alpha(Color.parseColor(borderColor.getString("bottom")))
+                Color.parseColor(borderColor.getString("bottom"))
             );
         }
 
@@ -158,10 +159,10 @@ public abstract class BaseWidget<T extends View> {
 
         if (props.hasKey("borderRadius")) {
             ReadableMap borderRadius = props.getMap("borderRadius");
-            getReactViewBackground().setRadius(dpToPx(borderRadius.getDouble("topRight")), 1);
-            getReactViewBackground().setRadius(dpToPx(borderRadius.getDouble("bottomRight")), 2);
-            getReactViewBackground().setRadius(dpToPx(borderRadius.getDouble("bottomLeft")), 3);
-            getReactViewBackground().setRadius(dpToPx(borderRadius.getDouble("topLeft")), 0);
+            getReactViewBackground().setBorderRadius(BorderRadiusProp.BORDER_TOP_RIGHT_RADIUS, new LengthPercentage((float) borderRadius.getDouble("topRight"), LengthPercentageType.POINT));
+            getReactViewBackground().setBorderRadius(BorderRadiusProp.BORDER_BOTTOM_RIGHT_RADIUS, new LengthPercentage((float) borderRadius.getDouble("bottomRight"), LengthPercentageType.POINT));
+            getReactViewBackground().setBorderRadius(BorderRadiusProp.BORDER_BOTTOM_LEFT_RADIUS, new LengthPercentage((float) borderRadius.getDouble("bottomLeft"), LengthPercentageType.POINT));
+            getReactViewBackground().setBorderRadius(BorderRadiusProp.BORDER_TOP_LEFT_RADIUS, new LengthPercentage((float) borderRadius.getDouble("topLeft"), LengthPercentageType.POINT));
         }
 
         if (props.hasKey("borderStyle")) {
@@ -207,9 +208,9 @@ public abstract class BaseWidget<T extends View> {
         }
     }
 
-    private ReactViewBackgroundDrawable getReactViewBackground() {
+    private CSSBackgroundDrawable getReactViewBackground() {
         if (mReactViewBackground == null) {
-            mReactViewBackground = new ReactViewBackgroundDrawable(view.getContext());
+            mReactViewBackground = new CSSBackgroundDrawable(view.getContext());
             view.setBackground(null);
             view.setBackground(mReactViewBackground);
         }

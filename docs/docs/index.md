@@ -25,3 +25,10 @@ import TabItem from '@theme/TabItem';
     <pre>yarn add react-native-android-widget</pre>
   </TabItem>
 </Tabs>
+
+### React Native version support
+
+| React Native Version | react-native-android-widget version |
+| -------------------- | ----------------------------------- |
+| 0.76.0+              | 0.15.0+                             |
+| \< 0.76.0            | 0.14.1                              |

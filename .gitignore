@@ -73,16 +73,10 @@ docs/docs/public-api/
 /coverage
 
 # Yarn
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
+**/.yarn/*
+**/!.yarn/patches
+**/!.yarn/plugins
+**/!.yarn/releases
+**/!.yarn/sdks
+**/!.yarn/versions
 
-example/.yarn/*
-!example/.yarn/patches
-!example/.yarn/plugins
-!example/.yarn/releases
-!example/.yarn/sdks
-!example/.yarn/versions
