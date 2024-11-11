@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Support for React Native 0.76
 
+### Breaking Changes
+
+- Dropped support for React Native <0.76. For older versions use 0.14.1
+
 ## [0.14.1] - 2024-05-25
 
 ### Fixed
