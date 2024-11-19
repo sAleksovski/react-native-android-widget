@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.facebook.react.bridge.ReadableMap;
 
-public class ClickableView {
+public class ClickableView implements Comparable<ClickableView> {
     private final String id;
     private final View view;
     private final String clickAction;
@@ -31,5 +31,10 @@ public class ClickableView {
 
     public ReadableMap getClickActionData() {
         return clickActionData;
+    }
+
+    @Override
+    public int compareTo(ClickableView o) {
+        return this.id.compareTo(o.getId());
     }
 }
