@@ -14,8 +14,8 @@ jobs:
       - name: Install and Build 🔧
         run: |
           yarn install
-          yarn --cwd example install
-          yarn --cwd docs install
+          yarn install --cwd example
+          yarn install --cwd docs
           yarn --cwd docs build
 
       - name: Deploy 🚀
