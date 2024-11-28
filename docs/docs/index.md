@@ -31,4 +31,4 @@ import TabItem from '@theme/TabItem';
 | React Native Version | react-native-android-widget version |
 | -------------------- | ----------------------------------- |
 | 0.76.0+              | 0.15.0+                             |
-| \< 0.76.0            | 0.14.1                              |
+| \< 0.76.0            | 0.14.2                              |
