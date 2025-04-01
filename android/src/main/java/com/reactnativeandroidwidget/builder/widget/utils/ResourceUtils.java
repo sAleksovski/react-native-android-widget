@@ -33,18 +33,47 @@ public class ResourceUtils {
     }
 
     public static Bitmap getBitmap(ReactApplicationContext context, String source) throws IOException {
-        if (isResource(source)) {
-            int resourceId = getResourceId(context, "drawable", source);
-            return BitmapFactory.decodeResource(context.getResources(), resourceId);
-        } else if (source.startsWith("data:")) {
-            String base64String = source.split("base64,")[1];
-            byte[] decodedString = Base64.decode(base64String, Base64.DEFAULT);
-            return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-        } else if (source.startsWith("file://")) {
-            return BitmapFactory.decodeFile(source.replaceFirst("file://", ""));
-        } else {
-            InputStream input = getInputStreamFromSource(source);
-            return BitmapFactory.decodeStream(input);
+        try {
+            if (source == null || source.isEmpty()) {
+                return null;
+            }
+            
+            if (isResource(source)) {
+                int resourceId = getResourceId(context, "drawable", source);
+                if (resourceId != 0) {
+                    return BitmapFactory.decodeResource(context.getResources(), resourceId);
+                }
+                return null;
+            } else if (source.startsWith("data:")) {
+                // Split properly to handle various data URI formats
+                String[] parts = source.split(",");
+                if (parts.length < 2) {
+                    return null;
+                }
+                
+                String base64String = parts[1];
+                byte[] decodedString = Base64.decode(base64String, Base64.DEFAULT);
+                return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            } else if (source.startsWith("file://")) {
+                return BitmapFactory.decodeFile(source.replaceFirst("file://", ""));
+            } else {
+                InputStream input = null;
+                try {
+                    input = getInputStreamFromSource(source);
+                    return BitmapFactory.decodeStream(input);
+                } finally {
+                    if (input != null) {
+                        try {
+                            input.close();
+                        } catch (IOException e) {
+                            // Silent close
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
@@ -100,11 +129,24 @@ public class ResourceUtils {
     }
 
     private static InputStream getInputStreamFromSource(String source) throws IOException {
-        URL url = new URL(source);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setDoInput(true);
-        connection.connect();
-        return connection.getInputStream();
+        try {
+            URL url = new URL(source);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.setConnectTimeout(15000);
+            connection.setReadTimeout(15000);
+            connection.connect();
+            
+            int responseCode = connection.getResponseCode();
+            if (responseCode != HttpURLConnection.HTTP_OK) {
+                connection.disconnect();
+                throw new IOException("HTTP error code: " + responseCode);
+            }
+            
+            return connection.getInputStream();
+        } catch (Exception e) {
+            throw new IOException("Failed to fetch image: " + e.getMessage(), e);
+        }
     }
 
     private static Typeface loadTypeface(ReactApplicationContext context, @NonNull String fontName) {
