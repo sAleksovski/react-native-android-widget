@@ -99,7 +99,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     supportsTablet: true,
   },
   scheme: 'androidwidgetexample',
-  newArchEnabled: false,
+  newArchEnabled: true,
   android: {
     adaptiveIcon: {
       foregroundImage: './assets/adaptive-icon.png',

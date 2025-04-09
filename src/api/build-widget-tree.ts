@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 export interface WidgetTree {
   type:
     | 'FlexWidget'
@@ -11,7 +13,7 @@ export interface WidgetTree {
   children?: WidgetTree[];
 }
 
-export function buildWidgetTree(jsxTree: JSX.Element): WidgetTree {
+export function buildWidgetTree(jsxTree: React.JSX.Element): WidgetTree {
   const widgetTree = buildWidgetTreeInner(jsxTree);
 
   validateWidgetTree(widgetTree);
@@ -19,7 +21,7 @@ export function buildWidgetTree(jsxTree: JSX.Element): WidgetTree {
   return widgetTree;
 }
 
-function buildWidgetTreeInner(jsxTree: JSX.Element): WidgetTree {
+function buildWidgetTreeInner(jsxTree: React.JSX.Element): WidgetTree {
   if (typeof jsxTree === 'string' || typeof jsxTree === 'number') {
     return jsxTree;
   }

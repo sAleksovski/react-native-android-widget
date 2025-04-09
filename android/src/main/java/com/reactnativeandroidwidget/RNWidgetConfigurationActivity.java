@@ -2,11 +2,7 @@ package com.reactnativeandroidwidget;
 
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
-import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
@@ -45,9 +41,7 @@ public class RNWidgetConfigurationActivity extends ReactActivity {
         return new DefaultReactActivityDelegate(
             this,
             getMainComponentName(),
-            DefaultNewArchitectureEntryPoint.getFabricEnabled(),
-            // TODO: Remove when React Native 73 is released
-            DefaultNewArchitectureEntryPoint.getConcurrentReactEnabled()) {
+            DefaultNewArchitectureEntryPoint.getFabricEnabled()) {
 
             @Override
             protected Bundle getLaunchOptions() {

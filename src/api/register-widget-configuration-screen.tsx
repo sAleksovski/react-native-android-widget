@@ -14,7 +14,7 @@ export interface WidgetConfigurationScreenProps {
   /**
    * Function that can be called with the Widget JSX to render
    */
-  renderWidget: (widgetComponent: JSX.Element) => void;
+  renderWidget: (widgetComponent: React.JSX.Element) => void;
 
   /**
    * This must be called after finishing with configuration.
@@ -26,7 +26,7 @@ export interface WidgetConfigurationScreenProps {
 
 export type WidgetConfigurationScreen = (
   props: WidgetConfigurationScreenProps
-) => JSX.Element;
+) => React.JSX.Element;
 
 /**
  * Register a screen that will handle widget configuration
@@ -45,7 +45,7 @@ function widgetConfigurationScreenProvider(
   WidgetConfigurationScreen: WidgetConfigurationScreen
 ) {
   return ({ widgetInfo }: { widgetInfo: WidgetInfo }) => {
-    function renderWidget(widgetComponent: JSX.Element) {
+    function renderWidget(widgetComponent: React.JSX.Element) {
       AndroidWidget.drawWidgetById(
         buildWidgetTree(widgetComponent),
         widgetInfo.widgetName,

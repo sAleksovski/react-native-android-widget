@@ -23,7 +23,7 @@ export interface WidgetPreviewProps {
   /**
    * Callback function that will be called by `WidgetPreview` to generate the widget UI.
    */
-  renderWidget: (props: { width: number; height: number }) => JSX.Element;
+  renderWidget: (props: { width: number; height: number }) => React.JSX.Element;
   /**
    * Callback function that will be called when clicked on a clickable area of the widget.
    */

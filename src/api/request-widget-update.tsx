@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { AndroidWidget } from '../AndroidWidget';
 import { buildWidgetTree } from './build-widget-tree';
 import type { WidgetInfo } from './types';
@@ -11,7 +12,9 @@ export interface RequestWidgetUpdateProps {
    * Callback function that will be called with {@link WidgetInfo}
    * It should return the JSX of the updated widget
    */
-  renderWidget: (props: WidgetInfo) => Promise<JSX.Element> | JSX.Element;
+  renderWidget: (
+    props: WidgetInfo
+  ) => Promise<React.JSX.Element> | React.JSX.Element;
   /**
    * Callback function that will be called if no widgets are added on the home screen
    * It can be used to clean up background tasks that update the widget periodically

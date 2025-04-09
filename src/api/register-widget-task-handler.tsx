@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { AppRegistry } from 'react-native';
 import { AndroidWidget } from '../AndroidWidget';
 import { buildWidgetTree } from './build-widget-tree';
@@ -41,7 +42,7 @@ export interface WidgetTaskHandlerProps {
   /**
    * Function that needs to be called with the Widget JSX to render
    */
-  renderWidget: (widgetComponent: JSX.Element) => void;
+  renderWidget: (widgetComponent: React.JSX.Element) => void;
 }
 
 export type WidgetTaskHandler = (
@@ -60,7 +61,7 @@ export function registerWidgetTaskHandler(handler: WidgetTaskHandler): void {
     clickActionData,
     ...widgetInfo
   }: NativeTaskInfo) {
-    function renderWidget(widgetComponent: JSX.Element) {
+    function renderWidget(widgetComponent: React.JSX.Element) {
       if (widgetAction === 'WIDGET_DELETED') return;
       AndroidWidget.drawWidgetById(
         buildWidgetTree(widgetComponent),
