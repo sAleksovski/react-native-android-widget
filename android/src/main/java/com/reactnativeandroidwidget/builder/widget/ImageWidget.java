@@ -42,6 +42,9 @@ public class ImageWidget extends BaseWidget<ImageView> {
     private Bitmap getBitmapFromURL(String src, int width, int height) {
         try {
             Bitmap bitmap = ResourceUtils.getBitmap(appContext, src);
+            if (bitmap == null) {
+                return null;
+            }
             return Bitmap.createScaledBitmap(bitmap, width, height, true);
         } catch (IOException e) {
             e.printStackTrace();
