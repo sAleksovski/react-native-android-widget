@@ -4,7 +4,7 @@ sidebar_position: 6
 
 # Make Widget configurable (Optional)
 
-In order to some of the widgets configurable, we need to create a widget configuration activity.
+In order to make some of the widgets configurable, we need to create a widget configuration activity.
 
 :::info Note
 `WIDGET_ADDED` event will be fired as soon as the widget is added on the home screen, regardless of whether it is configurable or not. We will need to have a fallback configuration.
