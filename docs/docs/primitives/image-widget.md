@@ -6,6 +6,10 @@ sidebar_position: 4
 
 Widget for displaying different types of images, including network images, `data:/image` images, and static resources.
 
+:::warning SVG
+If you need to use an SVG, use the [`SvgWidget`](./svg-widget.md)
+:::
+
 ## Usage
 
 ```tsx
