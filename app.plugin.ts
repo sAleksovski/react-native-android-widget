@@ -19,6 +19,16 @@ export interface Widget {
    */
   name: string;
   /**
+   * Custom Java package name for the widget's AppWidgetProvider.
+   * Keep stable across app updates to prevent widget removal.
+   */
+  packageName?: string;
+  /**
+   * Name of the BroadcastReceiver class handling the widget.
+   * Keep stable across app updates to prevent widget removal.
+   */
+  receiverName?: string;
+  /**
    * Label that will be shown in widget picker
    */
   label?: string;
@@ -212,16 +222,16 @@ function withWidgetReceiver(
   widget: Widget
 ): void {
   mainApplication.receiver = mainApplication.receiver ?? [];
-
+  const receiverName = widget.receiverName ?? `.widget.${widget.name}`;
   const alreadyAdded = mainApplication.receiver.some(
-    (service) => service.$['android:name'] === `.widget.${widget.name}`
+    (service) => service.$['android:name'] === receiverName
   );
 
   if (alreadyAdded) return;
 
   mainApplication.receiver?.push({
     '$': {
-      'android:name': `.widget.${widget.name}`,
+      'android:name': receiverName,
       'android:exported': 'false',
       'android:label': `${widget.label ?? widget.name}`,
     } as any,
@@ -344,8 +354,8 @@ function withWidgetProviderClass(
   );
 
   const javaFilePath = path.join(widgetPackagePath, `/${widget.name}.java`);
-
-  const data = `package ${config.android?.package}.widget;
+  const packageName = widget.packageName ?? `${config.android?.package}.widget`;
+  const data = `package ${packageName};
 
 import com.reactnativeandroidwidget.RNWidgetProvider;
 
