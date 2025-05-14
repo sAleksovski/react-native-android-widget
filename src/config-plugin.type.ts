@@ -39,6 +39,19 @@ export interface Widget {
    * Minimum is 1.800.000 (30 minutes == 30 * 60 * 1000).
    */
   updatePeriodMillis?: number;
+  /**
+   * Custom Java package name for the widget's AppWidgetProvider.
+   *
+   * It must start with the actual apps package name.
+   *
+   * Can be used if introducing react-native-android-widget in existing app
+   * that already has widgets in a different package that the default one.
+   *
+   * Must not end with "."
+   *
+   * @default "<app-package-name>.widget"
+   */
+  packageName?: string;
 }
 
 export interface WithAndroidWidgetsParams {

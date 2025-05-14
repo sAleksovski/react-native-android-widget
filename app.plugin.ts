@@ -52,6 +52,19 @@ export interface Widget {
    * Minimum is 1.800.000 (30 minutes == 30 * 60 * 1000).
    */
   updatePeriodMillis?: number;
+  /**
+   * Custom Java package name for the widget's AppWidgetProvider.
+   *
+   * It must start with the actual apps package name.
+   *
+   * Can be used if introducing react-native-android-widget in existing app
+   * that already has widgets in a different package that the default one.
+   *
+   * Must not end with "."
+   *
+   * @default "<app-package-name>.widget"
+   */
+  packageName?: string;
 }
 
 export interface WithAndroidWidgetsParams {
@@ -213,15 +226,17 @@ function withWidgetReceiver(
 ): void {
   mainApplication.receiver = mainApplication.receiver ?? [];
 
+  const { receiverName } = getReceiverInfo(config, widget);
+
   const alreadyAdded = mainApplication.receiver.some(
-    (service) => service.$['android:name'] === `.widget.${widget.name}`
+    (service) => service.$['android:name'] === receiverName
   );
 
   if (alreadyAdded) return;
 
   mainApplication.receiver?.push({
     '$': {
-      'android:name': `.widget.${widget.name}`,
+      'android:name': receiverName,
       'android:exported': 'false',
       'android:label': `${widget.label ?? widget.name}`,
     } as any,
@@ -336,16 +351,16 @@ function withWidgetProviderClass(
   projectPaths: ProjectPaths,
   widget: Widget
 ) {
+  const { receiverPackage } = getReceiverInfo(config, widget);
+
   const widgetPackagePath = path.join(
     projectPaths.platformProjectRoot,
-    'android/app/src/main/java/' +
-      config.android?.package?.split('.').join('/') +
-      '/widget'
+    'android/app/src/main/java/' + receiverPackage.split('.').join('/')
   );
 
   const javaFilePath = path.join(widgetPackagePath, `/${widget.name}.java`);
 
-  const data = `package ${config.android?.package}.widget;
+  const data = `package ${receiverPackage};
 
 import com.reactnativeandroidwidget.RNWidgetProvider;
 
@@ -453,4 +468,28 @@ function withWidgetPreview(projectPaths: ProjectPaths, widget: Widget) {
     );
     fs.copyFileSync(previewAssetPath, output);
   }
+}
+
+function getReceiverInfo(config: ExpoConfig, widget: Widget) {
+  if (!config.android?.package) {
+    throw new Error('Must provide a package for the app');
+  }
+
+  if (
+    widget.packageName &&
+    !widget.packageName.startsWith(config.android.package)
+  ) {
+    throw new Error(
+      `Package name for widget with name ${widget.name} must start with ${config.android.package}`
+    );
+  }
+
+  const receiverPackage =
+    widget.packageName ?? `${config.android.package}.widget`;
+  const receiverName = `${receiverPackage.replace(
+    config.android.package,
+    ''
+  )}.${widget.name}`;
+
+  return { receiverPackage, receiverName };
 }

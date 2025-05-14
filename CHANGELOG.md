@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `packageName` option for defining custom package name for widget
+
 ## [0.16.1] - 2025-04-13
 
 ### Fixed
