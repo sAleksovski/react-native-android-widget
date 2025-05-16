@@ -67,6 +67,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 });
 ```
 
+:::note
+By default the widget Java class will be put inside `<app-package-name>.widget`
+
+If for any reason (for example you already have an app that is not using react-native-android-widget and want to replace existing widgets with react-native-android-widgets, but you already have providers in a different package), you can customize the widget java class package with `packageName` property for the widget
+:::
+
 ## Build Dev Client
 
 Build an [Expo Dev Client](https://docs.expo.dev/development/create-development-builds/) that will include `react-native-android-widget` and the new widget

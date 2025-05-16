@@ -10,6 +10,10 @@ In order to register our widget so that it can be selected from the launchers wi
 
 Create a new package `widget` in the native android app.
 
+:::info
+Technically you can put the widget in any package that is inside your app, but you will need to update the widget receiver name.
+:::
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -161,8 +165,14 @@ In `AndroidManifest.xml`, add a receiver for the widget
 
 For the receiver
 
-- `android:name` myst be `.widget.WidgetName` (same as the Java class extending `RNWidgetProvider`)
+- `android:name` (same as the Java class extending `RNWidgetProvider`)
 - `android:label` will be shown in the widget picker
+
+:::note
+`android:name` should reflect the package name of the provider, minus the package name of the app.
+
+If you put the widget provider class in a `widgets` package, the `android:name` must be `.widget.<WidgetName>`
+:::
 
 ## Add custom fonts used in widgets
 
