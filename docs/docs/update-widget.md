@@ -5,7 +5,7 @@ sidebar_label: Update Widget
 
 # Update Widget
 
-There are two ways to update a widget once it is added on the home screen.
+There are three ways to update a widget once it is added on the home screen.
 
 ## updatePeriodMillis
 
@@ -37,3 +37,9 @@ More details about `updatePeriodMillis` on the [official documentation](https://
 ## requestWidgetUpdate
 
 You can call [`requestWidgetUpdate`](./api/request-widget-update.md) any time when your app is open as a result of some user action, and request a widget update.
+
+## Native RNWidgetJsCommunication#requestWidgetUpdate
+
+You can request a widget update from native code (using BroadcastReceiver, AlarmManager, received push notification...).
+
+You can call `com.reactnativeandroidwidget.RNWidgetJsCommunication#requestWidgetUpdate` static method with a context and the name of the widget you want to update, and it will call the javascript `widgetTaskHandler` function with `widgetAction = 'WIDGET_UPDATE'`

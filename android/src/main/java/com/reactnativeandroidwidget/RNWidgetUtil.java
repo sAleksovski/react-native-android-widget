@@ -76,7 +76,7 @@ public class RNWidgetUtil {
         return screenInfo;
     }
 
-    public static int[] getWidgetIds(ReactApplicationContext context, String widgetName) {
+    public static int[] getWidgetIds(Context context, String widgetName) {
         String widgetProviderClassName = getWidgetProviderClassName(context, widgetName);
 
         if (widgetProviderClassName == null) {

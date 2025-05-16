@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `packageName` option for defining custom package name for widget
+- Ability to request widget update from native code (`RNWidgetJsCommunication#requestWidgetUpdate`)
 
 ## [0.16.1] - 2025-04-13
 

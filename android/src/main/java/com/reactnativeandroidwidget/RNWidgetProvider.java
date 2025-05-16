@@ -9,15 +9,10 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.work.Data;
-import androidx.work.ExistingWorkPolicy;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.WorkManager;
 
 import com.facebook.react.bridge.Arguments;
 
 import org.json.JSONObject;
-
-import java.util.concurrent.TimeUnit;
 
 public class RNWidgetProvider extends AppWidgetProvider {
     @Override
@@ -27,8 +22,8 @@ public class RNWidgetProvider extends AppWidgetProvider {
         if (isSizeChanged(context, appWidgetId)) {
             storeWidgetSize(context, appWidgetId);
 
-            Data data = buildData(context, appWidgetId, "WIDGET_RESIZED");
-            startBackgroundTask(context, data);
+            Data data = RNWidgetJsCommunication.buildData(context, getClass().getSimpleName(), appWidgetId, "WIDGET_RESIZED");
+            RNWidgetJsCommunication.startBackgroundTask(context, data);
         }
     }
 
@@ -40,8 +35,8 @@ public class RNWidgetProvider extends AppWidgetProvider {
             String widgetAction = isWidgetNew(context, widgetId) ? "WIDGET_ADDED" : "WIDGET_UPDATE";
             storeWidgetSize(context, widgetId);
 
-            Data data = buildData(context, widgetId, widgetAction);
-            startBackgroundTask(context, data);
+            Data data = RNWidgetJsCommunication.buildData(context, getClass().getSimpleName(), widgetId, widgetAction);
+            RNWidgetJsCommunication.startBackgroundTask(context, data);
         }
     }
 
@@ -75,64 +70,9 @@ public class RNWidgetProvider extends AppWidgetProvider {
             removeWidgetSize(context, widgetId);
             RNWidgetCollectionService.deleteWidgetImages(context, widgetId);
 
-            Data data = buildData(context, widgetId, "WIDGET_DELETED");
-            startBackgroundTask(context, data);
+            Data data = RNWidgetJsCommunication.buildData(context, getClass().getSimpleName(), widgetId, "WIDGET_DELETED");
+            RNWidgetJsCommunication.startBackgroundTask(context, data);
         }
-    }
-
-    private Data buildData(Context context, int widgetId, String widgetAction, Data additionalData) {
-        return new Data.Builder()
-            .putString("widgetName", getClass().getSimpleName())
-            .putInt("widgetId", widgetId)
-            .putInt("width", RNWidgetUtil.getWidgetWidth(context, widgetId))
-            .putInt("height", RNWidgetUtil.getWidgetHeight(context, widgetId))
-            .putString("widgetAction", widgetAction)
-            .putAll(additionalData)
-            .build();
-    }
-
-    private Data buildData(Context context, int widgetId, String widgetAction) {
-        return buildData(context, widgetId, widgetAction, Data.EMPTY);
-    }
-
-    private void startBackgroundTask(Context context, Data data) {
-        workManagerWorkaround(context);
-
-        OneTimeWorkRequest headlessJsTaskWorkRequest =
-            new OneTimeWorkRequest.Builder(RNWidgetBackgroundTaskWorker.class)
-                .setInputData(data)
-                .build();
-
-        WorkManager
-            .getInstance(context)
-            .enqueue(headlessJsTaskWorkRequest);
-    }
-
-    // `APPWIDGET_UPDATE` (`onUpdate`) method is called when the WorkManager queue is empty.
-    // Since we enqueue only on WorkRequest, the queue will be empty after every execution of the
-    // widgetTaskHandler.
-    // This is a bug in android (https://issuetracker.google.com/issues/115575872).
-    //
-    // The suggested workaround is to schedule another WorkRequest really far out into the future.
-    // So, we are creating a OneTimeWorkRequest with an initial delay of 10 years, with a name
-    // `app.package.WORK_MANAGER_HACK`.
-    //
-    // Every time when we schedule another WorkRequest, we REPLACE the WorkRequest with a new one.
-    // That way there is always at least one outstanding request, and `onUpdate` is not called when
-    // the WorkManager finishes with its work.
-    private void workManagerWorkaround(Context context) {
-        OneTimeWorkRequest headlessJsTaskWorkRequest =
-            new OneTimeWorkRequest.Builder(RNWidgetBackgroundTaskWorker.class)
-                .setInputData(Data.EMPTY)
-                .setInitialDelay(10 * 365, TimeUnit.DAYS)
-                .build();
-
-        WorkManager.getInstance(context)
-            .enqueueUniqueWork(
-                context.getPackageName() + ".WORK_MANAGER_HACK",
-                ExistingWorkPolicy.REPLACE,
-                headlessJsTaskWorkRequest
-            );
     }
 
     private boolean isSizeChanged(Context context, int widgetId) {
@@ -210,7 +150,7 @@ public class RNWidgetProvider extends AppWidgetProvider {
                 .build();
         }
 
-        Data data = buildData(context, widgetId, "WIDGET_CLICK", additionalData);
-        startBackgroundTask(context, data);
+        Data data = RNWidgetJsCommunication.buildData(context, getClass().getSimpleName(), widgetId, "WIDGET_CLICK", additionalData);
+        RNWidgetJsCommunication.startBackgroundTask(context, data);
     }
 }
