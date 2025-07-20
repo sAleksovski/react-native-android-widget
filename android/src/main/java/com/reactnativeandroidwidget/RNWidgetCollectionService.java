@@ -136,6 +136,10 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             listItemView.setOnClickFillInIntent(R.id.rn_widget_list_item, fillInIntent);
         }
 
+        if (bitmapAt == null) {
+            return listItemView;
+        }
+
         ArrayList<Bundle> clickableAreas = bundle.getParcelableArrayList("clickableAreas");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

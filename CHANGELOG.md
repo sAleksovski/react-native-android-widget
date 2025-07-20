@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Add null check for bitmap in list
+
 ## [0.17.0] - 2025-05-16
 
 ### Added
