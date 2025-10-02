@@ -12,22 +12,22 @@
     "build:apk": "eas build --platform android"
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "^2.1.2",
+    "@react-native-async-storage/async-storage": "2.2.0",
     "@react-navigation/native": "^6.1.14",
     "@react-navigation/native-stack": "^6.9.22",
-    "expo": "53.0.9",
-    "expo-dev-client": "~5.1.8",
-    "expo-splash-screen": "~0.30.8",
-    "react": "19.0.0",
-    "react-native": "~0.79.2",
-    "react-native-android-widget": "./react-native-android-widget-59399.tgz",
-    "react-native-safe-area-context": "~5.4.0",
-    "react-native-screens": "~4.10.0"
+    "expo": "^54.0.0",
+    "expo-dev-client": "~6.0.13",
+    "expo-splash-screen": "~31.0.10",
+    "react": "19.1.0",
+    "react-native": "0.81.4",
+    "react-native-android-widget": "./react-native-android-widget-26046.tgz",
+    "react-native-safe-area-context": "~5.6.0",
+    "react-native-screens": "~4.16.0"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
-    "@types/react": "~19.0.0",
-    "typescript": "~5.8.3"
+    "@types/react": "~19.1.10",
+    "typescript": "~5.9.2"
   },
   "private": true,
   "packageManager": "yarn@3.6.4"
