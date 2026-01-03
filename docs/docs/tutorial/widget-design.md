@@ -26,9 +26,16 @@ We can also use conditions, for/map, standard jsx. They cannot be async.
 
 :::
 
+:::danger React Compiler
+
+If React Compiler is enabled, it automatically tries to memoize the widget component by adding hook calls. To avoid this, add `'use no memo';` at the top of the file where the widget is defined.
+
+:::
+
 We'll start with a Basic widget that says "Hello".
 
 ```jsx title="HelloWidget.tsx"
+'use no memo';
 import React from 'react';
 import { FlexWidget, TextWidget } from 'react-native-android-widget';
 
