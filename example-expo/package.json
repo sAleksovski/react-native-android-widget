@@ -15,14 +15,14 @@
     "@react-native-async-storage/async-storage": "2.2.0",
     "@react-navigation/native": "^6.1.14",
     "@react-navigation/native-stack": "^6.9.22",
-    "expo": "~54.0.30",
-    "expo-dev-client": "~6.0.20",
-    "expo-splash-screen": "~31.0.13",
-    "react": "19.1.0",
-    "react-native": "0.81.5",
-    "react-native-android-widget": "./react-native-android-widget-21505.tgz",
+    "expo": "55.0.0-canary-20251230-fc48ddc",
+    "expo-dev-client": "6.1.0-canary-20251230-fc48ddc",
+    "expo-splash-screen": "31.0.14-canary-20251230-fc48ddc",
+    "react": "19.2.0",
+    "react-native": "0.83.1",
+    "react-native-android-widget": "./react-native-android-widget-93887.tgz",
     "react-native-safe-area-context": "~5.6.0",
-    "react-native-screens": "~4.16.0"
+    "react-native-screens": "~4.19.0"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",

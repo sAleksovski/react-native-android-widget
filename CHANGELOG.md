@@ -7,14 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## Added
+
+- Support for React Native 0.83
+
 ## Changed
 
 - Update example app to React Native 0.83
-- Replaced ReactNativeHost with ReactHost
-
-## Fixed
-
-- Add a local copy of CSSBackgroundDrawable since it was removed from React Native
+- Update expo example app to Expo 55 canary
 
 ## [0.17.3] - 2026-01-03
 
