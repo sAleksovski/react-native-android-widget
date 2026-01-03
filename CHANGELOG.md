@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Changed
 
 - Update example app to React Native 0.83
+- Replaced ReactNativeHost with ReactHost
 
 ## Fixed
 

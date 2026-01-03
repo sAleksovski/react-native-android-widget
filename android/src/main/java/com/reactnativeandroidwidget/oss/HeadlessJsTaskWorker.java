@@ -33,9 +33,8 @@ import androidx.work.ListenableWorker;
 import androidx.work.WorkerParameters;
 
 import com.facebook.react.ReactApplication;
+import com.facebook.react.ReactHost;
 import com.facebook.react.ReactInstanceEventListener;
-import com.facebook.react.ReactInstanceManager;
-import com.facebook.react.ReactNativeHost;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.UiThreadUtil;
 import com.facebook.react.jstasks.HeadlessJsTaskConfig;
@@ -72,16 +71,17 @@ public abstract class HeadlessJsTaskWorker extends ListenableWorker implements H
     protected abstract HeadlessJsTaskConfig getTaskConfig(Data data);
 
     protected void startTask(final HeadlessJsTaskConfig taskConfig) {
-        final ReactInstanceManager reactInstanceManager = this.getReactNativeHost().getReactInstanceManager();
-        ReactContext reactContext = reactInstanceManager.getCurrentReactContext();
+        ReactHost reactHost = this.getReactHost();
+        ReactContext reactContext = reactHost.getCurrentReactContext();
+
         if (reactContext == null) {
-            reactInstanceManager.addReactInstanceEventListener(new ReactInstanceEventListener() {
+            reactHost.addReactInstanceEventListener(new ReactInstanceEventListener() {
                 public void onReactContextInitialized(ReactContext reactContext) {
                     HeadlessJsTaskWorker.this.invokeStartTask(reactContext, taskConfig);
-                    reactInstanceManager.removeReactInstanceEventListener(this);
+                    reactHost.removeReactInstanceEventListener(this);
                 }
             });
-            reactInstanceManager.createReactContextInBackground();
+            reactHost.start();
         } else {
             this.invokeStartTask(reactContext, taskConfig);
         }
@@ -94,9 +94,9 @@ public abstract class HeadlessJsTaskWorker extends ListenableWorker implements H
     }
 
     private void cleanUpTask() {
-        if (this.getReactNativeHost().hasInstance()) {
-            ReactInstanceManager reactInstanceManager = this.getReactNativeHost().getReactInstanceManager();
-            ReactContext reactContext = reactInstanceManager.getCurrentReactContext();
+        ReactHost reactNativeHost = this.getReactHost();
+        if (reactNativeHost != null) {
+            ReactContext reactContext = reactNativeHost.getCurrentReactContext();
             if (reactContext != null) {
                 HeadlessJsTaskContext headlessJsTaskContext = HeadlessJsTaskContext.getInstance(reactContext);
                 headlessJsTaskContext.removeTaskEventListener(this);
@@ -125,7 +125,7 @@ public abstract class HeadlessJsTaskWorker extends ListenableWorker implements H
         }
     }
 
-    protected ReactNativeHost getReactNativeHost() {
-        return ((ReactApplication) this.getApplicationContext()).getReactNativeHost();
+    private ReactHost getReactHost() {
+        return ((ReactApplication) this.getApplicationContext()).getReactHost();
     }
 }
