@@ -13,7 +13,7 @@ import com.facebook.react.common.annotations.UnstableReactNativeAPI;
 import com.facebook.react.uimanager.LengthPercentage;
 import com.facebook.react.uimanager.LengthPercentageType;
 import com.facebook.react.uimanager.Spacing;
-import com.facebook.react.uimanager.drawable.CSSBackgroundDrawable;
+import com.reactnativeandroidwidget.oss.CSSBackgroundDrawable;
 import com.facebook.react.uimanager.style.BorderRadiusProp;
 
 import java.util.Collections;
