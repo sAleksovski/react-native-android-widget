@@ -71,6 +71,12 @@ registerWidgetTaskHandler(widgetTaskHandler);
 
 ## Register widget task handler (Expo)
 
+:::warning Note
+The below is just an example. New versions of expo router or expo might have different code in the entry file. The main goal is to see what the original `main` property in `package.json` was, and copy the code from that file in `index.ts`.
+
+After that, add `registerWidgetTaskHandler(widgetTaskHandler);`
+:::
+
 If we are using Expo, there is no `index.js` (or `index.ts`, `index.tsx`), but we can create it.
 
 First, update `package.json` main field to point to `index.ts` (or `.js`) instead of `node_modules/expo/AppEntry.js`
@@ -97,6 +103,30 @@ import { widgetTaskHandler } from './widget-task-handler';
 // It also ensures that whether you load the app in Expo Go or in a native build,
 // the environment is set up appropriately
 registerRootComponent(App);
+registerWidgetTaskHandler(widgetTaskHandler);
+```
+
+## Register widget task handler (Expo + Expo Router)
+
+If we are using Expo with Expo Router, there is no `index.js` (or `index.ts`, `index.tsx`), but we can create it.
+
+First, update `package.json` main field to point to `index.ts` (or `.js`) instead of `expo-router/entry`
+
+```js title="package.json"
+{
+  "name": "my-expo-app",
+  "main": "index.ts",
+  ...
+}
+```
+
+Create the file, using `node_modules/expo-router/entry` as a template.
+Then import `widgetTaskHandler` and register it.
+
+```js title="index.ts"
+import 'expo-router/entry';
+import { widgetTaskHandler } from './widget-task-handler';
+
 registerWidgetTaskHandler(widgetTaskHandler);
 ```
 
