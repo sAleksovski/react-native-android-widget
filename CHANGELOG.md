@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## Fixed
+
+- Add a error message about using React Compiler and how to avoid "Invalid hook call" error
+
 ## [0.17.2] - 2025-10-02
 
 ### Changed

@@ -5,9 +5,9 @@ import { StatusBar } from 'react-native';
 
 export function App() {
   return (
-    <>
+    <React.StrictMode>
       <StatusBar barStyle="dark-content" />
       <ExampleApp />
-    </>
+    </React.StrictMode>
   );
 }

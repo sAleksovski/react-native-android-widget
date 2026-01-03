@@ -14,11 +14,23 @@ export interface WidgetTree {
 }
 
 export function buildWidgetTree(jsxTree: React.JSX.Element): WidgetTree {
-  const widgetTree = buildWidgetTreeInner(jsxTree);
+  try {
+    const widgetTree = buildWidgetTreeInner(jsxTree);
 
-  validateWidgetTree(widgetTree);
+    validateWidgetTree(widgetTree);
 
-  return widgetTree;
+    return widgetTree;
+  } catch (error: any) {
+    if (error.message && error.message.includes('Invalid hook call')) {
+      const widgetName = jsxTree.type?.name ?? 'your widget';
+      throw new Error(`Widget Error: Invalid Hook Call detected in ${widgetName}.
+Possible causes:
+1. You are using hooks (useState, useEffect) which are not supported.
+2. The React Compiler (React 19) is transforming this component, but this library requires raw functions.
+   Fix: Add "use no memo"; at the very top of your widget file to disable the compiler for this file.`);
+    }
+    throw error;
+  }
 }
 
 function buildWidgetTreeInner(jsxTree: React.JSX.Element): WidgetTree {

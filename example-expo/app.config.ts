@@ -113,4 +113,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     },
   },
   plugins: [['react-native-android-widget', widgetConfig]],
+  experiments: {
+    reactCompiler: true,
+  },
 });
