@@ -70,7 +70,8 @@ public class RNWidget {
         );
 
         Bitmap bitmap = drawViewToBitmap(widgetWithViews.getRootView());
-        remoteWidgetView.setImageViewBitmap(R.id.rn_widget_image, bitmap);
+        Uri bitmapUri = saveBitmapToDisk(widgetId, bitmap);
+        remoteWidgetView.setImageViewUri(R.id.rn_widget_image, bitmapUri);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             addClickableAreas(widgetId, remoteWidgetView, widgetWithViews);
@@ -104,6 +105,12 @@ public class RNWidget {
         Canvas bitmapHolder = new Canvas(bitmap);
         rootView.draw(bitmapHolder);
         return bitmap;
+    }
+
+    private Uri saveBitmapToDisk(int widgetId, Bitmap bitmap) {
+        String fileName = "widget_" + widgetId + ".png";
+        RNWidgetImageProvider.writeImage(appContext, fileName, bitmap);
+        return RNWidgetImageProvider.getImageUri(appContext, fileName);
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -212,10 +219,13 @@ public class RNWidget {
         intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
 
         ArrayList<Bundle> collectionItemsBundle = new ArrayList<>();
-        for (CollectionViewItem collectionViewItem : collectionItems) {
+        for (int i = 0; i < collectionItems.size(); i++) {
+            CollectionViewItem collectionViewItem = collectionItems.get(i);
             Bundle bundle = new Bundle();
             bundle.putString("clickAction", collectionViewItem.getClickAction());
             bundle.putBundle("clickActionData", Arguments.toBundle(collectionViewItem.getClickActionData()));
+            bundle.putInt("imageWidth", collectionViewItem.getBitmap().getWidth());
+            bundle.putString("imageName", RNWidgetCollectionService.getImageName(widgetId, collectionId, i));
             collectionItemsBundle.add(bundle);
 
             ArrayList<Bundle> clickableAreas = new ArrayList<>();

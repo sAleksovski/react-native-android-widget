@@ -68,7 +68,7 @@ public class RNWidgetProvider extends AppWidgetProvider {
 
         for (int widgetId : appWidgetIds) {
             removeWidgetSize(context, widgetId);
-            RNWidgetCollectionService.deleteWidgetImages(context, widgetId);
+            RNWidgetImageProvider.deleteWidgetImages(context, widgetId);
 
             Data data = RNWidgetJsCommunication.buildData(context, getClass().getSimpleName(), widgetId, "WIDGET_DELETED");
             RNWidgetJsCommunication.startBackgroundTask(context, data);

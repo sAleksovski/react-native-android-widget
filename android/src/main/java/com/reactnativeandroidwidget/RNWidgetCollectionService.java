@@ -4,10 +4,8 @@ import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.RemoteViews;
@@ -18,66 +16,18 @@ import androidx.annotation.RequiresApi;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.reactnativeandroidwidget.builder.CollectionViewItem;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 public class RNWidgetCollectionService extends RemoteViewsService {
     public static final int MAX_COLLECTION_WIDGETS = 2;
 
-    public static void deleteWidgetImages(Context context, int widgetId) {
-        deleteImages(context, "widget_" + widgetId);
-    }
-
-    private static void deleteCollectionImages(Context context, int widgetId, int collectionId) {
-        deleteImages(context, "widget_" + widgetId + "_collection_" + collectionId);
-    }
-
-    private static void deleteImages(Context context, String prefix) {
-        ContextWrapper cw = new ContextWrapper(context);
-        File directory = cw.getDir("widget_list_images", Context.MODE_PRIVATE);
-
-        File[] files = directory.listFiles(pathname -> pathname.getName().startsWith(prefix));
-
-        for (File f : Objects.requireNonNull(files)) {
-            f.delete();
-        }
-    }
-
     public static void storeCollection(ReactApplicationContext context, int widgetId, int collectionId, List<CollectionViewItem> collectionViewItems) {
-        deleteCollectionImages(context, widgetId, collectionId);
+        RNWidgetImageProvider.deleteCollectionImages(context, widgetId, collectionId);
         for (int i = 0; i < collectionViewItems.size(); i++) {
             CollectionViewItem item = collectionViewItems.get(i);
 
-            writeImage(context, widgetId, collectionId, i, item);
-        }
-    }
-
-    private static void writeImage(ReactApplicationContext context, int widgetId, int collectionId, int position, CollectionViewItem item) {
-        ContextWrapper cw = new ContextWrapper(context);
-        File directory = cw.getDir("widget_list_images", Context.MODE_PRIVATE);
-        File imagePath = new File(directory, getImageName(widgetId, collectionId, position));
-
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(imagePath);
-            item.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, fos);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (fos != null) {
-                    fos.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            RNWidgetImageProvider.writeImage(context, getImageName(widgetId, collectionId, i), item.getBitmap());
         }
     }
 
@@ -92,9 +42,7 @@ public class RNWidgetCollectionService extends RemoteViewsService {
 }
 
 class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
-    private final Map<String, Bitmap> mCache = new HashMap<>();
     private final int mCount;
-    private final int mCollectionId;
     private final List<Bundle> mCollectionItems;
 
     private final Context mContext;
@@ -105,7 +53,6 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         mContext = context;
         mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
         mCount = intent.getIntExtra("collectionSize", 0);
-        mCollectionId = intent.getIntExtra("collectionId", 0);
         mCollectionItems = intent.getParcelableArrayListExtra("collectionItems");
         widgetName = intent.getStringExtra("widgetName");
     }
@@ -114,7 +61,6 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     }
 
     public void onDestroy() {
-        mCache.clear();
     }
 
     public int getCount() {
@@ -122,12 +68,12 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     }
 
     public RemoteViews getViewAt(int position) {
+        Bundle bundle = mCollectionItems.get(position);
+
         RemoteViews listItemView = new RemoteViews(mContext.getPackageName(), R.layout.rn_widget_list_item);
         listItemView.removeAllViews(R.id.rn_widget_list_item_clickable_container);
-        Bitmap bitmapAt = getBitmapAt(position);
-        listItemView.setImageViewBitmap(R.id.rn_widget_list_item, bitmapAt);
-
-        Bundle bundle = mCollectionItems.get(position);
+        Uri imageUri = RNWidgetImageProvider.getImageUri(mContext, bundle.getString("imageName"));
+        listItemView.setImageViewUri(R.id.rn_widget_list_item, imageUri);
 
         // Set a fill-intent which will be used to fill-in the pending intent template
         // which is set on the collection view in RNWidget.
@@ -136,15 +82,11 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             listItemView.setOnClickFillInIntent(R.id.rn_widget_list_item, fillInIntent);
         }
 
-        if (bitmapAt == null) {
-            return listItemView;
-        }
-
         ArrayList<Bundle> clickableAreas = bundle.getParcelableArrayList("clickableAreas");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             for (Bundle clickableArea : clickableAreas) {
-                addClickableArea(listItemView, clickableArea, bitmapAt.getWidth());
+                addClickableArea(listItemView, clickableArea, bundle.getInt("imageWidth"));
             }
         }
 
@@ -220,33 +162,5 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     }
 
     public void onDataSetChanged() {
-        this.mCache.clear();
-    }
-
-    private Bitmap getBitmapAt(int position) {
-        if (!mCache.containsKey(getImageName(position))) {
-            mCache.put(getImageName(position), loadImage(position));
-        }
-
-        return mCache.get(getImageName(position));
-    }
-
-    private Bitmap loadImage(int position) {
-        try {
-            ContextWrapper cw = new ContextWrapper(mContext);
-            File directory = cw.getDir("widget_list_images", Context.MODE_PRIVATE);
-            File imagePath = new File(directory, getImageName(position));
-            FileInputStream fileInputStream = new FileInputStream(imagePath);
-            Bitmap bitmap = BitmapFactory.decodeStream(fileInputStream);
-            fileInputStream.close();
-            return bitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    private String getImageName(int position) {
-        return RNWidgetCollectionService.getImageName(mAppWidgetId, mCollectionId, position);
     }
 }
