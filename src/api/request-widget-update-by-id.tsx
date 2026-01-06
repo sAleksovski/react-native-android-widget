@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { AndroidWidget } from '../AndroidWidget';
 import { buildWidgetTree } from './build-widget-tree';
-import type { WidgetInfo } from './types';
+import type { WidgetInfo, WidgetRepresentation } from './types';
 
 export interface RequestWidgetUpdateByIdProps {
   /**
@@ -18,7 +18,7 @@ export interface RequestWidgetUpdateByIdProps {
    */
   renderWidget: (
     props: WidgetInfo
-  ) => Promise<React.JSX.Element> | React.JSX.Element;
+  ) => Promise<WidgetRepresentation> | WidgetRepresentation;
   /**
    * Callback function that will be called if widget does not exist
    * It can be used to clean up background tasks that update the widget periodically
@@ -48,9 +48,19 @@ export async function requestWidgetUpdateById({
 
   const widgetComponent = await renderWidget(widgetInfo);
 
-  AndroidWidget.drawWidgetById(
-    buildWidgetTree(widgetComponent),
-    widgetName,
-    widgetInfo.widgetId
-  );
+  const lightWidget =
+    'light' in widgetComponent
+      ? buildWidgetTree(widgetComponent.light)
+      : buildWidgetTree(widgetComponent);
+  const darkWidget =
+    'dark' in widgetComponent
+      ? buildWidgetTree(widgetComponent.dark as React.JSX.Element)
+      : null;
+
+  const config = {
+    light: lightWidget,
+    dark: darkWidget,
+  };
+
+  AndroidWidget.drawWidgetById(config, widgetName, widgetInfo.widgetId);
 }

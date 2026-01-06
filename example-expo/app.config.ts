@@ -59,6 +59,14 @@ const widgetConfig: WithAndroidWidgetsParams = {
       previewImage: './assets/widget-preview/list.png',
     },
     {
+      name: 'DarkMode',
+      label: 'Dark Mode Widget Demo',
+      description: 'Different colors for light and dark mode',
+      minHeight: '120dp',
+      minWidth: '300dp',
+      previewImage: './assets/widget-preview/darkmode.png',
+    },
+    {
       name: 'DebugEvents',
       label: 'Debug Events',
       description: 'Debug Widget Events',
@@ -99,7 +107,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     supportsTablet: true,
   },
   scheme: 'androidwidgetexample',
-  newArchEnabled: true,
   android: {
     adaptiveIcon: {
       foregroundImage: './assets/adaptive-icon.png',

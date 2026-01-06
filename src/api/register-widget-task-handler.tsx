@@ -2,7 +2,7 @@ import * as React from 'react';
 import { AppRegistry } from 'react-native';
 import { AndroidWidget } from '../AndroidWidget';
 import { buildWidgetTree } from './build-widget-tree';
-import type { WidgetInfo } from './types';
+import type { WidgetInfo, WidgetRepresentation } from './types';
 
 const HEADLESS_TASK_KEY = 'RNWidgetBackgroundTask';
 
@@ -42,7 +42,7 @@ export interface WidgetTaskHandlerProps {
   /**
    * Function that needs to be called with the Widget JSX to render
    */
-  renderWidget: (widgetComponent: React.JSX.Element) => void;
+  renderWidget: (widgetComponent: WidgetRepresentation) => void;
 }
 
 export type WidgetTaskHandler = (
@@ -61,10 +61,25 @@ export function registerWidgetTaskHandler(handler: WidgetTaskHandler): void {
     clickActionData,
     ...widgetInfo
   }: NativeTaskInfo) {
-    function renderWidget(widgetComponent: React.JSX.Element) {
+    function renderWidget(widgetComponent: WidgetRepresentation) {
       if (widgetAction === 'WIDGET_DELETED') return;
+
+      const lightWidget =
+        'light' in widgetComponent
+          ? buildWidgetTree(widgetComponent.light)
+          : buildWidgetTree(widgetComponent);
+      const darkWidget =
+        'dark' in widgetComponent
+          ? buildWidgetTree(widgetComponent.dark as React.JSX.Element)
+          : null;
+
+      const config = {
+        light: lightWidget,
+        dark: darkWidget,
+      };
+
       AndroidWidget.drawWidgetById(
-        buildWidgetTree(widgetComponent),
+        config,
         widgetInfo.widgetName,
         widgetInfo.widgetId
       );

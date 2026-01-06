@@ -9,6 +9,7 @@ import { ListScreen, type ExampleScreens } from './screens/ListScreen';
 import { SvgScreen } from './screens/SvgScreen';
 import { TextScreen } from './screens/TextScreen';
 import { ClickDemoWidgetPreviewScreen } from './screens/widget-preview/ClickDemoWidgetPreviewScreen';
+import { DarkModeDemoWidgetPreviewScreen } from './screens/widget-preview/DarkModeDemoWidgetPreviewScreen';
 import { DebugEventsWidgetPreviewScreen } from './screens/widget-preview/DebugEventsWidgetPreviewScreen';
 import { FitnessWidgetPreviewScreen } from './screens/widget-preview/FitnessWidgetPreviewScreen';
 import { ListDemoWidgetPreviewDeepLinkScreen } from './screens/widget-preview/ListDemoWidgetPreviewDeepLinkScreen';
@@ -87,6 +88,11 @@ export function App() {
           name="ListDemoWidgetPreviewDeepLinkScreen"
           component={ListDemoWidgetPreviewDeepLinkScreen}
           options={{ title: 'List Widget Deep Link' }}
+        />
+        <Stack.Screen
+          name="DarkModeDemoWidgetPreviewScreen"
+          component={DarkModeDemoWidgetPreviewScreen}
+          options={{ title: 'Dark Mode Widget Preview' }}
         />
         <Stack.Screen
           name="DebugEventsWidgetPreviewScreen"

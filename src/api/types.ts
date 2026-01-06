@@ -1,3 +1,5 @@
+import type React from 'react';
+
 export interface ScreenInfo {
   /**
    * Height of the screen in DP
@@ -39,3 +41,10 @@ export interface WidgetInfo {
    */
   screenInfo: ScreenInfo;
 }
+
+export type WidgetRepresentation =
+  | React.JSX.Element
+  | {
+      light: React.JSX.Element;
+      dark: React.JSX.Element | null;
+    };

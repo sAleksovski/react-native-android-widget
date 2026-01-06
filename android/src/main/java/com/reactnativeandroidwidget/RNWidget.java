@@ -59,7 +59,10 @@ public class RNWidget {
     }
 
     public void drawWidget(int widgetId) throws Exception {
-        ReadableMap configClone = Arguments.makeNativeMap(config.toHashMap());
+        ReadableMap light = config.getMap("light");
+        ReadableMap dark = config.getMap("dark");
+
+        ReadableMap configClone = Arguments.makeNativeMap(light.toHashMap());
         RemoteViews remoteWidgetView = new RemoteViews(appContext.getPackageName(), R.layout.rn_widget);
 
         WidgetWithViews widgetWithViews = WidgetFactory.buildWidgetFromRoot(
@@ -70,8 +73,38 @@ public class RNWidget {
         );
 
         Bitmap bitmap = drawViewToBitmap(widgetWithViews.getRootView());
-        Uri bitmapUri = saveBitmapToDisk(widgetId, bitmap);
-        remoteWidgetView.setImageViewUri(R.id.rn_widget_image, bitmapUri);
+        Uri bitmapUri = saveBitmapToDisk(widgetId, "light", bitmap);
+        remoteWidgetView.setImageViewUri(R.id.rn_widget_image_light, bitmapUri);
+
+        if (dark != null) {
+            WidgetWithViews darkWidgetWithViews = WidgetFactory.buildWidgetFromRoot(
+                appContext,
+                Arguments.makeNativeMap(dark.toHashMap()),
+                RNWidgetUtil.getWidgetWidth(appContext, widgetId),
+                RNWidgetUtil.getWidgetHeight(appContext, widgetId)
+            );
+
+            Bitmap darkBitmap = drawViewToBitmap(darkWidgetWithViews.getRootView());
+            Uri darkBitmapUri = saveBitmapToDisk(widgetId, "dark", darkBitmap);
+            remoteWidgetView.setImageViewUri(R.id.rn_widget_image_dark, darkBitmapUri);
+
+            List<CollectionView> lightCollectionViews = widgetWithViews.getCollectionViews();
+            List<CollectionView> darkCollectionViews = darkWidgetWithViews.getCollectionViews();
+
+            for (int i = 0; i < Math.min(darkCollectionViews.size(), RNWidgetCollectionService.MAX_COLLECTION_WIDGETS); i++) {
+                RNWidgetCollectionService.storeCollection(appContext, widgetId, i, lightCollectionViews.get(i).getRenderedViews(), "light");
+                RNWidgetCollectionService.storeCollection(appContext, widgetId, i, darkCollectionViews.get(i).getRenderedViews(), "dark");
+            }
+        } else {
+            remoteWidgetView.setImageViewUri(R.id.rn_widget_image_dark, bitmapUri);
+
+            List<CollectionView> collectionViews = widgetWithViews.getCollectionViews();
+            for (int i = 0; i < Math.min(collectionViews.size(), RNWidgetCollectionService.MAX_COLLECTION_WIDGETS); i++) {
+                CollectionView collectionView = collectionViews.get(i);
+                RNWidgetCollectionService.storeCollection(appContext, widgetId, i, collectionView.getRenderedViews(), "light");
+                RNWidgetCollectionService.storeCollection(appContext, widgetId, i, collectionView.getRenderedViews(), "dark");
+            }
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             addClickableAreas(widgetId, remoteWidgetView, widgetWithViews);
@@ -107,8 +140,8 @@ public class RNWidget {
         return bitmap;
     }
 
-    private Uri saveBitmapToDisk(int widgetId, Bitmap bitmap) {
-        String fileName = "widget_" + widgetId + ".png";
+    private Uri saveBitmapToDisk(int widgetId, String mode, Bitmap bitmap) {
+        String fileName = "widget_" + widgetId + "_mode_" + mode + ".png";
         RNWidgetImageProvider.writeImage(appContext, fileName, bitmap);
         return RNWidgetImageProvider.getImageUri(appContext, fileName);
     }
@@ -175,8 +208,6 @@ public class RNWidget {
     }
 
     private void addCollectionView(RemoteViews remoteWidgetView, ViewGroup rootView, CollectionView collectionView, int widgetId, int collectionId) {
-        RNWidgetCollectionService.storeCollection(appContext, widgetId, collectionId, collectionView.getRenderedViews());
-
         View collectionWidget = collectionView.getView();
         Rect offsetViewBounds = new Rect();
         collectionWidget.getDrawingRect(offsetViewBounds);
@@ -225,7 +256,8 @@ public class RNWidget {
             bundle.putString("clickAction", collectionViewItem.getClickAction());
             bundle.putBundle("clickActionData", Arguments.toBundle(collectionViewItem.getClickActionData()));
             bundle.putInt("imageWidth", collectionViewItem.getBitmap().getWidth());
-            bundle.putString("imageName", RNWidgetCollectionService.getImageName(widgetId, collectionId, i));
+            bundle.putString("lightImageName", RNWidgetCollectionService.getImageName(widgetId, collectionId, i, "light"));
+            bundle.putString("darkImageName", RNWidgetCollectionService.getImageName(widgetId, collectionId, i, "dark"));
             collectionItemsBundle.add(bundle);
 
             ArrayList<Bundle> clickableAreas = new ArrayList<>();

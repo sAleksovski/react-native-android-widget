@@ -70,8 +70,8 @@ public class RNWidgetImageProvider extends ContentProvider {
         deleteImages(context, "widget_" + widgetId);
     }
 
-    static void deleteCollectionImages(Context context, int widgetId, int collectionId) {
-        deleteImages(context, "widget_" + widgetId + "_collection_" + collectionId);
+    static void deleteCollectionImages(Context context, int widgetId, int collectionId, String mode) {
+        deleteImages(context, "widget_" + widgetId + "_mode_" + mode + "_collection_" + collectionId);
     }
 
     private static void deleteImages(Context context, String prefix) {

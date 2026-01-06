@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
         android:scaleType="matrix"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/rn_widget_image_dark"
@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
         android:scaleType="matrix"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <FrameLayout
         android:id="@+id/rn_widget_clickable_container"

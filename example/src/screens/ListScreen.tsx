@@ -22,6 +22,7 @@ export type ExampleScreens = {
   ClickDemoWidgetPreviewScreen: undefined;
   ListDemoWidgetPreviewScreen: undefined;
   ListDemoWidgetPreviewDeepLinkScreen: { id: number } | undefined;
+  DarkModeDemoWidgetPreviewScreen: undefined;
   DebugEventsWidgetPreviewScreen: undefined;
   FlexScreen: undefined;
   BorderScreen: undefined;
@@ -59,6 +60,10 @@ const items: Item[] = [
   {
     title: 'List Widget Preview',
     screen: 'ListDemoWidgetPreviewScreen',
+  },
+  {
+    title: 'Dark Mode Widget Preview',
+    screen: 'DarkModeDemoWidgetPreviewScreen',
   },
   {
     title: 'Counter Demo',

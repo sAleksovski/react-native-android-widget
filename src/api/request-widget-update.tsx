@@ -1,7 +1,7 @@
-import * as React from 'react';
+import type React from 'react';
 import { AndroidWidget } from '../AndroidWidget';
 import { buildWidgetTree } from './build-widget-tree';
-import type { WidgetInfo } from './types';
+import type { WidgetInfo, WidgetRepresentation } from './types';
 
 export interface RequestWidgetUpdateProps {
   /**
@@ -14,7 +14,7 @@ export interface RequestWidgetUpdateProps {
    */
   renderWidget: (
     props: WidgetInfo
-  ) => Promise<React.JSX.Element> | React.JSX.Element;
+  ) => Promise<WidgetRepresentation> | WidgetRepresentation;
   /**
    * Callback function that will be called if no widgets are added on the home screen
    * It can be used to clean up background tasks that update the widget periodically
@@ -42,10 +42,20 @@ export async function requestWidgetUpdate({
   widgetsInfo.forEach(async (info: WidgetInfo) => {
     const widgetComponent = await renderWidget(info);
 
-    AndroidWidget.drawWidgetById(
-      buildWidgetTree(widgetComponent),
-      widgetName,
-      info.widgetId
-    );
+    const lightWidget =
+      'light' in widgetComponent
+        ? buildWidgetTree(widgetComponent.light)
+        : buildWidgetTree(widgetComponent);
+    const darkWidget =
+      'dark' in widgetComponent
+        ? buildWidgetTree(widgetComponent.dark as React.JSX.Element)
+        : null;
+
+    const config = {
+      light: lightWidget,
+      dark: darkWidget,
+    };
+
+    AndroidWidget.drawWidgetById(config, widgetName, info.widgetId);
   });
 }

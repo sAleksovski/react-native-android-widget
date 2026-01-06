@@ -4,6 +4,7 @@ import type { WidgetTaskHandlerProps } from 'react-native-android-widget';
 import { ClickDemoWidget } from './widgets/ClickDemoWidget';
 import { ConfigurableWidget } from './widgets/ConfigurableWidget';
 import { CounterWidget } from './widgets/CounterWidget';
+import { DarkModeDemoWidget } from './widgets/DarkModeWidget';
 import {
   DEBUG_EVENTS_STORAGE_KEY,
   DebugEventsWidget,
@@ -89,6 +90,14 @@ export async function widgetTaskHandler(props: WidgetTaskHandlerProps) {
         );
         break;
     }
+    return;
+  }
+
+  if (widgetInfo.widgetName === 'DarkMode') {
+    props.renderWidget({
+      light: <DarkModeDemoWidget mode="light" />,
+      dark: <DarkModeDemoWidget mode="dark" />,
+    });
     return;
   }
 

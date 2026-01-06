@@ -135,6 +135,19 @@
         </receiver>
 
         <receiver
+            android:name=".widget.DarkMode"
+            android:exported="false"
+            android:label="Dark Mode Widget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.androidwidgetexample.WIDGET_CLICK" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widgetprovider_darkmode" />
+        </receiver>
+
+        <receiver
             android:name=".widget.DebugEvents"
             android:exported="false"
             android:label="Debug Events">

@@ -22,17 +22,17 @@ import java.util.List;
 public class RNWidgetCollectionService extends RemoteViewsService {
     public static final int MAX_COLLECTION_WIDGETS = 2;
 
-    public static void storeCollection(ReactApplicationContext context, int widgetId, int collectionId, List<CollectionViewItem> collectionViewItems) {
-        RNWidgetImageProvider.deleteCollectionImages(context, widgetId, collectionId);
+    public static void storeCollection(ReactApplicationContext context, int widgetId, int collectionId, List<CollectionViewItem> collectionViewItems, String mode) {
+        RNWidgetImageProvider.deleteCollectionImages(context, widgetId, collectionId, mode);
         for (int i = 0; i < collectionViewItems.size(); i++) {
             CollectionViewItem item = collectionViewItems.get(i);
 
-            RNWidgetImageProvider.writeImage(context, getImageName(widgetId, collectionId, i), item.getBitmap());
+            RNWidgetImageProvider.writeImage(context, getImageName(widgetId, collectionId, i, mode), item.getBitmap());
         }
     }
 
-    static String getImageName(int widgetId, int collectionId, int position) {
-        return "widget_" + widgetId + "_collection_" + collectionId + "_" + position + ".png";
+    static String getImageName(int widgetId, int collectionId, int position, String mode) {
+        return "widget_" + widgetId + "_mode_" + mode + "_collection_" + collectionId + "_" + position + ".png";
     }
 
     @Override
@@ -72,14 +72,16 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
         RemoteViews listItemView = new RemoteViews(mContext.getPackageName(), R.layout.rn_widget_list_item);
         listItemView.removeAllViews(R.id.rn_widget_list_item_clickable_container);
-        Uri imageUri = RNWidgetImageProvider.getImageUri(mContext, bundle.getString("imageName"));
-        listItemView.setImageViewUri(R.id.rn_widget_list_item, imageUri);
+        Uri lightImageUri = RNWidgetImageProvider.getImageUri(mContext, bundle.getString("lightImageName"));
+        listItemView.setImageViewUri(R.id.rn_widget_list_item_light, lightImageUri);
+        Uri darkImageUri = RNWidgetImageProvider.getImageUri(mContext, bundle.getString("darkImageName"));
+        listItemView.setImageViewUri(R.id.rn_widget_list_item_dark, darkImageUri);
 
         // Set a fill-intent which will be used to fill-in the pending intent template
         // which is set on the collection view in RNWidget.
         if (bundle.getString("clickAction", null) != null) {
             Intent fillInIntent = createFillInIntent(bundle);
-            listItemView.setOnClickFillInIntent(R.id.rn_widget_list_item, fillInIntent);
+            listItemView.setOnClickFillInIntent(R.id.rn_widget_list_item_clickable_container, fillInIntent);
         }
 
         ArrayList<Bundle> clickableAreas = bundle.getParcelableArrayList("clickableAreas");
