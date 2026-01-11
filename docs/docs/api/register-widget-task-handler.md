@@ -28,6 +28,11 @@ export async function widgetTaskHandler(props: WidgetTaskHandlerProps) {
   switch (props.widgetAction) {
     case 'WIDGET_ADDED':
       props.renderWidget(<Widget />);
+      // or
+      // props.renderWidget({
+      //   light: <Widget theme="light" />,
+      //   dark: <Widget theme="dark" />,
+      // });
       break;
 
     case 'WIDGET_UPDATE':

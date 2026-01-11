@@ -33,6 +33,11 @@ export function CounterScreen() {
       widgetName: 'Counter',
       widgetId: 1,
       renderWidget: () => <CounterWidget count={count} />,
+      // or
+      // renderWidget: () => ({
+      //   light: <CounterWidget count={count} theme="light" />,
+      //   dark: <CounterWidget count={count} theme="dark" />,
+      // }),
       widgetNotFound: () => {
         // Called if no widget is present on the home screen
       },
