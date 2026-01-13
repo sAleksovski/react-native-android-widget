@@ -29,6 +29,7 @@ function CollectionData({ archivedIndex }: ListDemoWidgetProps) {
           clickActionData={{
             uri: `androidwidgetexample://list/list-demo/${i + 1}`,
           }}
+          accessibilityLabel={`Email ${i + 1} from 15, title: React Native Android Widget Release 0.${i + 1}`}
         >
           <FlexWidget
             style={{
@@ -81,6 +82,7 @@ function CollectionData({ archivedIndex }: ListDemoWidgetProps) {
               style={{ color: '#fff' }}
               clickAction="ARCHIVE"
               clickActionData={{ listItemId: i }}
+              accessibilityLabel={archivedIndex === i ? 'Unarchive email' : 'Archive email'}
             />
           </FlexWidget>
         </FlexWidget>
@@ -99,6 +101,7 @@ function CollectionData({ archivedIndex }: ListDemoWidgetProps) {
         clickActionData={{
           uri: 'androidwidgetexample://list/list-demo',
         }}
+        accessibilityLabel="View more emails"
       >
         <TextWidget text="View more" style={{ fontSize: 14, color: '#fff' }} />
       </FlexWidget>
@@ -122,6 +125,7 @@ export function ListDemoWidget({ archivedIndex = 1 }: ListDemoWidgetProps) {
         paddingTop: 16,
         borderRadius: 16,
       }}
+      accessibilityLabel="Gmail clone widget. There are two unread emails."
     >
       <FlexWidget
         style={{
@@ -151,6 +155,7 @@ export function ListDemoWidget({ archivedIndex = 1 }: ListDemoWidgetProps) {
             padding: 8,
             borderRadius: 12,
           }}
+          accessibilityLabel="Compose new email"
         />
       </FlexWidget>
 

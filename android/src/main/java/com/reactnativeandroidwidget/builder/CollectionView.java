@@ -61,6 +61,12 @@ public class CollectionView {
             List<ClickableView> clickableViews = widgetWithViews.getClickableViews();
             Bitmap bitmap = getBitmap(rootView.getChildAt(0));
 
+            // Extract item accessibility label from original config
+            String itemAccessibilityLabel = null;
+            if (configClone.getMap("props").hasKey("accessibilityLabel")) {
+                itemAccessibilityLabel = configClone.getMap("props").getString("accessibilityLabel");
+            }
+
             if (configClone.getMap("props").hasKey("clickAction")) {
                 renderedViews.add(
                     new CollectionViewItem(
@@ -68,11 +74,12 @@ public class CollectionView {
                         bitmap,
                         clickableViews,
                         configClone.getMap("props").getString("clickAction"),
-                        configClone.getMap("props").getMap("clickActionData")
+                        configClone.getMap("props").getMap("clickActionData"),
+                        itemAccessibilityLabel
                     )
                 );
             } else {
-                renderedViews.add(new CollectionViewItem(rootView, bitmap, clickableViews));
+                renderedViews.add(new CollectionViewItem(rootView, bitmap, clickableViews, null, null, itemAccessibilityLabel));
             }
         }
     }

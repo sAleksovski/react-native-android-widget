@@ -3,6 +3,8 @@ package com.reactnativeandroidwidget.builder;
 import android.graphics.Bitmap;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
+
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReadableMap;
 
@@ -14,8 +16,13 @@ public class CollectionViewItem {
     private final List<ClickableView> clickableViews;
     private final String clickAction;
     private final ReadableMap clickActionData;
+    private final String itemAccessibilityLabel;
 
     public CollectionViewItem(ViewGroup view, Bitmap bitmap, List<ClickableView> clickableViews, String clickAction, ReadableMap clickActionData) {
+        this(view, bitmap, clickableViews, clickAction, clickActionData, null);
+    }
+
+    public CollectionViewItem(ViewGroup view, Bitmap bitmap, List<ClickableView> clickableViews, String clickAction, ReadableMap clickActionData, @Nullable String itemAccessibilityLabel) {
         this.view = view;
         this.bitmap = bitmap;
         this.clickableViews = clickableViews;
@@ -25,10 +32,11 @@ public class CollectionViewItem {
         } else {
             this.clickActionData = clickActionData;
         }
+        this.itemAccessibilityLabel = itemAccessibilityLabel;
     }
 
     public CollectionViewItem(ViewGroup view, Bitmap bitmap, List<ClickableView> clickableViews) {
-        this(view, bitmap, clickableViews, null, null);
+        this(view, bitmap, clickableViews, null, null, null);
     }
 
     public ViewGroup getView() {
@@ -49,5 +57,10 @@ public class CollectionViewItem {
 
     public ReadableMap getClickActionData() {
         return clickActionData;
+    }
+
+    @Nullable
+    public String getItemAccessibilityLabel() {
+        return itemAccessibilityLabel;
     }
 }

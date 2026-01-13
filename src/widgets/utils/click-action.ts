@@ -21,6 +21,12 @@ export interface ClickActionProps {
    * If `clickAction` is `OPEN_URI` it must contain `{ uri: 'some-uri' }`
    */
   clickActionData?: Record<string, unknown>;
+  /**
+   * Accessibility label for screen readers. Can be set on the root component or any clickable component.
+   * When set on the root component, it applies to the entire widget.
+   * When set on a clickable component, it describes that specific clickable area.
+   */
+  accessibilityLabel?: string;
 }
 
 export function convertClickAction(
@@ -31,6 +37,11 @@ export function convertClickAction(
       ? {
           clickAction: props.clickAction,
           clickActionData: props.clickActionData ?? {},
+        }
+      : {}),
+    ...(props.accessibilityLabel
+      ? {
+          accessibilityLabel: props.accessibilityLabel,
         }
       : {}),
   };

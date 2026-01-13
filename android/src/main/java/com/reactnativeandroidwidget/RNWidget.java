@@ -76,6 +76,10 @@ public class RNWidget {
         Uri bitmapUri = saveBitmapToDisk(widgetId, "light", bitmap);
         remoteWidgetView.setImageViewUri(R.id.rn_widget_image_light, bitmapUri);
 
+        if (widgetWithViews.getRootAccessibilityLabel() != null) {
+            remoteWidgetView.setContentDescription(R.id.rn_widget_clickable_container, widgetWithViews.getRootAccessibilityLabel());
+        }
+
         if (dark != null) {
             WidgetWithViews darkWidgetWithViews = WidgetFactory.buildWidgetFromRoot(
                 appContext,
@@ -175,6 +179,10 @@ public class RNWidget {
 
         clickableRemoteView.setInt(R.id.rn_widget_clickable_area, "setMinimumHeight", offsetViewBounds.height());
 
+        if (clickableView.getAccessibilityLabel() != null) {
+            clickableRemoteView.setContentDescription(R.id.rn_widget_clickable_area, clickableView.getAccessibilityLabel());
+        }
+
         registerClickTask(widgetId, clickableView, clickableRemoteView, R.id.rn_widget_clickable_area);
 
         widgetView.addView(R.id.rn_widget_clickable_container, clickableRemoteView);
@@ -258,6 +266,12 @@ public class RNWidget {
             bundle.putInt("imageWidth", collectionViewItem.getBitmap().getWidth());
             bundle.putString("lightImageName", RNWidgetCollectionService.getImageName(widgetId, collectionId, i, "light"));
             bundle.putString("darkImageName", RNWidgetCollectionService.getImageName(widgetId, collectionId, i, "dark"));
+            
+            // Add item accessibility label if available
+            if (collectionViewItem.getItemAccessibilityLabel() != null) {
+                bundle.putString("itemAccessibilityLabel", collectionViewItem.getItemAccessibilityLabel());
+            }
+            
             collectionItemsBundle.add(bundle);
 
             ArrayList<Bundle> clickableAreas = new ArrayList<>();
@@ -275,6 +289,11 @@ public class RNWidget {
                 collectionViewMap.putInt("width", offsetViewBounds.width());
                 collectionViewMap.putString("clickAction", clickableView.getClickAction());
                 collectionViewMap.putBundle("clickActionData", Arguments.toBundle(clickableView.getClickActionData()));
+                
+                // Add clickable area accessibility label if available
+                if (clickableView.getAccessibilityLabel() != null) {
+                    collectionViewMap.putString("accessibilityLabel", clickableView.getAccessibilityLabel());
+                }
 
                 clickableAreas.add(collectionViewMap);
             }

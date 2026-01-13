@@ -50,6 +50,7 @@ export function HelloWidget() {
         backgroundColor: '#ffffff',
         borderRadius: 16,
       }}
+      accessibilityLabel="Hello world widget"
     >
       <TextWidget
         text="Hello"

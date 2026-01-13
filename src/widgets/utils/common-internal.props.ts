@@ -4,6 +4,7 @@ export interface CommonInternalProps {
   weight?: number;
   clickAction?: string;
   clickActionData?: Record<string, unknown>;
+  accessibilityLabel?: string;
   /**
    * #RRGGBB or #AARRGGBB
    */

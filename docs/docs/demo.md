@@ -13,9 +13,17 @@ You can download the demo app with the example widgets from the [Releases Page](
 
 ## List Widget Preview
 
+This widget is accessible
+
 ![List Widget Preview](../../example-expo/assets/widget-preview/list.png)
 
+## Dark Mode Widget Preview
+
+![Dark Mode Widget Preview](../../example-expo/assets/widget-preview/darkmode.png)
+
 ## Resizable Music Widget Preview
+
+This widget is accessible
 
 ![Resizable Music Widget Preview](../../example-expo/assets/widget-preview/resizable.png)
 

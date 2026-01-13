@@ -29,16 +29,26 @@ import java.util.Objects;
 public class WidgetFactory {
     private final List<ClickableView> clickableViews;
     private final List<CollectionView> collectionViews;
+    private String rootAccessibilityLabel;
 
     private WidgetFactory() {
         this.clickableViews = new ArrayList<>();
         this.collectionViews = new ArrayList<>();
+        this.rootAccessibilityLabel = null;
     }
 
     public static WidgetWithViews buildWidgetFromRoot(ReactApplicationContext context, ReadableMap config, int width, int height) throws Exception {
         WidgetFactory widgetFactory = new WidgetFactory();
 
-        View view = widgetFactory.buildWidget(context, widgetFactory.getRootConfig(config, width, height), "0");
+        ReadableMap configClone = Arguments.makeNativeMap(config.toHashMap());
+
+        ReadableMap rootConfig = widgetFactory.getRootConfig(config, width, height);
+
+        if (configClone.hasKey("props") && configClone.getMap("props").hasKey("accessibilityLabel")) {
+            widgetFactory.rootAccessibilityLabel = configClone.getMap("props").getString("accessibilityLabel");
+        }
+
+        View view = widgetFactory.buildWidget(context, rootConfig, "0");
 
         for (int i = 0; i < widgetFactory.collectionViews.size(); i++) {
             widgetFactory.collectionViews.get(i).buildChildren(context);
@@ -47,7 +57,7 @@ public class WidgetFactory {
         ResourceUtils.clear();
 
         Collections.sort(widgetFactory.clickableViews);
-        return new WidgetWithViews(view, widgetFactory.clickableViews, widgetFactory.collectionViews);
+        return new WidgetWithViews(view, widgetFactory.clickableViews, widgetFactory.collectionViews, widgetFactory.rootAccessibilityLabel);
     }
 
     @NonNull
@@ -81,12 +91,17 @@ public class WidgetFactory {
         }
 
         if (config.getMap("props").hasKey("clickAction")) {
+            String accessibilityLabel = null;
+            if (config.getMap("props").hasKey("accessibilityLabel")) {
+                accessibilityLabel = config.getMap("props").getString("accessibilityLabel");
+            }
             clickableViews.add(
                 new ClickableView(
                     id,
                     view,
                     config.getMap("props").getString("clickAction"),
-                    config.getMap("props").getMap("clickActionData")
+                    config.getMap("props").getMap("clickActionData"),
+                    accessibilityLabel
                 )
             );
         }

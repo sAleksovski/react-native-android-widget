@@ -172,6 +172,7 @@ function NowPlayingInfo({
               songId: (song.id + songs.length - 1) % songs.length,
             }}
             style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+            accessibilityLabel="Play previous song"
           >
             <IconWidget
               font="material"
@@ -189,6 +190,7 @@ function NowPlayingInfo({
             <FlexWidget
               clickAction={status === 'playing' ? 'pause' : 'play'}
               clickActionData={{ songId: song.id }}
+              accessibilityLabel={status === 'playing' ? 'Pause song' : 'Play song'}
               style={{
                 height: 48,
                 width: 48,
@@ -213,6 +215,7 @@ function NowPlayingInfo({
             clickAction="change-song"
             clickActionData={{ songId: (song.id + 1) % songs.length }}
             style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+            accessibilityLabel="Play next song"
           >
             <IconWidget
               font="material"
@@ -262,6 +265,7 @@ function NextTracks({ height, backgroundColor }: NextTracksProps) {
         <FlexWidget
           clickAction="change-song"
           clickActionData={{ songId: 0 }}
+          accessibilityLabel={`Play ${songs[0].title} by ${songs[0].artist}`}
           style={{
             flexDirection: 'row',
             marginRight: 12,
@@ -307,6 +311,7 @@ function NextTracks({ height, backgroundColor }: NextTracksProps) {
         <FlexWidget
           clickAction="change-song"
           clickActionData={{ songId: 1 }}
+          accessibilityLabel={`Play ${songs[1].title} by ${songs[1].artist}`}
           style={{ flexDirection: 'row', flex: 1, width: 'match_parent' }}
         >
           <ImageWidget
@@ -349,6 +354,7 @@ function NextTracks({ height, backgroundColor }: NextTracksProps) {
         <FlexWidget
           clickAction="change-song"
           clickActionData={{ songId: 2 }}
+          accessibilityLabel={`Play ${songs[2].title} by ${songs[2].artist}`}
           style={{
             flexDirection: 'row',
             marginRight: 12,
@@ -394,6 +400,7 @@ function NextTracks({ height, backgroundColor }: NextTracksProps) {
         <FlexWidget
           clickAction="change-song"
           clickActionData={{ songId: 3 }}
+          accessibilityLabel={`Play ${songs[3].title} by ${songs[3].artist}`}
           style={{ flexDirection: 'row', flex: 1, width: 'match_parent' }}
         >
           <ImageWidget
@@ -472,6 +479,7 @@ export function ResizableMusicWidget({
           height: 'match_parent',
           width: 'match_parent',
         }}
+        accessibilityLabel={`${status === 'playing' ? 'Playing' : 'Paused'} ${song.title} by ${song.artist}`}
       >
         <FlexWidget
           style={{
@@ -512,6 +520,7 @@ export function ResizableMusicWidget({
         height: 'match_parent',
         width: 'match_parent',
       }}
+      accessibilityLabel={`${status === 'playing' ? 'Playing' : 'Paused'} ${song.title} by ${song.artist}`}
     >
       <AlbumArt
         song={song!}

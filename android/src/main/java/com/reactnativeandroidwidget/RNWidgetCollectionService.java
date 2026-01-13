@@ -77,6 +77,13 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         Uri darkImageUri = RNWidgetImageProvider.getImageUri(mContext, bundle.getString("darkImageName"));
         listItemView.setImageViewUri(R.id.rn_widget_list_item_dark, darkImageUri);
 
+        // Set item accessibility label on ImageViews if available
+        if (bundle.getString("itemAccessibilityLabel", null) != null) {
+            String itemAccessibilityLabel = bundle.getString("itemAccessibilityLabel");
+            listItemView.setContentDescription(R.id.rn_widget_list_item_light, itemAccessibilityLabel);
+            listItemView.setContentDescription(R.id.rn_widget_list_item_dark, itemAccessibilityLabel);
+        }
+
         // Set a fill-intent which will be used to fill-in the pending intent template
         // which is set on the collection view in RNWidget.
         if (bundle.getString("clickAction", null) != null) {
@@ -108,6 +115,11 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         );
 
         clickableRemoteView.setInt(R.id.rn_widget_clickable_area, "setMinimumHeight", clickableArea.getInt("height"));
+
+        // Set accessibility label on clickable area if available
+        if (clickableArea.getString("accessibilityLabel", null) != null) {
+            clickableRemoteView.setContentDescription(R.id.rn_widget_clickable_area, clickableArea.getString("accessibilityLabel"));
+        }
 
         PendingIntent pendingIntent = createPendingIntent(clickableArea);
         clickableRemoteView.setOnClickPendingIntent(R.id.rn_widget_clickable_area, pendingIntent);
