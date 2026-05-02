@@ -96,7 +96,7 @@ Create a new xml file in the resources directory containing the details about th
 </appwidget-provider>
 ```
 
-- `android:updatePeriodMillis` How often, in milliseconds, that this AppWidget wants to be updated. The task handler will be called with `widgetAction = 'UPDATE_WIDGET'`. See the official docs [here](https://developer.android.com/reference/android/appwidget/AppWidgetProviderInfo.html#updatePeriodMillis)
+- `android:updatePeriodMillis` How often, in milliseconds, that this AppWidget wants to be updated. The task handler will be called with `widgetAction = 'WIDGET_UPDATE'`. See the official docs [here](https://developer.android.com/reference/android/appwidget/AppWidgetProviderInfo.html#updatePeriodMillis)
 - `android:previewImage` should reference the preview image we added previously
 - `android:description` can be added or not, depending on if we added a description in the previous step
 

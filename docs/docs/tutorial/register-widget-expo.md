@@ -52,7 +52,7 @@ const widgetConfig: WithAndroidWidgetsParams = {
       previewImage: './assets/widget-preview/hello.png', // Path to widget preview image
 
       // How often, in milliseconds, that this AppWidget wants to be updated.
-      // The task handler will be called with widgetAction = 'UPDATE_WIDGET'.
+      // The task handler will be called with widgetAction = 'WIDGET_UPDATE'.
       // Default is 0 (no automatic updates)
       // Minimum is 1800000 (30 minutes == 30 * 60 * 1000).
       updatePeriodMillis: 1800000,
