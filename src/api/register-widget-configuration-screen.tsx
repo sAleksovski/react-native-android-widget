@@ -2,7 +2,7 @@ import * as React from 'react';
 import { AppRegistry } from 'react-native';
 import { AndroidWidget } from '../AndroidWidget';
 import { buildWidgetTree } from './build-widget-tree';
-import type { WidgetInfo } from './types';
+import type { WidgetInfo, WidgetRepresentation } from './types';
 
 const WIDGET_CONFIGURATION_SCREEN_KEY = 'RNWidgetConfigurationScreen';
 
@@ -14,7 +14,7 @@ export interface WidgetConfigurationScreenProps {
   /**
    * Function that can be called with the Widget JSX to render
    */
-  renderWidget: (widgetComponent: React.JSX.Element) => void;
+  renderWidget: (widgetComponent: WidgetRepresentation) => void;
 
   /**
    * This must be called after finishing with configuration.
@@ -45,9 +45,23 @@ function widgetConfigurationScreenProvider(
   WidgetConfigurationScreen: WidgetConfigurationScreen
 ) {
   return ({ widgetInfo }: { widgetInfo: WidgetInfo }) => {
-    function renderWidget(widgetComponent: React.JSX.Element) {
+    function renderWidget(widgetComponent: WidgetRepresentation) {
+      const lightWidget =
+        'light' in widgetComponent
+          ? buildWidgetTree(widgetComponent.light)
+          : buildWidgetTree(widgetComponent);
+      const darkWidget =
+        'dark' in widgetComponent
+          ? buildWidgetTree(widgetComponent.dark as React.JSX.Element)
+          : null;
+
+      const config = {
+        light: lightWidget,
+        dark: darkWidget,
+      };
+
       AndroidWidget.drawWidgetById(
-        buildWidgetTree(widgetComponent),
+        config,
         widgetInfo.widgetName,
         widgetInfo.widgetId
       );
