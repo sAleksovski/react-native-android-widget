@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## Fixed
+
+- Added missing app.plugin.js
+
 ## [0.20.2] - 2026-05-02
 
 ## Fixed
