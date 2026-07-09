@@ -184,16 +184,21 @@ public class RNWidget {
         // on THIS separate overlay (rn_widget_clickable_area, background = ?attr/selectableItemBackground)
         // laid over the view's bounds — it is NOT the rendered widget bitmap, so a rounded view (e.g. a
         // pill-shaped button or a card with a borderRadius) otherwise gets a RECTANGULAR highlight on
-        // press. setViewOutlinePreferredRadius (API 31+) clips the overlay — and, via clipToOutline, its
-        // ripple — to a rounded outline that matches the view. Touch bounds are unaffected (the outline
-        // only clips drawing), so the corners stay tappable. Views with square corners (radius 0) are
-        // left untouched, and below API 31 the highlight remains rectangular.
+        // press. Rounding needs BOTH calls (API 31+): setViewOutlinePreferredRadius gives the overlay a
+        // round-rect OutlineProvider, and setClipToOutline=true makes the view actually clip its drawing
+        // (including the ripple background) to that outline — an outline on its own does not clip. This
+        // mirrors AndroidX RemoteViewsCompat (setViewOutlinePreferredRadius + setViewClipToOutline, both
+        // @RequiresApi(31)); setBoolean invokes View#setClipToOutline directly, avoiding a new dependency.
+        // Touch bounds are unaffected (the outline only clips drawing), so the corners stay tappable.
+        // Views with square corners (radius 0) are left untouched, and below API 31 the highlight remains
+        // rectangular.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && clickableView.getBorderRadius() > 0f) {
             clickableRemoteView.setViewOutlinePreferredRadius(
                 R.id.rn_widget_clickable_area,
                 clickableView.getBorderRadius(),
                 TypedValue.COMPLEX_UNIT_DIP
             );
+            clickableRemoteView.setBoolean(R.id.rn_widget_clickable_area, "setClipToOutline", true);
         }
 
         if (clickableView.getAccessibilityLabel() != null) {
