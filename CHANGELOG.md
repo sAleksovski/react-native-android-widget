@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## Fixed
+
+- The press highlight (ripple) of a clickable view is drawn on a separate overlay, so it ignored the view's `borderRadius` and always appeared as a rectangle over rounded buttons/cards. It now follows the clickable view's `borderRadius` on Android 12+ (API 31+) via `setViewOutlinePreferredRadius`; views with square corners and older versions are unchanged.
+
 ## [0.20.3] - 2026-05-02
 
 ## Fixed

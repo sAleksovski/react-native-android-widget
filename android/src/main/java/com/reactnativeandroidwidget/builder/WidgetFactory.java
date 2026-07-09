@@ -91,17 +91,29 @@ public class WidgetFactory {
         }
 
         if (config.getMap("props").hasKey("clickAction")) {
+            ReadableMap props = config.getMap("props");
             String accessibilityLabel = null;
-            if (config.getMap("props").hasKey("accessibilityLabel")) {
-                accessibilityLabel = config.getMap("props").getString("accessibilityLabel");
+            if (props.hasKey("accessibilityLabel")) {
+                accessibilityLabel = props.getString("accessibilityLabel");
+            }
+            // Carry the view's corner radius (dp) so its press-highlight overlay can be rounded to
+            // match (see RNWidget#addClickableArea). borderRadius is serialised as a per-corner map;
+            // widgets typically use a uniform radius, so topLeft represents the shape. Absent/null → 0.
+            float clickBorderRadius = 0f;
+            if (props.hasKey("borderRadius") && !props.isNull("borderRadius")) {
+                ReadableMap borderRadius = props.getMap("borderRadius");
+                if (borderRadius != null && borderRadius.hasKey("topLeft")) {
+                    clickBorderRadius = (float) borderRadius.getDouble("topLeft");
+                }
             }
             clickableViews.add(
                 new ClickableView(
                     id,
                     view,
-                    config.getMap("props").getString("clickAction"),
-                    config.getMap("props").getMap("clickActionData"),
-                    accessibilityLabel
+                    props.getString("clickAction"),
+                    props.getMap("clickActionData"),
+                    accessibilityLabel,
+                    clickBorderRadius
                 )
             );
         }

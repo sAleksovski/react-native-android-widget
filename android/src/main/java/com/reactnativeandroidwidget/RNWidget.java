@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RemoteViews;
@@ -178,6 +179,22 @@ public class RNWidget {
         );
 
         clickableRemoteView.setInt(R.id.rn_widget_clickable_area, "setMinimumHeight", offsetViewBounds.height());
+
+        // Round the press-highlight to match the clickable view's own corner radius. The ripple lives
+        // on THIS separate overlay (rn_widget_clickable_area, background = ?attr/selectableItemBackground)
+        // laid over the view's bounds — it is NOT the rendered widget bitmap, so a rounded view (e.g. a
+        // pill-shaped button or a card with a borderRadius) otherwise gets a RECTANGULAR highlight on
+        // press. setViewOutlinePreferredRadius (API 31+) clips the overlay — and, via clipToOutline, its
+        // ripple — to a rounded outline that matches the view. Touch bounds are unaffected (the outline
+        // only clips drawing), so the corners stay tappable. Views with square corners (radius 0) are
+        // left untouched, and below API 31 the highlight remains rectangular.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && clickableView.getBorderRadius() > 0f) {
+            clickableRemoteView.setViewOutlinePreferredRadius(
+                R.id.rn_widget_clickable_area,
+                clickableView.getBorderRadius(),
+                TypedValue.COMPLEX_UNIT_DIP
+            );
+        }
 
         if (clickableView.getAccessibilityLabel() != null) {
             clickableRemoteView.setContentDescription(R.id.rn_widget_clickable_area, clickableView.getAccessibilityLabel());
