@@ -28,21 +28,8 @@ public class RNWidgetJsCommunication {
             new OneTimeWorkRequest.Builder(RNWidgetBackgroundTaskWorker.class)
                 .setInputData(data);
 
-        // Widget updates are user-visible and usually user-initiated (adding/resizing a widget, or a
-        // click that maps to WIDGET_CLICK), so they should run as soon as possible. A plain
-        // OneTimeWorkRequest is deferrable work: when the app is not in the foreground WorkManager can
-        // hold it back (Doze / App Standby / batching), which is why widgets can appear to only refresh
-        // once the host app is opened. Requesting an expedited job lets the system run the task
-        // immediately when possible. See https://github.com/sAleksovski/react-native-android-widget/issues/145
-        //
-        // Expedited work is only requested on API 31+. There, expedited jobs are backed by JobScheduler
-        // and do not require a foreground service. On older versions WorkManager backs expedited work with
-        // a foreground service, which needs the worker to implement getForegroundInfo() (see
-        // ListenableWorker#getForegroundInfoAsync) — RNWidgetBackgroundTaskWorker does not, so we keep the
-        // existing deferrable behavior below API 31 to avoid the resulting IllegalStateException.
-        //
-        // RUN_AS_NON_EXPEDITED_WORK_REQUEST makes the request fall back to a regular deferrable job once
-        // the app's (quota-limited) expedited execution budget is exhausted, so enqueue never fails.
+        // Reduce background scheduling delays on Android 12+.
+        // Falls back to regular work if expedited quota is exhausted.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             builder.setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST);
         }
