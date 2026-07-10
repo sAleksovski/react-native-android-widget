@@ -267,18 +267,30 @@ function ClickableAreaButton({
         height: area.height,
       }}
     >
-      <TouchableNativeFeedback onPress={() => onClick(area)}>
-        <View
-          style={{
-            width: '100%',
-            height: '100%',
-            borderColor: 'red',
-            borderWidth: highlightClickableAreas ? 1 : 0,
-            borderRadius: area.borderRadius,
-            overflow: 'hidden',
-          }}
-        />
-      </TouchableNativeFeedback>
+      {/* Clip the ripple to the corners: borderRadius + overflow must WRAP the touchable (not sit on
+          its child), with an explicit bounded Ripple — the default background won't clip (RN #25342). */}
+      <View
+        style={{
+          width: '100%',
+          height: '100%',
+          borderRadius: area.borderRadius,
+          overflow: 'hidden',
+        }}
+      >
+        <TouchableNativeFeedback
+          onPress={() => onClick(area)}
+          background={TouchableNativeFeedback.Ripple('rgba(150, 150, 150, 0.35)', false)}
+        >
+          <View
+            style={{
+              width: '100%',
+              height: '100%',
+              borderColor: 'red',
+              borderWidth: highlightClickableAreas ? 1 : 0,
+            }}
+          />
+        </TouchableNativeFeedback>
+      </View>
       {highlightClickableAreas ? <ClickableAreaBorder /> : null}
     </View>
   );
