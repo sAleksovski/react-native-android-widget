@@ -258,32 +258,43 @@ function ClickableAreaButton({
   highlightClickableAreas,
 }: ClickableAreaButtonProps) {
   return (
-    <TouchableNativeFeedback onPress={() => onClick(area)}>
-      <View
-        style={{
-          position: 'absolute',
-          left: area.left,
-          top: area.top,
-          width: area.width,
-          height: area.height,
-          borderColor: 'red',
-          borderWidth: highlightClickableAreas ? 1 : 0,
-        }}
-      >
-        {highlightClickableAreas ? <ClickableAreaBorder /> : null}
-      </View>
-    </TouchableNativeFeedback>
+    <View
+      style={{
+        position: 'absolute',
+        left: area.left,
+        top: area.top,
+        width: area.width,
+        height: area.height,
+      }}
+    >
+      <TouchableNativeFeedback onPress={() => onClick(area)}>
+        {/* borderRadius + overflow clip the press ripple to the view's rounded corners so the
+            preview matches the on-device rounded ripple (see RNWidget#addClickableArea). The
+            highlight markers live on the parent so they are not clipped. */}
+        <View
+          style={{
+            width: '100%',
+            height: '100%',
+            borderColor: 'red',
+            borderWidth: highlightClickableAreas ? 1 : 0,
+            borderRadius: area.borderRadius,
+            overflow: 'hidden',
+          }}
+        />
+      </TouchableNativeFeedback>
+      {highlightClickableAreas ? <ClickableAreaBorder /> : null}
+    </View>
   );
 }
 
 function ClickableAreaBorder() {
   return (
-    <>
+    <View pointerEvents="none" style={StyleSheet.absoluteFill}>
       <View style={styles.clickableHighlightTopLeft} />
       <View style={styles.clickableHighlightTopRight} />
       <View style={styles.clickableHighlightBottomLeft} />
       <View style={styles.clickableHighlightBottomRight} />
-    </>
+    </View>
   );
 }
 

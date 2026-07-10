@@ -180,18 +180,7 @@ public class RNWidget {
 
         clickableRemoteView.setInt(R.id.rn_widget_clickable_area, "setMinimumHeight", offsetViewBounds.height());
 
-        // Round the press-highlight to match the clickable view's own corner radius. The ripple lives
-        // on THIS separate overlay (rn_widget_clickable_area, background = ?attr/selectableItemBackground)
-        // laid over the view's bounds — it is NOT the rendered widget bitmap, so a rounded view (e.g. a
-        // pill-shaped button or a card with a borderRadius) otherwise gets a RECTANGULAR highlight on
-        // press. Rounding needs BOTH calls (API 31+): setViewOutlinePreferredRadius gives the overlay a
-        // round-rect OutlineProvider, and setClipToOutline=true makes the view actually clip its drawing
-        // (including the ripple background) to that outline — an outline on its own does not clip. This
-        // mirrors AndroidX RemoteViewsCompat (setViewOutlinePreferredRadius + setViewClipToOutline, both
-        // @RequiresApi(31)); setBoolean invokes View#setClipToOutline directly, avoiding a new dependency.
-        // Touch bounds are unaffected (the outline only clips drawing), so the corners stay tappable.
-        // Views with square corners (radius 0) are left untouched, and below API 31 the highlight remains
-        // rectangular.
+        // The clickable overlay draws its own ripple, so match it to the view's radius when supported
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && clickableView.getBorderRadius() > 0f) {
             clickableRemoteView.setViewOutlinePreferredRadius(
                 R.id.rn_widget_clickable_area,
@@ -311,6 +300,7 @@ public class RNWidget {
                 collectionViewMap.putInt("width", offsetViewBounds.width());
                 collectionViewMap.putString("clickAction", clickableView.getClickAction());
                 collectionViewMap.putBundle("clickActionData", Arguments.toBundle(clickableView.getClickActionData()));
+                collectionViewMap.putFloat("borderRadius", clickableView.getBorderRadius());
                 
                 // Add clickable area accessibility label if available
                 if (clickableView.getAccessibilityLabel() != null) {
@@ -378,6 +368,7 @@ public class RNWidget {
         clickableViewMap.putDouble("height", RNWidgetUtil.pxToDp(appContext, offsetViewBounds.height()));
         clickableViewMap.putString("clickAction", clickableView.getClickAction());
         clickableViewMap.putMap("clickActionData", Arguments.makeNativeMap(clickableView.getClickActionData().toHashMap()));
+        clickableViewMap.putDouble("borderRadius", clickableView.getBorderRadius());
 
         return clickableViewMap;
     }
@@ -443,6 +434,7 @@ public class RNWidget {
             collectionViewMap.putDouble("height", RNWidgetUtil.pxToDp(appContext, offsetViewBounds.height()));
             collectionViewMap.putString("clickAction", clickableView.getClickAction());
             collectionViewMap.putMap("clickActionData", Arguments.makeNativeMap(clickableView.getClickActionData().toHashMap()));
+            collectionViewMap.putDouble("borderRadius", clickableView.getBorderRadius());
 
             clickableAreas.pushMap(collectionViewMap);
         }

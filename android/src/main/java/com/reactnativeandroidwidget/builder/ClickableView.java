@@ -10,8 +10,6 @@ public class ClickableView implements Comparable<ClickableView> {
     private final String clickAction;
     private final ReadableMap clickActionData;
     private final String accessibilityLabel;
-    // Corner radius (dp) of the clickable view, so the press-highlight overlay can be rounded to match
-    // it (see RNWidget#addClickableArea). 0 = square corners (the default / previous behavior).
     private final float borderRadius;
 
     public ClickableView(String id, View view, String clickAction, ReadableMap clickActionData) {

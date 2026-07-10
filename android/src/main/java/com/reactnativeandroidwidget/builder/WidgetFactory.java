@@ -96,16 +96,6 @@ public class WidgetFactory {
             if (props.hasKey("accessibilityLabel")) {
                 accessibilityLabel = props.getString("accessibilityLabel");
             }
-            // Carry the view's corner radius (dp) so its press-highlight overlay can be rounded to
-            // match (see RNWidget#addClickableArea). borderRadius is serialised as a per-corner map;
-            // widgets typically use a uniform radius, so topLeft represents the shape. Absent/null → 0.
-            float clickBorderRadius = 0f;
-            if (props.hasKey("borderRadius") && !props.isNull("borderRadius")) {
-                ReadableMap borderRadius = props.getMap("borderRadius");
-                if (borderRadius != null && borderRadius.hasKey("topLeft")) {
-                    clickBorderRadius = (float) borderRadius.getDouble("topLeft");
-                }
-            }
             clickableViews.add(
                 new ClickableView(
                     id,
@@ -113,12 +103,32 @@ public class WidgetFactory {
                     props.getString("clickAction"),
                     props.getMap("clickActionData"),
                     accessibilityLabel,
-                    clickBorderRadius
+                    getUniformBorderRadius(props)
                 )
             );
         }
 
         return view;
+    }
+
+    private float getUniformBorderRadius(ReadableMap props) {
+        if (!props.hasKey("borderRadius") || props.isNull("borderRadius")) {
+            return 0f;
+        }
+
+        ReadableMap radius = props.getMap("borderRadius");
+        if (radius == null) {
+            return 0f;
+        }
+
+        double topLeft = radius.hasKey("topLeft") ? radius.getDouble("topLeft") : 0;
+        double topRight = radius.hasKey("topRight") ? radius.getDouble("topRight") : 0;
+        double bottomRight = radius.hasKey("bottomRight") ? radius.getDouble("bottomRight") : 0;
+        double bottomLeft = radius.hasKey("bottomLeft") ? radius.getDouble("bottomLeft") : 0;
+
+        return topLeft == topRight && topLeft == bottomRight && topLeft == bottomLeft
+            ? (float) topLeft
+            : 0f;
     }
 
     @NonNull

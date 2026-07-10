@@ -8,6 +8,7 @@ export interface ClickableArea extends OnClick {
   top: number;
   width: number;
   height: number;
+  borderRadius: number;
 }
 
 export interface CollectionItem extends OnClick {
