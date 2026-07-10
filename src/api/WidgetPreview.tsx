@@ -268,9 +268,6 @@ function ClickableAreaButton({
       }}
     >
       <TouchableNativeFeedback onPress={() => onClick(area)}>
-        {/* borderRadius + overflow clip the press ripple to the view's rounded corners so the
-            preview matches the on-device rounded ripple (see RNWidget#addClickableArea). The
-            highlight markers live on the parent so they are not clipped. */}
         <View
           style={{
             width: '100%',
