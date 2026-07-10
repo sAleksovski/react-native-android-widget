@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Fixed
 
-- Widget updates (add / resize / click) were deferred by WorkManager when the app was in the background, so widgets often only refreshed after the app was opened. They now run as expedited work on Android 12+ (API 31+), falling back to a regular request when the expedited quota is exhausted.
+- Use expedited WorkManager requests for widget background tasks on Android 12+ to reduce delays when the app is in the background, with fallback to regular work when expedited quota is exhausted.
 
 ## [0.20.3] - 2026-05-02
 
