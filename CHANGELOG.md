@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## Fixed
+
+- Use expedited WorkManager requests for widget background tasks on Android 12+ to reduce delays when the app is in the background, with fallback to regular work when expedited quota is exhausted.
+
 ## [0.20.3] - 2026-05-02
 
 ## Fixed

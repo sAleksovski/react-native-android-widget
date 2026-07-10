@@ -1,10 +1,12 @@
 package com.reactnativeandroidwidget;
 
 import android.content.Context;
+import android.os.Build;
 
 import androidx.work.Data;
 import androidx.work.ExistingWorkPolicy;
 import androidx.work.OneTimeWorkRequest;
+import androidx.work.OutOfQuotaPolicy;
 import androidx.work.WorkManager;
 
 import java.util.concurrent.TimeUnit;
@@ -22,14 +24,19 @@ public class RNWidgetJsCommunication {
     protected static void startBackgroundTask(Context context, Data data) {
         workManagerWorkaround(context);
 
-        OneTimeWorkRequest headlessJsTaskWorkRequest =
+        OneTimeWorkRequest.Builder builder =
             new OneTimeWorkRequest.Builder(RNWidgetBackgroundTaskWorker.class)
-                .setInputData(data)
-                .build();
+                .setInputData(data);
+
+        // Reduce background scheduling delays on Android 12+.
+        // Falls back to regular work if expedited quota is exhausted.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            builder.setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST);
+        }
 
         WorkManager
             .getInstance(context)
-            .enqueue(headlessJsTaskWorkRequest);
+            .enqueue(builder.build());
     }
 
     // `APPWIDGET_UPDATE` (`onUpdate`) method is called when the WorkManager queue is empty.
