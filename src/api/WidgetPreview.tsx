@@ -57,12 +57,10 @@ export function WidgetPreview({
   const isAndroid = Platform.OS === 'android';
   const [preview, setPreview] = useState<WidgetPreviewData | null>();
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function init() {
       try {
-        setLoading(true);
         const data = await AndroidWidget.createPreview(
           buildWidgetTree(renderWidget({ width, height })),
           width,
@@ -71,11 +69,9 @@ export function WidgetPreview({
 
         setPreview(data);
         setError(null);
-        setLoading(false);
       } catch (e: any) {
         console.error(e);
         setError(e?.message ?? 'Error rendering widget');
-        setLoading(false);
       }
     }
     if (isAndroid) {
@@ -126,23 +122,8 @@ export function WidgetPreview({
           onClick={onPress}
           highlightClickableAreas={highlightClickableAreas}
         />
-      ) : null}
-
-      {loading && (
-        <View
-          style={{
-            position: 'absolute',
-            left: 0,
-            right: 0,
-            top: 0,
-            bottom: 0,
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: '#00000040',
-          }}
-        >
-          <ActivityIndicator size="large" />
-        </View>
+      ) : (
+        <ActivityIndicator size="large" />
       )}
     </PreviewContainer>
   );
