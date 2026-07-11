@@ -14,7 +14,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Objects;
 
 public class RNWidgetImageProvider extends ContentProvider {
     public static final String AUTHORITY_SUFFIX = ".rnwidget.imageprovider";
@@ -67,18 +66,22 @@ public class RNWidgetImageProvider extends ContentProvider {
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) { return 0; }
 
     static void deleteWidgetImages(Context context, int widgetId) {
-        deleteImages(context, "widget_" + widgetId);
+        deleteImages(context, "widget_" + widgetId + "_");
     }
 
     static void deleteCollectionImages(Context context, int widgetId, int collectionId, String mode) {
-        deleteImages(context, "widget_" + widgetId + "_mode_" + mode + "_collection_" + collectionId);
+        deleteImages(context, "widget_" + widgetId + "_mode_" + mode + "_collection_" + collectionId + "_");
     }
 
     private static void deleteImages(Context context, String prefix) {
         File folder = getFolderWithImages(context);
         File[] files = folder.listFiles(pathname -> pathname.getName().startsWith(prefix));
 
-        for (File f : Objects.requireNonNull(files)) {
+        if (files == null) {
+            return;
+        }
+
+        for (File f : files) {
             f.delete();
         }
     }

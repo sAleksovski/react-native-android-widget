@@ -7,44 +7,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## Fixed
+### Fixed
 
+- Fix crash when deleting widgets if stored widget images cannot be listed
 - Match clickable view ripple corners to uniform `borderRadius` on Android 12+.
 - Use expedited WorkManager requests for widget background tasks on Android 12+ to reduce delays when the app is in the background, with fallback to regular work when expedited quota is exhausted.
 
 ## [0.20.3] - 2026-05-02
 
-## Fixed
+### Fixed
 
 - Added missing app.plugin.js
 
 ## [0.20.2] - 2026-05-02
 
-## Fixed
+### Fixed
 
 - renderWidget from WidgetConfigurationScreenProps does not update the widget
 
 ## [0.20.1] - 2026-01-15
 
-## Fixed
+### Fixed
 
 - Compatibility with older react native versions
 
 ## [0.20.0] - 2026-01-13
 
-## Added
+### Added
 
 - Accessibility (TalkBack) support
 
 ## [0.19.0] - 2026-01-11
 
-## Added
+### Added
 
 - Added support for dark mode widgets
 
 ## [0.18.0] - 2026-01-04
 
-## Added
+### Added
 
 - Support for React Native 0.83
 
@@ -55,7 +56,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.17.3] - 2026-01-03
 
-## Fixed
+### Fixed
 
 - Add a error message about using React Compiler and how to avoid "Invalid hook call" error
 
