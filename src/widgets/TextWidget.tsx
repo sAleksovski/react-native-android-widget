@@ -31,6 +31,8 @@ interface TextWidgetInternalProps extends CommonInternalProps {
   adjustsFontSizeToFit?: boolean;
   textAlign?: 'center' | 'left' | 'right';
   letterSpacing?: number;
+  lineHeight?: number;
+  lineSpacingExtra?: number;
   color?: HexColor;
   shadow?: {
     radius: number;
@@ -67,6 +69,8 @@ export interface TextWidgetStyle extends CommonStyleProps {
   adjustsFontSizeToFit?: boolean;
   textAlign?: 'center' | 'left' | 'right';
   letterSpacing?: number;
+  lineHeight?: number;
+  lineSpacingExtra?: number;
 
   textShadowColor?: ColorProp;
   textShadowRadius?: number;
@@ -112,9 +116,9 @@ TextWidget.convertProps = (props: TextWidgetProps): TextWidgetInternalProps => {
     ...(props.style?.fontStyle ? { fontStyle: props.style.fontStyle } : {}),
     ...(props.style?.fontWeight ? { fontWeight: props.style.fontWeight } : {}),
     ...(props.style?.textAlign ? { textAlign: props.style.textAlign } : {}),
-    ...(props.style?.letterSpacing
-      ? { letterSpacing: props.style.letterSpacing }
-      : {}),
+    ...copyNumberStyleProp(props.style ?? {}, 'letterSpacing'),
+    ...copyNumberStyleProp(props.style ?? {}, 'lineHeight'),
+    ...copyNumberStyleProp(props.style ?? {}, 'lineSpacingExtra'),
     ...(props.style?.adjustsFontSizeToFit
       ? { adjustsFontSizeToFit: props.style.adjustsFontSizeToFit }
       : {}),
@@ -125,6 +129,17 @@ TextWidget.convertProps = (props: TextWidgetProps): TextWidgetInternalProps => {
   };
 };
 TextWidget.__name__ = 'TextWidget';
+
+function copyNumberStyleProp(
+  style: TextWidgetStyle,
+  propName: 'lineHeight' | 'lineSpacingExtra' | 'letterSpacing'
+): Partial<TextWidgetInternalProps> {
+  if (style[propName] !== undefined) {
+    return { [propName]: style[propName] };
+  }
+
+  return {};
+}
 
 function buildTextShadow(
   style: TextWidgetStyle

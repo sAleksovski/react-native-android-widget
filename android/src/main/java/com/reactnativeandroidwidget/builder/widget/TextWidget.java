@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.TextView;
 
@@ -50,8 +51,19 @@ public class TextWidget extends BaseWidget<TextView> {
             }
         }
 
+        setFont();
+        setShadow();
+
         if (props.hasKey("letterSpacing")) {
             view.setLetterSpacing((float) (props.getDouble("letterSpacing") / getFontSize()));
+        }
+
+        if (props.hasKey("lineSpacingExtra")) {
+            view.setLineSpacing(dpToPx(props.getDouble("lineSpacingExtra")), 1.0f);
+        }
+
+        if (props.hasKey("lineHeight")) {
+            setLineHeight(props.getDouble("lineHeight"));
         }
 
         if (props.hasKey("truncate")) {
@@ -61,9 +73,6 @@ public class TextWidget extends BaseWidget<TextView> {
         if (props.hasKey("maxLines")) {
             view.setMaxLines(props.getInt("maxLines"));
         }
-
-        setFont();
-        setShadow();
     }
 
     private void setFont() {
@@ -115,6 +124,15 @@ public class TextWidget extends BaseWidget<TextView> {
         }
     }
 
+    private void setLineHeight(double lineHeight) {
+        int lineHeightPx = textSizeToPx(lineHeight);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            view.setLineHeight(lineHeightPx);
+        } else {
+            TextViewCompat.setLineHeight(view, lineHeightPx);
+        }
+    }
+
     private float getFontSize() {
         float fontSize = 12;
         if (props.hasKey("fontSize")) {
@@ -128,5 +146,9 @@ public class TextWidget extends BaseWidget<TextView> {
             return COMPLEX_UNIT_DIP;
         }
         return COMPLEX_UNIT_SP;
+    }
+
+    private int textSizeToPx(double value) {
+        return Math.round(TypedValue.applyDimension(getFontSizeUnit(), (float) value, appContext.getResources().getDisplayMetrics()));
     }
 }

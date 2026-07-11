@@ -34,6 +34,9 @@ const FONT_WEIGHT: (
   '900',
 ];
 
+const LOREM_IPSUM =
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer porta risus at sem facilisis, vitae luctus augue volutpat.';
+
 function TextWidgetDemo({
   fontStyle,
   fontWeight,
@@ -62,6 +65,38 @@ function TextWidgetDemo({
           fontSize: 24,
         }}
         text={`${fontStyle} ${fontWeight} Widget`}
+      />
+    </FlexWidget>
+  );
+}
+
+function LineHeightDemo() {
+  return (
+    <FlexWidget>
+      <TextWidget
+        text={LOREM_IPSUM}
+        style={{
+          width: 320,
+          fontSize: 15,
+          lineHeight: 24,
+          color: '#111827',
+        }}
+      />
+    </FlexWidget>
+  );
+}
+
+function LineSpacingExtraDemo() {
+  return (
+    <FlexWidget>
+      <TextWidget
+        text={LOREM_IPSUM}
+        style={{
+          width: 320,
+          fontSize: 15,
+          lineSpacingExtra: 6,
+          color: '#111827',
+        }}
       />
     </FlexWidget>
   );
@@ -100,6 +135,20 @@ export function TextScreen() {
           </View>
         ))
       )}
+
+      <Text style={styles.sectionTitle}>lineHeight</Text>
+      <WidgetPreview
+        renderWidget={() => <LineHeightDemo />}
+        height={120}
+        width={320}
+      />
+
+      <Text style={styles.sectionTitle}>lineSpacingExtra</Text>
+      <WidgetPreview
+        renderWidget={() => <LineSpacingExtraDemo />}
+        height={120}
+        width={320}
+      />
     </ScrollView>
   );
 }
@@ -117,5 +166,13 @@ const styles = StyleSheet.create({
     width: 320,
     height: 30,
     marginBottom: 16,
+  },
+  sectionTitle: {
+    width: 320,
+    marginTop: 8,
+    marginBottom: 8,
+    fontSize: 18,
+    fontWeight: '600',
+    color: 'black',
   },
 });
