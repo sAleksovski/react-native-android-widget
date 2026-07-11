@@ -57,10 +57,12 @@ export function WidgetPreview({
   const isAndroid = Platform.OS === 'android';
   const [preview, setPreview] = useState<WidgetPreviewData | null>();
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function init() {
       try {
+        setLoading(true);
         const data = await AndroidWidget.createPreview(
           buildWidgetTree(renderWidget({ width, height })),
           width,
@@ -69,15 +71,16 @@ export function WidgetPreview({
 
         setPreview(data);
         setError(null);
+        setLoading(false);
       } catch (e: any) {
         console.error(e);
         setError(e?.message ?? 'Error rendering widget');
+        setLoading(false);
       }
     }
     if (isAndroid) {
       init();
     }
-    return () => setPreview(null);
   }, [isAndroid, renderWidget, width, height]);
 
   function onPress(props: OnClick): void {
@@ -123,8 +126,23 @@ export function WidgetPreview({
           onClick={onPress}
           highlightClickableAreas={highlightClickableAreas}
         />
-      ) : (
-        <ActivityIndicator size="large" />
+      ) : null}
+
+      {loading && (
+        <View
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: '#00000040',
+          }}
+        >
+          <ActivityIndicator size="large" />
+        </View>
       )}
     </PreviewContainer>
   );
@@ -267,8 +285,6 @@ function ClickableAreaButton({
         height: area.height,
       }}
     >
-      {/* Clip the ripple to the corners: borderRadius + overflow must WRAP the touchable (not sit on
-          its child), with an explicit bounded Ripple — the default background won't clip (RN #25342). */}
       <View
         style={{
           width: '100%',
@@ -277,15 +293,13 @@ function ClickableAreaButton({
           overflow: 'hidden',
         }}
       >
-        <TouchableNativeFeedback
-          onPress={() => onClick(area)}
-          background={TouchableNativeFeedback.Ripple('rgba(150, 150, 150, 0.35)', false)}
-        >
+        <TouchableNativeFeedback onPress={() => onClick(area)} useForeground>
           <View
             style={{
               width: '100%',
               height: '100%',
               borderColor: 'red',
+              borderRadius: area.borderRadius,
               borderWidth: highlightClickableAreas ? 1 : 0,
             }}
           />
@@ -298,12 +312,12 @@ function ClickableAreaButton({
 
 function ClickableAreaBorder() {
   return (
-    <View pointerEvents="none" style={StyleSheet.absoluteFill}>
+    <>
       <View style={styles.clickableHighlightTopLeft} />
       <View style={styles.clickableHighlightTopRight} />
       <View style={styles.clickableHighlightBottomLeft} />
       <View style={styles.clickableHighlightBottomRight} />
-    </View>
+    </>
   );
 }
 
