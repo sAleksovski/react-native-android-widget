@@ -10,17 +10,23 @@ public class ClickableView implements Comparable<ClickableView> {
     private final String clickAction;
     private final ReadableMap clickActionData;
     private final String accessibilityLabel;
+    private final float borderRadius;
 
     public ClickableView(String id, View view, String clickAction, ReadableMap clickActionData) {
-        this(id, view, clickAction, clickActionData, null);
+        this(id, view, clickAction, clickActionData, null, 0f);
     }
 
     public ClickableView(String id, View view, String clickAction, ReadableMap clickActionData, String accessibilityLabel) {
+        this(id, view, clickAction, clickActionData, accessibilityLabel, 0f);
+    }
+
+    public ClickableView(String id, View view, String clickAction, ReadableMap clickActionData, String accessibilityLabel, float borderRadius) {
         this.id = id;
         this.view = view;
         this.clickAction = clickAction;
         this.clickActionData = clickActionData;
         this.accessibilityLabel = accessibilityLabel;
+        this.borderRadius = borderRadius;
     }
 
     public String getId() {
@@ -41,6 +47,10 @@ public class ClickableView implements Comparable<ClickableView> {
 
     public String getAccessibilityLabel() {
         return accessibilityLabel;
+    }
+
+    public float getBorderRadius() {
+        return borderRadius;
     }
 
     @Override

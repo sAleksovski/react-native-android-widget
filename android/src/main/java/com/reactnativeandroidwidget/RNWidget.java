@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RemoteViews;
@@ -179,6 +180,16 @@ public class RNWidget {
 
         clickableRemoteView.setInt(R.id.rn_widget_clickable_area, "setMinimumHeight", offsetViewBounds.height());
 
+        // The clickable overlay draws its own ripple, so match it to the view's radius when supported
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && clickableView.getBorderRadius() > 0f) {
+            clickableRemoteView.setViewOutlinePreferredRadius(
+                R.id.rn_widget_clickable_area,
+                clickableView.getBorderRadius(),
+                TypedValue.COMPLEX_UNIT_DIP
+            );
+            clickableRemoteView.setBoolean(R.id.rn_widget_clickable_area, "setClipToOutline", true);
+        }
+
         if (clickableView.getAccessibilityLabel() != null) {
             clickableRemoteView.setContentDescription(R.id.rn_widget_clickable_area, clickableView.getAccessibilityLabel());
         }
@@ -289,6 +300,7 @@ public class RNWidget {
                 collectionViewMap.putInt("width", offsetViewBounds.width());
                 collectionViewMap.putString("clickAction", clickableView.getClickAction());
                 collectionViewMap.putBundle("clickActionData", Arguments.toBundle(clickableView.getClickActionData()));
+                collectionViewMap.putFloat("borderRadius", clickableView.getBorderRadius());
                 
                 // Add clickable area accessibility label if available
                 if (clickableView.getAccessibilityLabel() != null) {
@@ -356,6 +368,7 @@ public class RNWidget {
         clickableViewMap.putDouble("height", RNWidgetUtil.pxToDp(appContext, offsetViewBounds.height()));
         clickableViewMap.putString("clickAction", clickableView.getClickAction());
         clickableViewMap.putMap("clickActionData", Arguments.makeNativeMap(clickableView.getClickActionData().toHashMap()));
+        clickableViewMap.putDouble("borderRadius", clickableView.getBorderRadius());
 
         return clickableViewMap;
     }
@@ -421,6 +434,7 @@ public class RNWidget {
             collectionViewMap.putDouble("height", RNWidgetUtil.pxToDp(appContext, offsetViewBounds.height()));
             collectionViewMap.putString("clickAction", clickableView.getClickAction());
             collectionViewMap.putMap("clickActionData", Arguments.makeNativeMap(clickableView.getClickActionData().toHashMap()));
+            collectionViewMap.putDouble("borderRadius", clickableView.getBorderRadius());
 
             clickableAreas.pushMap(collectionViewMap);
         }

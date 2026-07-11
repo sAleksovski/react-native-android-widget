@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -115,6 +116,17 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         );
 
         clickableRemoteView.setInt(R.id.rn_widget_clickable_area, "setMinimumHeight", clickableArea.getInt("height"));
+
+        // The clickable overlay draws its own ripple, so match it to the view's radius when supported
+        float borderRadius = clickableArea.getFloat("borderRadius", 0f);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && borderRadius > 0f) {
+            clickableRemoteView.setViewOutlinePreferredRadius(
+                R.id.rn_widget_clickable_area,
+                borderRadius,
+                TypedValue.COMPLEX_UNIT_DIP
+            );
+            clickableRemoteView.setBoolean(R.id.rn_widget_clickable_area, "setClipToOutline", true);
+        }
 
         // Set accessibility label on clickable area if available
         if (clickableArea.getString("accessibilityLabel", null) != null) {

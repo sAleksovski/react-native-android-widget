@@ -91,22 +91,44 @@ public class WidgetFactory {
         }
 
         if (config.getMap("props").hasKey("clickAction")) {
+            ReadableMap props = config.getMap("props");
             String accessibilityLabel = null;
-            if (config.getMap("props").hasKey("accessibilityLabel")) {
-                accessibilityLabel = config.getMap("props").getString("accessibilityLabel");
+            if (props.hasKey("accessibilityLabel")) {
+                accessibilityLabel = props.getString("accessibilityLabel");
             }
             clickableViews.add(
                 new ClickableView(
                     id,
                     view,
-                    config.getMap("props").getString("clickAction"),
-                    config.getMap("props").getMap("clickActionData"),
-                    accessibilityLabel
+                    props.getString("clickAction"),
+                    props.getMap("clickActionData"),
+                    accessibilityLabel,
+                    getUniformBorderRadius(props)
                 )
             );
         }
 
         return view;
+    }
+
+    private float getUniformBorderRadius(ReadableMap props) {
+        if (!props.hasKey("borderRadius") || props.isNull("borderRadius")) {
+            return 0f;
+        }
+
+        ReadableMap radius = props.getMap("borderRadius");
+        if (radius == null) {
+            return 0f;
+        }
+
+        double topLeft = radius.hasKey("topLeft") ? radius.getDouble("topLeft") : 0;
+        double topRight = radius.hasKey("topRight") ? radius.getDouble("topRight") : 0;
+        double bottomRight = radius.hasKey("bottomRight") ? radius.getDouble("bottomRight") : 0;
+        double bottomLeft = radius.hasKey("bottomLeft") ? radius.getDouble("bottomLeft") : 0;
+
+        return topLeft == topRight && topLeft == bottomRight && topLeft == bottomLeft
+            ? (float) topLeft
+            : 0f;
     }
 
     @NonNull
