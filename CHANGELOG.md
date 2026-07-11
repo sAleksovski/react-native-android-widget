@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add `lineHeight` and `lineSpacingExtra` style props to `TextWidget`
+- Add `resizeMode` prop to `ImageWidget`
 
 ### Fixed
 

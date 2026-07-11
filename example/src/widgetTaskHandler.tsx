@@ -10,6 +10,7 @@ import {
   DebugEventsWidget,
 } from './widgets/DebugEventsWidget';
 import { FitnessWidget } from './widgets/FitnessWidget';
+import { ImageResizeWidget } from './widgets/ImageResizeWidget';
 import { ListDemoWidget } from './widgets/ListDemoWidget';
 import { ResizableMusicWidget } from './widgets/ResizableMusicWidget';
 import { RotatedWidget } from './widgets/RotatedWidget';
@@ -25,6 +26,7 @@ const nameToWidget = {
   List: ListDemoWidget,
   DebugEvents: DebugEventsWidget,
   Configurable: ConfigurableWidget,
+  ImageResize: ImageResizeWidget,
 };
 
 const COUNTER_STORAGE_KEY = 'CounterWidget:count';

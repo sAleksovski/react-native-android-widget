@@ -12,6 +12,7 @@ import { ClickDemoWidgetPreviewScreen } from './screens/widget-preview/ClickDemo
 import { DarkModeDemoWidgetPreviewScreen } from './screens/widget-preview/DarkModeDemoWidgetPreviewScreen';
 import { DebugEventsWidgetPreviewScreen } from './screens/widget-preview/DebugEventsWidgetPreviewScreen';
 import { FitnessWidgetPreviewScreen } from './screens/widget-preview/FitnessWidgetPreviewScreen';
+import { ImageResizeWidgetPreviewScreen } from './screens/widget-preview/ImageResizeWidgetPreviewScreen';
 import { ListDemoWidgetPreviewDeepLinkScreen } from './screens/widget-preview/ListDemoWidgetPreviewDeepLinkScreen';
 import { ListDemoWidgetPreviewScreen } from './screens/widget-preview/ListDemoWidgetPreviewScreen';
 import { ResizableMusicWidgetPreviewScreen } from './screens/widget-preview/ResizableMusicWidgetPreviewScreen';
@@ -58,6 +59,11 @@ export function App() {
           name="FitnessWidgetPreviewScreen"
           component={FitnessWidgetPreviewScreen}
           options={{ title: 'Fitness Widget Preview' }}
+        />
+        <Stack.Screen
+          name="ImageResizeWidgetPreviewScreen"
+          component={ImageResizeWidgetPreviewScreen}
+          options={{ title: 'Image Resize Widget Preview' }}
         />
         <Stack.Screen
           name="ResizableMusicWidgetPreviewScreen"

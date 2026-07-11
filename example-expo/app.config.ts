@@ -16,6 +16,13 @@ const widgetConfig: WithAndroidWidgetsParams = {
       previewImage: './assets/widget-preview/fitness.png',
     },
     {
+      name: 'ImageResize',
+      label: 'Image Resize',
+      minHeight: '160dp',
+      minWidth: '300dp',
+      description: 'Test image resize modes',
+    },
+    {
       name: 'Resizable',
       minHeight: '100dp',
       minWidth: '180dp',

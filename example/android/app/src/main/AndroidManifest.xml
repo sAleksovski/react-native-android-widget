@@ -57,6 +57,19 @@
         </receiver>
 
         <receiver
+            android:name=".widget.ImageResize"
+            android:exported="false"
+            android:label="Image Resize">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.androidwidgetexample.WIDGET_CLICK" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widgetprovider_imageresize" />
+        </receiver>
+
+        <receiver
             android:name=".widget.Resizable"
             android:exported="false"
             android:label="Resizable">

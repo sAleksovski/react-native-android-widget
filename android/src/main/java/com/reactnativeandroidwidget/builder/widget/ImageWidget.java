@@ -36,6 +36,10 @@ public class ImageWidget extends BaseWidget<ImageView> {
             bitmapDrawable.setCornerRadius(dpToPx(props.getDouble("radius")));
         }
 
+        if (props.hasKey("resizeMode")) {
+            view.setScaleType(getScaleType(props.getString("resizeMode")));
+        }
+
         view.setImageDrawable(bitmapDrawable);
     }
 
@@ -49,6 +53,20 @@ public class ImageWidget extends BaseWidget<ImageView> {
         } catch (IOException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    private ImageView.ScaleType getScaleType(String resizeMode) {
+        switch (resizeMode) {
+            case "cover":
+                return ImageView.ScaleType.CENTER_CROP;
+            case "stretch":
+                return ImageView.ScaleType.FIT_XY;
+            case "center":
+                return ImageView.ScaleType.CENTER;
+            case "contain":
+            default:
+                return ImageView.ScaleType.FIT_CENTER;
         }
     }
 }

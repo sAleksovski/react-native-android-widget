@@ -15,9 +15,12 @@ interface ImageWidgetInternalProps extends CommonInternalProps {
   imageWidth: number;
   imageHeight: number;
   image: Pick<ImageResolvedAssetSource, 'uri'>;
+  resizeMode?: ImageWidgetResizeMode;
 }
 
 type ImageWidgetStyle = CommonStyleProps;
+
+export type ImageWidgetResizeMode = 'cover' | 'contain' | 'stretch' | 'center';
 
 export type ImageWidgetSource =
   | ImageRequireSource
@@ -45,6 +48,12 @@ export interface ImageWidgetProps extends ClickActionProps {
    * Image radius
    */
   radius?: number;
+  /**
+   * How the image should be resized when its aspect ratio differs from the view.
+   *
+   * Defaults to Android's ImageView behavior, which is equivalent to `contain`.
+   */
+  resizeMode?: ImageWidgetResizeMode;
 }
 
 export function ImageWidget(_: ImageWidgetProps) {
@@ -64,5 +73,6 @@ ImageWidget.convertProps = (
         ? Image.resolveAssetSource(props.image)
         : { uri: props.image },
     ...(props.radius ? { radius: props.radius } : {}),
+    ...(props.resizeMode ? { resizeMode: props.resizeMode } : {}),
   };
 };

@@ -16,6 +16,7 @@ function Separator() {
 export type ExampleScreens = {
   ListScreen: undefined;
   FitnessWidgetPreviewScreen: undefined;
+  ImageResizeWidgetPreviewScreen: undefined;
   ResizableMusicWidgetPreviewScreen: undefined;
   RotatedWidgetPreviewScreen: undefined;
   ShopifyWidgetPreviewScreen: undefined;
@@ -40,6 +41,10 @@ const items: Item[] = [
   {
     title: 'Fitness Widget Preview',
     screen: 'FitnessWidgetPreviewScreen',
+  },
+  {
+    title: 'Image Resize Widget Preview',
+    screen: 'ImageResizeWidgetPreviewScreen',
   },
   {
     title: 'Resizable Music Widget Preview',
