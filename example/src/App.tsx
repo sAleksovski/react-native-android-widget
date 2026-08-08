@@ -6,6 +6,7 @@ import { BorderScreen } from './screens/BorderScreen';
 import { CounterScreen } from './screens/CounterScreen';
 import { FlexScreen } from './screens/FlexScreen';
 import { ListScreen, type ExampleScreens } from './screens/ListScreen';
+import { RequestPinWidgetScreen } from './screens/RequestPinWidgetScreen';
 import { SvgScreen } from './screens/SvgScreen';
 import { TextScreen } from './screens/TextScreen';
 import { ClickDemoWidgetPreviewScreen } from './screens/widget-preview/ClickDemoWidgetPreviewScreen';
@@ -54,6 +55,11 @@ export function App() {
           name="CounterScreen"
           component={CounterScreen}
           options={{ title: 'Counter Demo' }}
+        />
+        <Stack.Screen
+          name="RequestPinWidgetScreen"
+          component={RequestPinWidgetScreen}
+          options={{ title: 'Add Fitness Widget' }}
         />
         <Stack.Screen
           name="FitnessWidgetPreviewScreen"

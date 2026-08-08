@@ -62,6 +62,11 @@ public class AndroidWidgetModule extends com.reactnativeandroidwidget.AndroidWid
     }
 
     @ReactMethod
+    public void requestPinWidget(String widgetName, Promise promise) {
+        RNWidgetPinning.requestPinWidget(getReactApplicationContext(), widgetName, promise);
+    }
+
+    @ReactMethod
     public void finishWidgetConfiguration(double appWidgetId, String result) {
         Activity activity = getReactApplicationContext().getCurrentActivity();
         Intent intent = new Intent();

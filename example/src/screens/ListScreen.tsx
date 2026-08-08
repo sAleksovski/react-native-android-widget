@@ -30,6 +30,7 @@ export type ExampleScreens = {
   SvgScreen: undefined;
   TextScreen: undefined;
   CounterScreen: undefined;
+  RequestPinWidgetScreen: undefined;
 };
 
 interface Item {
@@ -41,6 +42,10 @@ const items: Item[] = [
   {
     title: 'Fitness Widget Preview',
     screen: 'FitnessWidgetPreviewScreen',
+  },
+  {
+    title: 'Add Fitness Widget',
+    screen: 'RequestPinWidgetScreen',
   },
   {
     title: 'Image Resize Widget Preview',

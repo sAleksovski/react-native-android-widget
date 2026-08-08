@@ -2,6 +2,7 @@ export * from './api/WidgetPreview';
 export * from './api/get-widget-info';
 export * from './api/register-widget-configuration-screen';
 export * from './api/register-widget-task-handler';
+export * from './api/request-pin-widget';
 export * from './api/request-widget-update';
 export * from './api/request-widget-update-by-id';
 export * from './api/types';
