@@ -217,6 +217,20 @@ public class RNWidget {
 
     private void addCollectionViews(int widgetId, RemoteViews remoteWidgetView, WidgetWithViews widgetWithViews) {
         remoteWidgetView.removeAllViews(R.id.rn_widget_collection_container);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            remoteWidgetView.setViewLayoutWidth(
+                R.id.rn_widget_collection_container,
+                RNWidgetUtil.getWidgetWidth(appContext, widgetId),
+                TypedValue.COMPLEX_UNIT_DIP
+            );
+            remoteWidgetView.setViewLayoutHeight(
+                R.id.rn_widget_collection_container,
+                RNWidgetUtil.getWidgetHeight(appContext, widgetId),
+                TypedValue.COMPLEX_UNIT_DIP
+            );
+        }
+
         ViewGroup rootView = (ViewGroup) widgetWithViews.getRootView();
         List<CollectionView> collectionViews = widgetWithViews.getCollectionViews();
 
