@@ -440,7 +440,7 @@ ${
         ? Math.max(30 * 60 * 1000, widget.updatePeriodMillis)
         : 0
     }"
-    android:widgetCategory="home_screen">
+    android:widgetCategory="${widget.widgetCategory ?? 'home_screen'}">
 </appwidget-provider>
 `;
 

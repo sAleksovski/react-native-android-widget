@@ -99,6 +99,7 @@ Create a new xml file in the resources directory containing the details about th
 - `android:updatePeriodMillis` How often, in milliseconds, that this AppWidget wants to be updated. The task handler will be called with `widgetAction = 'WIDGET_UPDATE'`. See the official docs [here](https://developer.android.com/reference/android/appwidget/AppWidgetProviderInfo.html#updatePeriodMillis)
 - `android:previewImage` should reference the preview image we added previously
 - `android:description` can be added or not, depending on if we added a description in the previous step
+- `android:widgetCategory` which surfaces the widget may be placed on. Android shows third-party widgets on the lock screen from Android 16 QPR2, and on some tablets from Android 15 QPR1; `home_screen|keyguard` opts in on hosts that filter by category, and `not_keyguard` opts out. See the official docs [here](https://developer.android.com/reference/android/appwidget/AppWidgetProviderInfo.html#widgetCategory)
 
 ## Add services in AndroidManifest.xml
 
