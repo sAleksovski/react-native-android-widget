@@ -32,6 +32,23 @@ export interface Widget {
    */
   widgetFeatures?: 'reconfigurable' | 'reconfigurable|configuration_optional';
   /**
+   * Which surfaces the widget may be placed on.
+   *
+   * Android shows third-party widgets on the lock screen from Android 16 QPR2,
+   * and on some tablets from Android 15 QPR1. Widgets are eligible by default,
+   * but a host that filters on the declared category only offers widgets that
+   * name it, so `'home_screen|keyguard'` opts in explicitly.
+   *
+   * `'not_keyguard'` opts a widget out of the lock screen.
+   *
+   * @default "home_screen"
+   */
+  widgetCategory?:
+    | 'home_screen'
+    | 'keyguard'
+    | 'home_screen|keyguard'
+    | 'not_keyguard';
+  /**
    * How often the widget should be updated, in milliseconds.
    *
    * Default is 0 (no automatic updates)
