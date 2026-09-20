@@ -120,7 +120,7 @@ First, update `package.json` main field to point to `index.ts` (or `.js`) instea
 }
 ```
 
-Create the file, using `node_modules/expo-router/entry` as a template.
+Create the file and import `expo-router/entry`.
 Then import `widgetTaskHandler` and register it.
 
 ```js title="index.ts"
