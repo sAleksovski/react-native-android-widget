@@ -1,10 +1,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.reactnativeandroidwidget">
+    <!-- Needed to find the installed launchers (widget hosts) on Android 11+ -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.HOME" />
+        </intent>
+    </queries>
     <application>
+        <!-- Not exported: widget images may contain private data. Read access is granted
+             only to widget hosts, see RNWidgetImageProvider.grantReadToWidgetHosts -->
         <provider
             android:name=".RNWidgetImageProvider"
             android:authorities="${applicationId}.rnwidget.imageprovider"
-            android:exported="true" 
+            android:exported="false"
+            android:grantUriPermissions="true"
         />
     </application>
 </manifest>

@@ -3,6 +3,9 @@ package com.reactnativeandroidwidget;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -14,6 +17,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class RNWidgetImageProvider extends ContentProvider {
     public static final String AUTHORITY_SUFFIX = ".rnwidget.imageprovider";
@@ -109,6 +115,7 @@ public class RNWidgetImageProvider extends ContentProvider {
     }
 
     static Uri getImageUri(Context context, String fileName) {
+        grantReadToWidgetHosts(context);
         String authority = context.getPackageName() + AUTHORITY_SUFFIX;
 
         return new Uri.Builder()
@@ -117,6 +124,35 @@ public class RNWidgetImageProvider extends ContentProvider {
             // Add cacheKey since the uri is cached and returns old images
             .appendPath(fileName + "?cacheKey=" + System.currentTimeMillis())
             .build();
+    }
+
+    /**
+     * The provider is not exported, so the widget host (launcher) needs an explicit read grant
+     * for the image URIs placed in RemoteViews. Grants a prefix read permission on this
+     * provider to every installed home app and to System UI (widget hosts on some devices).
+     */
+    static void grantReadToWidgetHosts(Context context) {
+        Uri root = new Uri.Builder()
+            .scheme("content")
+            .authority(context.getPackageName() + AUTHORITY_SUFFIX)
+            .build();
+        int flags = Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PREFIX_URI_PERMISSION;
+
+        Set<String> hosts = new HashSet<>();
+        hosts.add("com.android.systemui");
+        Intent home = new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME);
+        List<ResolveInfo> homeApps = context.getPackageManager().queryIntentActivities(home, PackageManager.MATCH_ALL);
+        for (ResolveInfo info : homeApps) {
+            hosts.add(info.activityInfo.packageName);
+        }
+
+        for (String host : hosts) {
+            try {
+                context.grantUriPermission(host, root, flags);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private static File getFolderWithImages(Context context) {
