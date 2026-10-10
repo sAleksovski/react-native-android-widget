@@ -45,7 +45,22 @@ public class RNWidgetUtil {
     }
 
     private static int getWidgetSizeInDp(Context context, int widgetId, String key) {
-        return AppWidgetManager.getInstance(context).getAppWidgetOptions(widgetId).getInt(key, 0);
+        AppWidgetManager manager = AppWidgetManager.getInstance(context);
+        int size = manager.getAppWidgetOptions(widgetId).getInt(key, 0);
+        if (size > 0) {
+            return size;
+        }
+
+        // Some launchers report 0 until the widget has been laid out (e.g. Samsung,
+        // right after it is added). Fall back to the provider's minimum size so the
+        // widget still renders; the image view scales it to the real bounds.
+        AppWidgetProviderInfo info = manager.getAppWidgetInfo(widgetId);
+        if (info == null) {
+            return 0;
+        }
+        boolean isWidth = key.equals(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
+            || key.equals(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
+        return (int) Math.round(pxToDp(context, isWidth ? info.minWidth : info.minHeight));
     }
 
     public static WritableArray getWidgetInfo(ReactApplicationContext context, String widgetName) {
