@@ -17,6 +17,10 @@ export interface ScreenInfo {
    * Density of the screen in Dpi
    */
   densityDpi: number;
+  /**
+   * The user's font size setting, as a scale factor (`1` is the default size)
+   */
+  fontScale: number;
 }
 
 export interface WidgetInfo {

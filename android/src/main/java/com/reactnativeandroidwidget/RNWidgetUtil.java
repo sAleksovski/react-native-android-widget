@@ -73,6 +73,7 @@ public class RNWidgetUtil {
         screenInfo.putInt("screenWidthDp", context.getResources().getConfiguration().screenWidthDp);
         screenInfo.putDouble("density", context.getResources().getDisplayMetrics().density);
         screenInfo.putInt("densityDpi", context.getResources().getDisplayMetrics().densityDpi);
+        screenInfo.putDouble("fontScale", context.getResources().getConfiguration().fontScale);
         return screenInfo;
     }
 
