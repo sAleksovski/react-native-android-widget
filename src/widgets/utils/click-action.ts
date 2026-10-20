@@ -13,8 +13,10 @@ export interface ClickActionProps {
    * - `"OPEN_URI"` - This `clickAction` requires a `clickActionData` that contains `{ uri: 'some-uri' }`.
    *   The `uri` can be a web uri (`https://google.com`), or an app deep link (`androidwidgetexample://deep-link`)
    *   For the link to open a screen in the app deep linking must be set up
+   * - `"OPEN_WIDGET_CONFIG"` - Opens the widget's configuration screen. Only for widgets with a
+   *   configuration screen, and not inside a `ListWidget`
    */
-  clickAction?: 'OPEN_APP' | 'OPEN_URI' | string;
+  clickAction?: 'OPEN_APP' | 'OPEN_URI' | 'OPEN_WIDGET_CONFIG' | string;
   /**
    * Additional data that will be passed when the widget is clicked.
    *

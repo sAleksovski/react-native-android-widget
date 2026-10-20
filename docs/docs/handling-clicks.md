@@ -84,6 +84,15 @@ Those are:
   - [Expo Linking](https://docs.expo.dev/guides/linking/)
   - [Expo Router](https://expo.github.io/router/docs/features/linking)
 
+- `"OPEN_WIDGET_CONFIG"`
+
+  This `clickAction` does not require `clickActionData`. It opens the widget's
+  [configuration screen](./tutorial/make-widget-configurable.md), for example from a
+  "Set up" button in a widget that has not been configured yet.
+
+  It only works for widgets that have a configuration screen, and not inside a
+  `ListWidget`. Otherwise it is emitted as a regular click.
+
 ## Demo
 
 All click action types are presend in the [Click Demo](./demo.md#click-demo-widget-preview) widget in the demo app.

@@ -2,6 +2,7 @@ package com.reactnativeandroidwidget;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
+import android.appwidget.AppWidgetProviderInfo;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RemoteViews;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.facebook.react.bridge.Arguments;
@@ -200,6 +202,14 @@ public class RNWidget {
     }
 
     private void registerClickTask(int id, ClickableView clickableView, RemoteViews widgetView, Integer button) {
+        if ("OPEN_WIDGET_CONFIG".equals(clickableView.getClickAction())) {
+            PendingIntent configurationPendingIntent = createConfigurationPendingIntent(id);
+            if (configurationPendingIntent != null) {
+                widgetView.setOnClickPendingIntent(button, configurationPendingIntent);
+                return;
+            }
+        }
+
         Intent intent = new Intent(appContext.getPackageName() + ".WIDGET_CLICK");
         intent.setComponent(new ComponentName(appContext, RNWidgetUtil.getWidgetProviderClassName(appContext, widgetName)));
         intent.putExtra("widgetId", id);
@@ -213,6 +223,28 @@ public class RNWidget {
                 | PendingIntent.FLAG_MUTABLE
         );
         widgetView.setOnClickPendingIntent(button, pendingIntent);
+    }
+
+    @Nullable
+    private PendingIntent createConfigurationPendingIntent(int widgetId) {
+        AppWidgetProviderInfo providerInfo = AppWidgetManager.getInstance(appContext).getAppWidgetInfo(widgetId);
+        if (providerInfo == null || providerInfo.configure == null) {
+            return null;
+        }
+
+        Intent intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_CONFIGURE);
+        intent.setComponent(providerInfo.configure);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        // The widget id as request code keeps one PendingIntent per widget, since extras don't count
+        // towards PendingIntent identity
+        return PendingIntent.getActivity(
+            appContext,
+            widgetId,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+                | PendingIntent.FLAG_IMMUTABLE
+        );
     }
 
     private void addCollectionViews(int widgetId, RemoteViews remoteWidgetView, WidgetWithViews widgetWithViews) {
