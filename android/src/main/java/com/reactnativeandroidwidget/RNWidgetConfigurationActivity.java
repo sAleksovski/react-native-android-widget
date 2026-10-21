@@ -12,13 +12,21 @@ import com.facebook.react.defaults.DefaultReactActivityDelegate;
 
 public class RNWidgetConfigurationActivity extends ReactActivity {
 
+    private Bundle widgetInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        widgetInfo = getWidgetInfo();
+
         super.onCreate(savedInstanceState);
 
         // Set the result to CANCELED.  This will cause the widget host to cancel
         // out of the widget placement if the user presses the back button.
         setResult(RESULT_CANCELED);
+
+        if (widgetInfo == null) {
+            finish();
+        }
     }
 
     /**
@@ -44,43 +52,50 @@ public class RNWidgetConfigurationActivity extends ReactActivity {
             DefaultNewArchitectureEntryPoint.getFabricEnabled()) {
 
             @Override
+            public String getMainComponentName() {
+                return widgetInfo != null ? super.getMainComponentName() : null;
+            }
+
+            @Override
             protected Bundle getLaunchOptions() {
+                if (widgetInfo == null) {
+                    return null;
+                }
+
                 Bundle initialProps = new Bundle();
-                initialProps.putBundle("widgetInfo", getWidgetInfo());
+                initialProps.putBundle("widgetInfo", widgetInfo);
                 return initialProps;
             }
         };
     }
 
     private Bundle getWidgetInfo() {
-        Bundle widgetInfo = new Bundle();
-        int widgetId = getWidgetId();
-        String widgetName = getWidgetName(widgetId);
+        int widgetId = getIntent()
+            .getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
 
+        if (widgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
+            return null;
+        }
+
+        AppWidgetProviderInfo providerInfo = AppWidgetManager.getInstance(getApplicationContext())
+            .getAppWidgetInfo(widgetId);
+
+        if (providerInfo == null || providerInfo.provider == null) {
+            return null;
+        }
+
+        // Reuse this provider information instead of looking it up again: the
+        // widget could be removed between validation and preparing launch props.
+        String className = providerInfo.provider.getClassName();
+        String[] classNameParts = className.split("\\.");
+        String widgetName = classNameParts[classNameParts.length - 1];
+
+        Bundle widgetInfo = new Bundle();
         widgetInfo.putInt("widgetId", widgetId);
         widgetInfo.putString("widgetName", widgetName);
         widgetInfo.putInt("height", RNWidgetUtil.getWidgetHeight(getApplicationContext(), widgetId));
         widgetInfo.putInt("width", RNWidgetUtil.getWidgetWidth(getApplicationContext(), widgetId));
         widgetInfo.putBundle("screenInfo", Arguments.toBundle(RNWidgetUtil.getScreenInfo(getApplicationContext())));
         return widgetInfo;
-    }
-
-    private int getWidgetId() {
-        int widgetId = getIntent()
-            .getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-
-        if (widgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
-            finish();
-        }
-
-        return widgetId;
-    }
-
-    private String getWidgetName(int widgetId) {
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getApplicationContext());
-        AppWidgetProviderInfo providerInfo = appWidgetManager.getAppWidgetInfo(widgetId);
-        String className = providerInfo.provider.getClassName();
-        String[] classNameParts = className.split("\\.");
-        return classNameParts[classNameParts.length - 1];
     }
 }

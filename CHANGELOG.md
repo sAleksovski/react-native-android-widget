@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Generate widget click intents with stable data
+- Cancel widget configuration without starting a React screen when the widget ID is missing, invalid, or no longer exists
 
 ## [0.23.0] - 2026-10-20
 
