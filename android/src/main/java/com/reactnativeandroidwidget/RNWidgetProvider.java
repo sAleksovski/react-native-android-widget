@@ -133,6 +133,10 @@ public class RNWidgetProvider extends AppWidgetProvider {
         try {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            Intent ownIntent = new Intent(intent).setPackage(context.getPackageName());
+            if (ownIntent.resolveActivity(context.getPackageManager()) != null) {
+                intent = ownIntent;
+            }
             context.startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
