@@ -9,7 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- add fontScale to screenInfo
+- Add fontScale to screenInfo
+
+### Fixed
+
+- Generate widget click intents with stable data
 
 ## [0.23.0] - 2026-10-20
 

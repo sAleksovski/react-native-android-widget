@@ -48,11 +48,13 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     private final Context mContext;
     private final int mAppWidgetId;
+    private final int mCollectionId;
     private final String widgetName;
 
     public ListRemoteViewsFactory(Context context, Intent intent) {
         mContext = context;
         mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+        mCollectionId = intent.getIntExtra("collectionId", 0);
         mCount = intent.getIntExtra("collectionSize", 0);
         mCollectionItems = intent.getParcelableArrayListExtra("collectionItems");
         widgetName = intent.getStringExtra("widgetName");
@@ -95,8 +97,8 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         ArrayList<Bundle> clickableAreas = bundle.getParcelableArrayList("clickableAreas");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            for (Bundle clickableArea : clickableAreas) {
-                addClickableArea(listItemView, clickableArea, bundle.getInt("imageWidth"));
+            for (int i = 0; i < clickableAreas.size(); i++) {
+                addClickableArea(listItemView, clickableAreas.get(i), bundle.getInt("imageWidth"), position, i);
             }
         }
 
@@ -104,7 +106,7 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    private void addClickableArea(RemoteViews widgetView, Bundle clickableArea, int imageWidth) {
+    private void addClickableArea(RemoteViews widgetView, Bundle clickableArea, int imageWidth, int position, int clickableAreaIndex) {
         RemoteViews clickableRemoteView = new RemoteViews(mContext.getPackageName(), R.layout.rn_widget_clickable);
 
         clickableRemoteView.setViewPadding(
@@ -133,7 +135,7 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             clickableRemoteView.setContentDescription(R.id.rn_widget_clickable_area, clickableArea.getString("accessibilityLabel"));
         }
 
-        PendingIntent pendingIntent = createPendingIntent(clickableArea);
+        PendingIntent pendingIntent = createPendingIntent(clickableArea, position, clickableAreaIndex);
         clickableRemoteView.setOnClickPendingIntent(R.id.rn_widget_clickable_area, pendingIntent);
 
         Intent fillInIntent = createFillInIntent(clickableArea);
@@ -154,17 +156,29 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         return fillInIntent;
     }
 
-    private PendingIntent createPendingIntent(Bundle clickableArea) {
+    private PendingIntent createPendingIntent(Bundle clickableArea, int position, int clickableAreaIndex) {
         Intent intent = new Intent(mContext.getPackageName() + ".WIDGET_CLICK");
         intent.setComponent(new ComponentName(mContext, RNWidgetUtil.getWidgetProviderClassName(mContext, widgetName)));
+        intent.setData(
+            new Uri.Builder()
+                .scheme("rnwidget")
+                .authority(mContext.getPackageName())
+                .appendPath(widgetName)
+                .appendPath(Integer.toString(mAppWidgetId))
+                .appendPath("collection")
+                .appendPath(Integer.toString(mCollectionId))
+                .appendPath(Integer.toString(position))
+                .appendPath(Integer.toString(clickableAreaIndex))
+                .build()
+        );
         intent.putExtra("widgetId", mAppWidgetId);
         intent.putExtra("clickAction", clickableArea.getString("clickAction"));
         intent.putExtra("clickActionData", clickableArea.getBundle("clickActionData"));
         return PendingIntent.getBroadcast(
             mContext,
-            (int) System.currentTimeMillis(),
+            0,
             intent,
-            PendingIntent.FLAG_CANCEL_CURRENT
+            PendingIntent.FLAG_UPDATE_CURRENT
                 | PendingIntent.FLAG_MUTABLE
         );
     }

@@ -158,12 +158,12 @@ public class RNWidget {
         List<ClickableView> clickableViews = widgetWithViews.getClickableViews();
         for (int i = 0; i < clickableViews.size(); i++) {
             ClickableView clickableView = clickableViews.get(i);
-            addClickableArea(remoteWidgetView, rootView, clickableView, widgetId);
+            addClickableArea(remoteWidgetView, rootView, clickableView, widgetId, i);
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    private void addClickableArea(RemoteViews widgetView, ViewGroup rootWidget, ClickableView clickableView, int widgetId) {
+    private void addClickableArea(RemoteViews widgetView, ViewGroup rootWidget, ClickableView clickableView, int widgetId, int clickableIndex) {
         View clickableWidget = clickableView.getView();
         Rect offsetViewBounds = new Rect();
         clickableWidget.getDrawingRect(offsetViewBounds);
@@ -194,22 +194,33 @@ public class RNWidget {
             clickableRemoteView.setContentDescription(R.id.rn_widget_clickable_area, clickableView.getAccessibilityLabel());
         }
 
-        registerClickTask(widgetId, clickableView, clickableRemoteView, R.id.rn_widget_clickable_area);
+        registerClickTask(widgetId, clickableIndex, clickableView, clickableRemoteView, R.id.rn_widget_clickable_area);
 
         widgetView.addView(R.id.rn_widget_clickable_container, clickableRemoteView);
     }
 
-    private void registerClickTask(int id, ClickableView clickableView, RemoteViews widgetView, Integer button) {
+    private void registerClickTask(int id, int clickableIndex, ClickableView clickableView, RemoteViews widgetView, Integer button) {
         Intent intent = new Intent(appContext.getPackageName() + ".WIDGET_CLICK");
         intent.setComponent(new ComponentName(appContext, RNWidgetUtil.getWidgetProviderClassName(appContext, widgetName)));
+        // PendingIntent matching ignores extras, so use stable data to distinguish each clickable
+        // area while allowing its action data to be updated on subsequent widget renders.
+        intent.setData(
+            new Uri.Builder()
+                .scheme("rnwidget")
+                .authority(appContext.getPackageName())
+                .appendPath(widgetName)
+                .appendPath(Integer.toString(id))
+                .appendPath(Integer.toString(clickableIndex))
+                .build()
+        );
         intent.putExtra("widgetId", id);
         intent.putExtra("clickAction", clickableView.getClickAction());
         intent.putExtra("clickActionData", Arguments.toBundle(clickableView.getClickActionData()));
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
             appContext,
-            (int) System.currentTimeMillis(),
+            0,
             intent,
-            PendingIntent.FLAG_CANCEL_CURRENT
+            PendingIntent.FLAG_UPDATE_CURRENT
                 | PendingIntent.FLAG_MUTABLE
         );
         widgetView.setOnClickPendingIntent(button, pendingIntent);
