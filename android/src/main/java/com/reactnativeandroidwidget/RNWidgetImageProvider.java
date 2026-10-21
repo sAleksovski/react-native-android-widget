@@ -14,9 +14,20 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.SecureRandom;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RNWidgetImageProvider extends ContentProvider {
     public static final String AUTHORITY_SUFFIX = ".rnwidget.imageprovider";
+
+    private static final SecureRandom RANDOM = new SecureRandom();
+    private static final Pattern IMAGE_NAME = Pattern.compile(
+        "widget_[0-9]+_mode_(?:light|dark)_(?:collection_[0-9]+_[0-9]+_)?[0-9a-f]{64}\\.png"
+    );
+    private static final Pattern LEGACY_IMAGE_NAME = Pattern.compile(
+        "(widget_[0-9]+_mode_(?:light|dark)(?:_collection_[0-9]+_[0-9]+)?\\.png)(?:\\?cacheKey=[0-9]+)?"
+    );
 
     @Override
     public boolean onCreate() {
@@ -30,27 +41,34 @@ public class RNWidgetImageProvider extends ContentProvider {
         }
 
         String fileName = uri.getLastPathSegment();
-        if (fileName == null) {
-            throw new FileNotFoundException("Invalid URI: " + uri);
+        if (!"content".equals(uri.getScheme())
+            || !(getContext().getPackageName() + AUTHORITY_SUFFIX).equals(uri.getAuthority())
+            || uri.getPathSegments().size() != 1
+            || uri.getQuery() != null || uri.getFragment() != null
+            || fileName == null
+            || !("/" + Uri.encode(fileName)).equals(uri.getEncodedPath())) {
+            throw new FileNotFoundException("Image not found");
         }
-
-        File folder = getFolderWithImages(getContext());
-        File file = new File(folder, fileName.replaceAll("\\?.*", ""));
-
-        // Verify the file exists and is actually inside our folder (Path Traversal check)
-        try {
-            if (!file.getCanonicalPath().startsWith(folder.getCanonicalPath())) {
-                throw new FileNotFoundException("Access denied: File is outside widget directory.");
+        if (!IMAGE_NAME.matcher(fileName).matches()) {
+            // Older versions embedded the cache key in the encoded path segment.
+            Matcher legacyName = LEGACY_IMAGE_NAME.matcher(fileName);
+            if (!legacyName.matches()) {
+                throw new FileNotFoundException("Image not found");
             }
-        } catch (Exception e) {
-            throw new FileNotFoundException("Path security check failed.");
+            fileName = legacyName.group(1);
         }
 
-        if (!file.exists()) {
-            throw new FileNotFoundException("File not found: " + file.getPath());
+        try {
+            File folder = getFolderWithImages(getContext()).getCanonicalFile();
+            File file = new File(folder, fileName).getCanonicalFile();
+            if (!folder.equals(file.getParentFile()) || !file.isFile()) {
+                throw new FileNotFoundException("Image not found");
+            }
+            return ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY);
+        } catch (IOException e) {
+            // A filename is a bearer credential; never include it in errors or logs.
+            throw new FileNotFoundException("Image not found");
         }
-
-        return ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY);
     }
 
     // --- Boilerplate required for ContentProvider ---
@@ -73,6 +91,20 @@ public class RNWidgetImageProvider extends ContentProvider {
         deleteImages(context, "widget_" + widgetId + "_mode_" + mode + "_collection_" + collectionId + "_");
     }
 
+    static void deleteMainImage(Context context, int widgetId, String mode) {
+        String prefix = "widget_" + widgetId + "_mode_" + mode;
+        File[] files = getFolderWithImages(context).listFiles(file ->
+            file.getName().equals(prefix + ".png")
+                || (file.getName().startsWith(prefix + "_")
+                    && !file.getName().startsWith(prefix + "_collection_"))
+        );
+        if (files != null) {
+            for (File file : files) {
+                file.delete();
+            }
+        }
+    }
+
     private static void deleteImages(Context context, String prefix) {
         File folder = getFolderWithImages(context);
         File[] files = folder.listFiles(pathname -> pathname.getName().startsWith(prefix));
@@ -86,26 +118,34 @@ public class RNWidgetImageProvider extends ContentProvider {
         }
     }
 
-    static void writeImage(Context context, String imageName, Bitmap bitmap) {
-        File folder = getFolderWithImages(context);
-        if (!folder.exists()) folder.mkdirs();
-        File file = new File(folder, imageName);
-
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (fos != null) {
-                    fos.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    static String writeImage(Context context, String imagePrefix, Bitmap bitmap) {
+        byte[] randomBytes = new byte[32];
+        RANDOM.nextBytes(randomBytes);
+        StringBuilder token = new StringBuilder(64);
+        for (byte value : randomBytes) {
+            token.append(Character.forDigit((value & 0xff) >>> 4, 16));
+            token.append(Character.forDigit(value & 0xf, 16));
         }
+        String fileName = imagePrefix + "_" + token + ".png";
+        if (!IMAGE_NAME.matcher(fileName).matches()) {
+            throw new IllegalArgumentException("Invalid widget image name");
+        }
+
+        File folder = getFolderWithImages(context);
+        if (!folder.isDirectory() && !folder.mkdirs() && !folder.isDirectory()) {
+            throw new IllegalStateException("Unable to create widget image directory");
+        }
+        File file = new File(folder, fileName);
+        try (FileOutputStream stream = new FileOutputStream(file)) {
+            if (!bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)) {
+                throw new IOException("Unable to encode widget image");
+            }
+        } catch (IOException e) {
+            file.delete();
+            // Do not attach the exception: it may contain the secret filename.
+            throw new IllegalStateException("Unable to write widget image");
+        }
+        return fileName;
     }
 
     static Uri getImageUri(Context context, String fileName) {
@@ -114,8 +154,7 @@ public class RNWidgetImageProvider extends ContentProvider {
         return new Uri.Builder()
             .scheme("content")
             .authority(authority)
-            // Add cacheKey since the uri is cached and returns old images
-            .appendPath(fileName + "?cacheKey=" + System.currentTimeMillis())
+            .appendPath(fileName)
             .build();
     }
 

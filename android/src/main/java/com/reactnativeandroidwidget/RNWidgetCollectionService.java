@@ -23,17 +23,19 @@ import java.util.List;
 public class RNWidgetCollectionService extends RemoteViewsService {
     public static final int MAX_COLLECTION_WIDGETS = 2;
 
-    public static void storeCollection(ReactApplicationContext context, int widgetId, int collectionId, List<CollectionViewItem> collectionViewItems, String mode) {
+    public static List<String> storeCollection(ReactApplicationContext context, int widgetId, int collectionId, List<CollectionViewItem> collectionViewItems, String mode) {
         RNWidgetImageProvider.deleteCollectionImages(context, widgetId, collectionId, mode);
+        List<String> imageNames = new ArrayList<>();
         for (int i = 0; i < collectionViewItems.size(); i++) {
             CollectionViewItem item = collectionViewItems.get(i);
 
-            RNWidgetImageProvider.writeImage(context, getImageName(widgetId, collectionId, i, mode), item.getBitmap());
+            imageNames.add(RNWidgetImageProvider.writeImage(context, getImagePrefix(widgetId, collectionId, i, mode), item.getBitmap()));
         }
+        return imageNames;
     }
 
-    static String getImageName(int widgetId, int collectionId, int position, String mode) {
-        return "widget_" + widgetId + "_mode_" + mode + "_collection_" + collectionId + "_" + position + ".png";
+    private static String getImagePrefix(int widgetId, int collectionId, int position, String mode) {
+        return "widget_" + widgetId + "_mode_" + mode + "_collection_" + collectionId + "_" + position;
     }
 
     @Override

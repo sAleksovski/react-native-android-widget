@@ -81,6 +81,8 @@ public class RNWidget {
             remoteWidgetView.setContentDescription(R.id.rn_widget_clickable_container, widgetWithViews.getRootAccessibilityLabel());
         }
 
+        List<List<String>> lightImageNames = new ArrayList<>();
+        List<List<String>> darkImageNames = new ArrayList<>();
         if (dark != null) {
             WidgetWithViews darkWidgetWithViews = WidgetFactory.buildWidgetFromRoot(
                 appContext,
@@ -97,8 +99,8 @@ public class RNWidget {
             List<CollectionView> darkCollectionViews = darkWidgetWithViews.getCollectionViews();
 
             for (int i = 0; i < Math.min(darkCollectionViews.size(), RNWidgetCollectionService.MAX_COLLECTION_WIDGETS); i++) {
-                RNWidgetCollectionService.storeCollection(appContext, widgetId, i, lightCollectionViews.get(i).getRenderedViews(), "light");
-                RNWidgetCollectionService.storeCollection(appContext, widgetId, i, darkCollectionViews.get(i).getRenderedViews(), "dark");
+                lightImageNames.add(RNWidgetCollectionService.storeCollection(appContext, widgetId, i, lightCollectionViews.get(i).getRenderedViews(), "light"));
+                darkImageNames.add(RNWidgetCollectionService.storeCollection(appContext, widgetId, i, darkCollectionViews.get(i).getRenderedViews(), "dark"));
             }
         } else {
             remoteWidgetView.setImageViewUri(R.id.rn_widget_image_dark, bitmapUri);
@@ -106,15 +108,15 @@ public class RNWidget {
             List<CollectionView> collectionViews = widgetWithViews.getCollectionViews();
             for (int i = 0; i < Math.min(collectionViews.size(), RNWidgetCollectionService.MAX_COLLECTION_WIDGETS); i++) {
                 CollectionView collectionView = collectionViews.get(i);
-                RNWidgetCollectionService.storeCollection(appContext, widgetId, i, collectionView.getRenderedViews(), "light");
-                RNWidgetCollectionService.storeCollection(appContext, widgetId, i, collectionView.getRenderedViews(), "dark");
+                lightImageNames.add(RNWidgetCollectionService.storeCollection(appContext, widgetId, i, collectionView.getRenderedViews(), "light"));
+                darkImageNames.add(RNWidgetCollectionService.storeCollection(appContext, widgetId, i, collectionView.getRenderedViews(), "dark"));
             }
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             addClickableAreas(widgetId, remoteWidgetView, widgetWithViews);
         }
-        addCollectionViews(widgetId, remoteWidgetView, widgetWithViews);
+        addCollectionViews(widgetId, remoteWidgetView, widgetWithViews, lightImageNames, darkImageNames);
 
         AppWidgetManager.getInstance(appContext)
             .updateAppWidget(widgetId, remoteWidgetView);
@@ -146,8 +148,10 @@ public class RNWidget {
     }
 
     private Uri saveBitmapToDisk(int widgetId, String mode, Bitmap bitmap) {
-        String fileName = "widget_" + widgetId + "_mode_" + mode + ".png";
-        RNWidgetImageProvider.writeImage(appContext, fileName, bitmap);
+        String imagePrefix = "widget_" + widgetId + "_mode_" + mode;
+        // Previously the fixed filename was overwritten on every render.
+        RNWidgetImageProvider.deleteMainImage(appContext, widgetId, mode);
+        String fileName = RNWidgetImageProvider.writeImage(appContext, imagePrefix, bitmap);
         return RNWidgetImageProvider.getImageUri(appContext, fileName);
     }
 
@@ -226,7 +230,7 @@ public class RNWidget {
         widgetView.setOnClickPendingIntent(button, pendingIntent);
     }
 
-    private void addCollectionViews(int widgetId, RemoteViews remoteWidgetView, WidgetWithViews widgetWithViews) {
+    private void addCollectionViews(int widgetId, RemoteViews remoteWidgetView, WidgetWithViews widgetWithViews, List<List<String>> lightImageNames, List<List<String>> darkImageNames) {
         remoteWidgetView.removeAllViews(R.id.rn_widget_collection_container);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -247,11 +251,11 @@ public class RNWidget {
 
         for (int i = 0; i < Math.min(collectionViews.size(), RNWidgetCollectionService.MAX_COLLECTION_WIDGETS); i++) {
             CollectionView collectionView = collectionViews.get(i);
-            addCollectionView(remoteWidgetView, rootView, collectionView, widgetId, i);
+            addCollectionView(remoteWidgetView, rootView, collectionView, widgetId, i, lightImageNames.get(i), darkImageNames.get(i));
         }
     }
 
-    private void addCollectionView(RemoteViews remoteWidgetView, ViewGroup rootView, CollectionView collectionView, int widgetId, int collectionId) {
+    private void addCollectionView(RemoteViews remoteWidgetView, ViewGroup rootView, CollectionView collectionView, int widgetId, int collectionId, List<String> lightImageNames, List<String> darkImageNames) {
         View collectionWidget = collectionView.getView();
         Rect offsetViewBounds = new Rect();
         collectionWidget.getDrawingRect(offsetViewBounds);
@@ -274,7 +278,7 @@ public class RNWidget {
         }
 
         PendingIntent collectionPendingIntentTemplate = createCollectionPendingIntentTemplate(widgetId);
-        Intent remoteAdapterIntent = createCollectionRemoteAdapterIntent(widgetId, collectionId, collectionView);
+        Intent remoteAdapterIntent = createCollectionRemoteAdapterIntent(widgetId, collectionId, collectionView, lightImageNames, darkImageNames);
 
         collectionRemoteView.setPendingIntentTemplate(lists[collectionId], collectionPendingIntentTemplate);
 
@@ -282,7 +286,7 @@ public class RNWidget {
         remoteWidgetView.setRemoteAdapter(lists[collectionId], remoteAdapterIntent);
     }
 
-    private Intent createCollectionRemoteAdapterIntent(int widgetId, int collectionId, CollectionView collectionView) {
+    private Intent createCollectionRemoteAdapterIntent(int widgetId, int collectionId, CollectionView collectionView, List<String> lightImageNames, List<String> darkImageNames) {
         List<CollectionViewItem> collectionItems = collectionView.getRenderedViews();
         Intent intent = new Intent(appContext, RNWidgetCollectionService.class);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
@@ -300,8 +304,8 @@ public class RNWidget {
             bundle.putString("clickAction", collectionViewItem.getClickAction());
             bundle.putBundle("clickActionData", Arguments.toBundle(collectionViewItem.getClickActionData()));
             bundle.putInt("imageWidth", collectionViewItem.getBitmap().getWidth());
-            bundle.putString("lightImageName", RNWidgetCollectionService.getImageName(widgetId, collectionId, i, "light"));
-            bundle.putString("darkImageName", RNWidgetCollectionService.getImageName(widgetId, collectionId, i, "dark"));
+            bundle.putString("lightImageName", lightImageNames.get(i));
+            bundle.putString("darkImageName", darkImageNames.get(i));
             
             // Add item accessibility label if available
             if (collectionViewItem.getItemAccessibilityLabel() != null) {
