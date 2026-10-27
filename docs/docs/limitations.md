@@ -28,4 +28,4 @@ On some Android launchers, the reported and actual size of the widget are not al
 <figcaption>Reported size (365dp x 354dp)</figcaption>
 </figure>
 
-I haven't found a reliable way to get the **exact** size, the current behavior is to crop the widget if the reported size is smaller.
+Currently the library scales the rendered image and centers it in the widget, then calibrates the widget size on first click.
