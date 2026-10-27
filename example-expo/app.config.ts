@@ -101,15 +101,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   orientation: 'portrait',
   icon: './assets/icon.png',
   userInterfaceStyle: 'light',
-  splash: {
-    image: './assets/splash.png',
-    resizeMode: 'contain',
-    backgroundColor: '#ffffff',
-  },
   updates: {
     fallbackToCacheTimeout: 0,
   },
-  assetBundlePatterns: ['**/*'],
   ios: {
     supportsTablet: true,
   },
@@ -126,7 +120,17 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       projectId: 'be9e6b81-3f11-4eae-913f-f1acdefe6e97',
     },
   },
-  plugins: [['react-native-android-widget', widgetConfig]],
+  plugins: [
+    ['react-native-android-widget', widgetConfig],
+    [
+      'expo-splash-screen',
+      {
+        image: './assets/splash.png',
+        resizeMode: 'contain',
+        backgroundColor: '#ffffff',
+      },
+    ],
+  ],
   experiments: {
     reactCompiler: true,
   },
