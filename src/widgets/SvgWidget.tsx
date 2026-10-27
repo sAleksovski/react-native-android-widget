@@ -32,7 +32,11 @@ SvgWidget.convertProps = (props: SvgWidgetProps): SvgWidgetInternalProps => {
   const svg =
     typeof props.svg === 'string'
       ? props.svg
-      : Image.resolveAssetSource(props.svg as ImageRequireSource).uri;
+      : Image.resolveAssetSource(props.svg)?.uri;
+
+  if (svg === undefined) {
+    throw new Error(`SvgWidget could not resolve SVG asset ${props.svg}`);
+  }
 
   return {
     ...convertCommonStyle(props.style ?? {}),

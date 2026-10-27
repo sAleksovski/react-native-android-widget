@@ -63,15 +63,21 @@ ImageWidget.__name__ = 'ImageWidget';
 ImageWidget.convertProps = (
   props: ImageWidgetProps
 ): ImageWidgetInternalProps => {
+  const image =
+    typeof props.image === 'number'
+      ? Image.resolveAssetSource(props.image)
+      : { uri: props.image };
+
+  if (!image) {
+    throw new Error(`ImageWidget could not resolve image asset ${props.image}`);
+  }
+
   return {
     ...convertCommonStyle(props.style ?? {}),
     ...convertClickAction(props),
     imageHeight: props.imageHeight,
     imageWidth: props.imageWidth,
-    image:
-      typeof props.image === 'number'
-        ? Image.resolveAssetSource(props.image)
-        : { uri: props.image },
+    image,
     ...(props.radius ? { radius: props.radius } : {}),
     ...(props.resizeMode ? { resizeMode: props.resizeMode } : {}),
   };
