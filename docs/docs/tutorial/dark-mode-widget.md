@@ -23,7 +23,7 @@ import { Widget } from '../../widgets/Widget';
 export async function widgetTaskHandler(props: WidgetTaskHandlerProps) {
   switch (props.widgetAction) {
     case 'WIDGET_ADDED':
-    case 'WIDGET_UPDATED':
+    case 'WIDGET_UPDATE':
       // props.renderWidget(<Widget />);
       props.renderWidget({
         light: <Widget theme="light" />,
