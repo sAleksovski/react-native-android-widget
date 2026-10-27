@@ -158,6 +158,7 @@ public class RNWidget {
     @RequiresApi(Build.VERSION_CODES.N)
     private void addClickableAreas(int widgetId, RemoteViews remoteWidgetView, WidgetWithViews widgetWithViews) {
         remoteWidgetView.removeAllViews(R.id.rn_widget_clickable_container);
+        registerClickTask(widgetId, -1, null, remoteWidgetView, android.R.id.background, new Rect());
         ViewGroup rootView = (ViewGroup) widgetWithViews.getRootView();
         List<ClickableView> clickableViews = widgetWithViews.getClickableViews();
         for (int i = 0; i < clickableViews.size(); i++) {
@@ -172,17 +173,22 @@ public class RNWidget {
         Rect offsetViewBounds = new Rect();
         clickableWidget.getDrawingRect(offsetViewBounds);
         rootWidget.offsetDescendantRectToMyCoords(clickableWidget, offsetViewBounds);
-        RemoteViews clickableRemoteView = new RemoteViews(appContext.getPackageName(), R.layout.rn_widget_clickable);
+        RemoteViews clickableRemoteView = new RemoteViews(appContext.getPackageName(), R.layout.rn_widget_clickable_calibrated);
+
+        // Both axes must stretch between fixed edges so a child click's bounds
+        // reveal the host size. Clip overflowing hit targets to the rendered root.
+        if (!offsetViewBounds.intersect(0, 0, rootWidget.getWidth(), rootWidget.getHeight())) return;
+        Rect padding = new Rect(offsetViewBounds.left, offsetViewBounds.top,
+            rootWidget.getWidth() - offsetViewBounds.right,
+            rootWidget.getHeight() - offsetViewBounds.bottom);
 
         clickableRemoteView.setViewPadding(
             R.id.rn_widget_clickable_positioner,
-            offsetViewBounds.left,
-            offsetViewBounds.top,
-            RNWidgetUtil.dpToPx(appContext, RNWidgetUtil.getWidgetWidth(appContext, widgetId)) - offsetViewBounds.right,
-            0
-        );
-
-        clickableRemoteView.setInt(R.id.rn_widget_clickable_area, "setMinimumHeight", offsetViewBounds.height());
+            padding.left,
+            padding.top,
+            padding.right,
+            padding.bottom
+);
 
         // The clickable overlay draws its own ripple, so match it to the view's radius when supported
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && clickableView.getBorderRadius() > 0f) {
@@ -198,12 +204,12 @@ public class RNWidget {
             clickableRemoteView.setContentDescription(R.id.rn_widget_clickable_area, clickableView.getAccessibilityLabel());
         }
 
-        registerClickTask(widgetId, clickableIndex, clickableView, clickableRemoteView, R.id.rn_widget_clickable_area);
+        registerClickTask(widgetId, clickableIndex, clickableView, clickableRemoteView, R.id.rn_widget_clickable_area, padding);
 
         widgetView.addView(R.id.rn_widget_clickable_container, clickableRemoteView);
     }
 
-    private void registerClickTask(int id, int clickableIndex, ClickableView clickableView, RemoteViews widgetView, Integer button) {
+    private void registerClickTask(int id, int clickableIndex, ClickableView clickableView, RemoteViews widgetView, Integer button, Rect padding) {
         Intent intent = new Intent(appContext.getPackageName() + ".WIDGET_CLICK");
         intent.setComponent(new ComponentName(appContext, RNWidgetUtil.getWidgetProviderClassName(appContext, widgetName)));
         // PendingIntent matching ignores extras, so use stable data to distinguish each clickable
@@ -218,8 +224,11 @@ public class RNWidget {
                 .build()
         );
         intent.putExtra("widgetId", id);
-        intent.putExtra("clickAction", clickableView.getClickAction());
-        intent.putExtra("clickActionData", Arguments.toBundle(clickableView.getClickActionData()));
+        RNWidgetSizing.attach(appContext, id, intent, padding);
+        if (clickableView != null) {
+            intent.putExtra("clickAction", clickableView.getClickAction());
+            intent.putExtra("clickActionData", Arguments.toBundle(clickableView.getClickActionData()));
+        }
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
             appContext,
             0,

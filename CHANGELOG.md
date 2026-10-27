@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Calibrate widget size on first click
+
 ## [0.24.0] - 2026-10-22
 
 ### Added

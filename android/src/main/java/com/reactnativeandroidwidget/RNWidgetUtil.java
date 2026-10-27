@@ -1,7 +1,5 @@
 package com.reactnativeandroidwidget;
 
-import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
-
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
 import android.content.ComponentName;
@@ -18,21 +16,11 @@ import java.util.List;
 
 public class RNWidgetUtil {
     public static int getWidgetWidth(Context context, int widgetId) {
-        boolean isPortrait = context.getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT;
-        if (isPortrait) {
-            return getWidgetSizeInDp(context, widgetId, AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
-        } else {
-            return getWidgetSizeInDp(context, widgetId, AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
-        }
+        return RNWidgetSizing.getSize(context, widgetId).x;
     }
 
     public static int getWidgetHeight(Context context, int widgetId) {
-        boolean isPortrait = context.getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT;
-        if (isPortrait) {
-            return getWidgetSizeInDp(context, widgetId, AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
-        } else {
-            return getWidgetSizeInDp(context, widgetId, AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
-        }
+        return RNWidgetSizing.getSize(context, widgetId).y;
     }
 
     public static int dpToPx(Context context, double dpValue) {
@@ -42,10 +30,6 @@ public class RNWidgetUtil {
     public static double pxToDp(Context context, double pxValue) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         return pxValue / displayMetrics.density;
-    }
-
-    private static int getWidgetSizeInDp(Context context, int widgetId, String key) {
-        return AppWidgetManager.getInstance(context).getAppWidgetOptions(widgetId).getInt(key, 0);
     }
 
     public static WritableArray getWidgetInfo(ReactApplicationContext context, String widgetName) {

@@ -4,7 +4,6 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -19,9 +18,7 @@ public class RNWidgetProvider extends AppWidgetProvider {
     public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
         super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
 
-        if (isSizeChanged(context, appWidgetId)) {
-            storeWidgetSize(context, appWidgetId);
-
+        if (RNWidgetSizing.updateStoredSize(context, appWidgetId)) {
             Data data = RNWidgetJsCommunication.buildData(context, getClass().getSimpleName(), appWidgetId, "WIDGET_RESIZED");
             RNWidgetJsCommunication.startBackgroundTask(context, data);
         }
@@ -32,8 +29,8 @@ public class RNWidgetProvider extends AppWidgetProvider {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
 
         for (int widgetId : appWidgetIds) {
-            String widgetAction = isWidgetNew(context, widgetId) ? "WIDGET_ADDED" : "WIDGET_UPDATE";
-            storeWidgetSize(context, widgetId);
+            String widgetAction = RNWidgetSizing.isWidgetNew(context, widgetId) ? "WIDGET_ADDED" : "WIDGET_UPDATE";
+            RNWidgetSizing.updateStoredSize(context, widgetId);
 
             Data data = RNWidgetJsCommunication.buildData(context, getClass().getSimpleName(), widgetId, widgetAction);
             RNWidgetJsCommunication.startBackgroundTask(context, data);
@@ -44,21 +41,35 @@ public class RNWidgetProvider extends AppWidgetProvider {
     public void onReceive(final Context context, final Intent incomingIntent) {
         super.onReceive(context, incomingIntent);
 
-        if (!incomingIntent.getAction().startsWith(context.getPackageName() + ".WIDGET")) {
+        if (!(context.getPackageName() + ".WIDGET_CLICK").equals(incomingIntent.getAction())) {
             return;
         }
 
         int widgetId = incomingIntent.getIntExtra("widgetId", -1);
 
-        switch (incomingIntent.getStringExtra("clickAction")) {
-            case "OPEN_APP":
-                openApp(context);
-                break;
-            case "OPEN_URI":
-                openUri(context, incomingIntent.getBundleExtra("clickActionData").getString("uri"));
-                break;
-            default:
-                handleWidgetClick(context, incomingIntent, widgetId);
+        if (RNWidgetSizing.correct(context, widgetId, incomingIntent)) {
+            RNWidgetSizing.updateStoredSize(context, widgetId);
+            Data resizeData = RNWidgetJsCommunication.buildData(context, getClass().getSimpleName(), widgetId, "WIDGET_RESIZED");
+            RNWidgetJsCommunication.startBackgroundTask(context, resizeData);
+            // Before correction, the image and hit areas may disagree. Consume this tap
+            // instead of executing a potentially unintended custom or native action.
+            return;
+        }
+        // A second tap can arrive before the corrective render replaces the old overlays.
+        if (RNWidgetSizing.hasOutdatedSize(context, widgetId, incomingIntent)) return;
+        String clickAction = incomingIntent.getStringExtra("clickAction");
+        if (clickAction != null) {
+            switch (clickAction) {
+                case "OPEN_APP":
+                    openApp(context);
+                    break;
+                case "OPEN_URI":
+                    openUri(context, incomingIntent.getBundleExtra("clickActionData").getString("uri"));
+                    break;
+                default:
+                    handleWidgetClick(context, incomingIntent, widgetId);
+                    return;
+            }
         }
     }
 
@@ -67,57 +78,12 @@ public class RNWidgetProvider extends AppWidgetProvider {
         super.onDeleted(context, appWidgetIds);
 
         for (int widgetId : appWidgetIds) {
-            removeWidgetSize(context, widgetId);
+            RNWidgetSizing.clear(context, widgetId);
             RNWidgetImageProvider.deleteWidgetImages(context, widgetId);
 
             Data data = RNWidgetJsCommunication.buildData(context, getClass().getSimpleName(), widgetId, "WIDGET_DELETED");
             RNWidgetJsCommunication.startBackgroundTask(context, data);
         }
-    }
-
-    private boolean isSizeChanged(Context context, int widgetId) {
-        SharedPreferences sharedPref = context.getSharedPreferences(
-            context.getPackageName() + ".WIDGET_SIZES", Context.MODE_PRIVATE);
-        int oldWidth = sharedPref.getInt(widgetId + "-width", 0);
-        int oldHeight = sharedPref.getInt(widgetId + "-height", 0);
-        int newWidth = RNWidgetUtil.getWidgetWidth(context, widgetId);
-        int newHeight = RNWidgetUtil.getWidgetHeight(context, widgetId);
-
-        return oldWidth != newWidth || oldHeight != newHeight;
-    }
-
-    private void storeWidgetSize(Context context, int widgetId) {
-        int width = RNWidgetUtil.getWidgetWidth(context, widgetId);
-        int height = RNWidgetUtil.getWidgetHeight(context, widgetId);
-
-        SharedPreferences sharedPref = context.getSharedPreferences(
-            context.getPackageName() + ".WIDGET_SIZES", Context.MODE_PRIVATE);
-
-        SharedPreferences.Editor editor = sharedPref.edit();
-
-        editor.putInt(widgetId + "-width", width);
-        editor.putInt(widgetId + "-height", height);
-
-        editor.apply();
-    }
-
-    private void removeWidgetSize(Context context, int widgetId) {
-        SharedPreferences sharedPref = context.getSharedPreferences(
-            context.getPackageName() + ".WIDGET_SIZES", Context.MODE_PRIVATE);
-
-        SharedPreferences.Editor editor = sharedPref.edit();
-
-        editor.remove(widgetId + "-width");
-        editor.remove(widgetId + "-height");
-
-        editor.apply();
-    }
-
-    private boolean isWidgetNew(Context context, int widgetId) {
-        SharedPreferences sharedPref = context.getSharedPreferences(
-            context.getPackageName() + ".WIDGET_SIZES", Context.MODE_PRIVATE);
-        int oldWidth = sharedPref.getInt(widgetId + "-width", -1);
-        return oldWidth == -1;
     }
 
     private void openApp(Context context) {
