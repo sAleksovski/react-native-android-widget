@@ -45,7 +45,9 @@ public class RNWidgetProvider extends AppWidgetProvider {
             return;
         }
 
-        int widgetId = incomingIntent.getIntExtra("widgetId", -1);
+        int widgetId = incomingIntent.hasExtra("widgetId")
+            ? incomingIntent.getIntExtra("widgetId", -1)
+            : incomingIntent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
 
         if (RNWidgetSizing.correct(context, widgetId, incomingIntent)) {
             RNWidgetSizing.updateStoredSize(context, widgetId);

@@ -24,3 +24,43 @@ the user may still cancel the confirmation dialog.
 
 The promise rejects if `widgetName` does not match a widget provider registered
 by the application.
+
+## Checking support up front
+
+Use `isRequestPinWidgetSupported` to decide whether to show an "Add widget"
+button at all.
+
+```tsx
+import { isRequestPinWidgetSupported } from 'react-native-android-widget';
+
+const supported = await isRequestPinWidgetSupported();
+```
+
+## Knowing which widget was added
+
+Pass `callbackData` to be told when the user confirms. The new widget receives
+a `WIDGET_CLICK` in your [task handler](./register-widget-task-handler.md),
+with `clickAction` set to `"WIDGET_PINNED"` and `callbackData` as
+`clickActionData`. This is a separate event from the widget's `WIDGET_ADDED`.
+
+```tsx
+await requestPinWidget({
+  widgetName: 'Fitness',
+  callbackData: { goal: 'steps' },
+});
+```
+
+```ts
+export async function widgetTaskHandler(props: WidgetTaskHandlerProps) {
+  if (
+    props.widgetAction === 'WIDGET_CLICK' &&
+    props.clickAction === 'WIDGET_PINNED'
+  ) {
+    // props.widgetInfo.widgetId is the widget that was just added
+    // props.clickActionData === { goal: 'steps' }
+  }
+}
+```
+
+Launchers that open the widget's configuration screen after the prompt may not
+send the callback.
