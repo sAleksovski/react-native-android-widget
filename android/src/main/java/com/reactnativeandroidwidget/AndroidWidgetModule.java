@@ -69,6 +69,9 @@ public class AndroidWidgetModule extends com.reactnativeandroidwidget.AndroidWid
     @ReactMethod
     public void finishWidgetConfiguration(double appWidgetId, String result) {
         Activity activity = getReactApplicationContext().getCurrentActivity();
+        if (!(activity instanceof RNWidgetConfigurationActivity)) {
+            return;
+        }
         Intent intent = new Intent();
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, (int) appWidgetId);
         activity.setResult("ok".equals(result) ? Activity.RESULT_OK : Activity.RESULT_CANCELED, intent);
