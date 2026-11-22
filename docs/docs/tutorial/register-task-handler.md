@@ -120,14 +120,16 @@ First, update `package.json` main field to point to `index.ts` (or `.js`) instea
 }
 ```
 
-Create the file and import `expo-router/entry`.
-Then import `widgetTaskHandler` and register it.
+Create the file, import `registerWidgetTaskHandler` and register `widgetTaskHandler`.
+Import `expo-router/entry` last, as described in the [Expo Router custom entry point guide](https://docs.expo.dev/router/installation/#custom-entry-point-to-initialize-and-load-side-effects).
 
 ```js title="index.ts"
-import 'expo-router/entry';
+import { registerWidgetTaskHandler } from 'react-native-android-widget';
 import { widgetTaskHandler } from './widget-task-handler';
 
 registerWidgetTaskHandler(widgetTaskHandler);
+
+import 'expo-router/entry';
 ```
 
 ## Next steps
