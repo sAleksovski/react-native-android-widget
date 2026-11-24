@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -62,8 +63,13 @@ public class AndroidWidgetModule extends com.reactnativeandroidwidget.AndroidWid
     }
 
     @ReactMethod
-    public void requestPinWidget(String widgetName, Promise promise) {
-        RNWidgetPinning.requestPinWidget(getReactApplicationContext(), widgetName, promise);
+    public void isRequestPinWidgetSupported(Promise promise) {
+        RNWidgetPinning.isRequestPinWidgetSupported(getReactApplicationContext(), promise);
+    }
+
+    @ReactMethod
+    public void requestPinWidget(String widgetName, @Nullable ReadableMap callbackData, Promise promise) {
+        RNWidgetPinning.requestPinWidget(getReactApplicationContext(), widgetName, callbackData, promise);
     }
 
     @ReactMethod

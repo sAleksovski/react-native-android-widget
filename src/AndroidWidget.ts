@@ -19,6 +19,7 @@ const noopModule: Spec = {
       collectionAreas: [],
     }),
   getWidgetInfo: () => Promise.resolve([]),
+  isRequestPinWidgetSupported: () => Promise.resolve(false),
   requestPinWidget: () => Promise.resolve(false),
   finishWidgetConfiguration: () => null,
 };

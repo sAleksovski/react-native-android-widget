@@ -12,7 +12,11 @@ export interface Spec extends TurboModule {
     height: number
   ): Promise<WidgetPreviewData>;
   getWidgetInfo(widgetName: string): Promise<WidgetInfo[]>;
-  requestPinWidget(widgetName: string): Promise<boolean>;
+  isRequestPinWidgetSupported(): Promise<boolean>;
+  requestPinWidget(
+    widgetName: string,
+    callbackData: Object | null
+  ): Promise<boolean>;
   finishWidgetConfiguration(widgetId: number, result: 'ok' | 'cancel'): void;
 }
 

@@ -5,6 +5,21 @@ export interface RequestPinWidgetOptions {
    * The name of the widget provider to add to the home screen.
    */
   widgetName: string;
+  /**
+   * When set, the new widget receives a `WIDGET_CLICK` with `clickAction`
+   * `"WIDGET_PINNED"` and this as `clickActionData` once the user confirms
+   * the prompt.
+   */
+  callbackData?: Record<string, unknown>;
+}
+
+/**
+ * Whether the launcher supports adding a widget from inside the app.
+ *
+ * Resolves to `false` on other platforms and below Android 8.
+ */
+export async function isRequestPinWidgetSupported(): Promise<boolean> {
+  return AndroidWidget.isRequestPinWidgetSupported();
 }
 
 /**
@@ -16,6 +31,7 @@ export interface RequestPinWidgetOptions {
  */
 export async function requestPinWidget({
   widgetName,
+  callbackData,
 }: RequestPinWidgetOptions): Promise<boolean> {
-  return AndroidWidget.requestPinWidget(widgetName);
+  return AndroidWidget.requestPinWidget(widgetName, callbackData ?? null);
 }
